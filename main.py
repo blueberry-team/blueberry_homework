@@ -1,9 +1,16 @@
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from name_model import NameModel
 from name_repository import NameRepository
 from tmp_database import tmp_db
 
+# 환경변수 로드
+load_dotenv()
+
 app = FastAPI()
+
+PORT = int(os.getenv("PORT", 8000))  # 기본값 8000
 
 
 @app.post("/createName")
@@ -34,16 +41,23 @@ def create_name(input_name: NameModel):
 @app.get("/getName")
 def get_names():
     # 이름을 레포지토리를 사용해서 가져오기
-    names = NameRepository.get_names()
+    name_list = NameRepository.get_names()
 
     try:
         # 이름이 없는 경우
         if not tmp_db:
-            return {"message": "등록된 이름이 없습니다", "names": names}
+            return {"message": "등록된 이름이 없습니다", "names": name_list}
         # 성공!
-        return {"message": "이름 목록을 가져왔습니다", "names": names}
+        return {"message": "이름 목록을 가져왔습니다", "names": name_list}
     except Exception as e:
         # 예상치 못한 오류가 발생한 경우
         raise HTTPException(
             status_code=500, detail="서버 오류가 발생했습니다 : " + str(e)
         )
+
+
+# 포트 번호를 .env로부터 가져오는 코드
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
