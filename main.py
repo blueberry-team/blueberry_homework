@@ -1,17 +1,19 @@
 from fastapi import FastAPI
+from name_model import NameModel
+from name_repository import add_name
+from tmp_database import tmp_db
 
 app = FastAPI()
 
-# 일단 이름을 저장할 공간을 생성
-names = []
 
-# 이름을 추가하는 함수
 @app.post("/createName")
-def create_name(name: str):
-    names.append(name)
-    return {"message": "이름이 추가되었습니다", "name": name}
+def create_name(input_name: NameModel):
+    add_name(input_name.name)
+    return {"message": "이름이 추가되었습니다", "name": input_name.name}
 
-# 이름을 가져오는 함수
+
 @app.get("/getName")
 def get_names():
-    return names
+    if not tmp_db:
+        return {"message": "등록된 이름이 없습니다", "names": tmp_db}
+    return {"message": "이름 목록을 가져왔습니다", "names": tmp_db}
