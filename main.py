@@ -15,14 +15,6 @@ PORT = int(os.getenv("PORT", 8000))  # 기본값 8000
 
 @app.post("/createName")
 def create_name(input_name: NameModel):
-    # 이름이 비어있는 경우
-    if not input_name.name or input_name.name.strip() == "":
-        raise HTTPException(status_code=400, detail="이름은 비어있을 수 없습니다")
-
-    # 이름이 50자 이상인 경우
-    if len(input_name.name) > 50:
-        raise HTTPException(status_code=400, detail="이름이 너무 깁니다 (최대 50자)")
-
     # 이름이 이미 존재하는 경우
     if input_name.name in tmp_db:
         raise HTTPException(status_code=400, detail="이름이 이미 존재합니다")
@@ -45,7 +37,7 @@ def get_names():
 
     try:
         # 이름이 없는 경우
-        if not tmp_db:
+        if not name_list:
             return {"message": "등록된 이름이 없습니다", "names": name_list}
         # 성공!
         return {"message": "이름 목록을 가져왔습니다", "names": name_list}
@@ -59,5 +51,8 @@ def get_names():
 # 포트 번호를 .env로부터 가져오는 코드
 if __name__ == "__main__":
     import uvicorn
+
+    print(f"서버를 시작합니다. {PORT}번 포트에서 실행중입니다.")
+    print(f"문서 : http://localhost:{PORT}/docs")
 
     uvicorn.run(app, host="0.0.0.0", port=PORT)
