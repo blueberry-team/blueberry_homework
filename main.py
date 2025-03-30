@@ -34,8 +34,8 @@ def create_name(input_name: NameModel):
     except Exception as e:
         # 예상치 못한 오류가 발생한 경우
         raise HTTPException(
-            status_code=500, detail="서버 오류가 발생했습니다 : " + str(e)
-        )
+            status_code=500, detail="서버 오류가 발생했습니다 : "
+        ) from e
 
 
 @app.get("/getName")
@@ -52,8 +52,8 @@ def get_names():
     except Exception as e:
         # 예상치 못한 오류가 발생한 경우
         raise HTTPException(
-            status_code=500, detail="서버 오류가 발생했습니다 : " + str(e)
-        )
+            status_code=500, detail="서버 오류가 발생했습니다 : "
+        ) from e
 
 
 # 포트 번호를 .env로부터 가져오는 코드
