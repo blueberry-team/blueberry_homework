@@ -26,10 +26,13 @@ def create_name(input_name: NameModel):
 
 @app.get("/getName")
 def get_names():
+
+    names = get_names()
+
     try:
         if not tmp_db:
-            return {"message": "등록된 이름이 없습니다", "names": []}
-        return {"message": "이름 목록을 가져왔습니다", "names": tmp_db}
+            return {"message": "등록된 이름이 없습니다", "names": names}
+        return {"message": "이름 목록을 가져왔습니다", "names": names}
     except Exception as e:
         raise HTTPException(
             status_code=500, detail="서버 오류가 발생했습니다 : " + str(e)
