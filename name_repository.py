@@ -1,7 +1,7 @@
-# 이름을 추가하는 함수
 from tmp_database import tmp_db
 
 
+# 이름을 추가하는 함수
 def add_name(name: str):
     tmp_db.append(name)
 
