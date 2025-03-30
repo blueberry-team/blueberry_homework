@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from name_model import NameModel
-from name_repository import add_name
+from name_repository import NameRepository
 from tmp_database import tmp_db
 
 app = FastAPI()
@@ -22,7 +22,7 @@ def create_name(input_name: NameModel):
 
     # 성공!
     try:
-        add_name(input_name.name)
+        NameRepository.add_name(input_name.name)
         return {"message": "이름이 추가되었습니다", "name": input_name.name}
     except Exception as e:
         # 예상치 못한 오류가 발생한 경우
@@ -34,7 +34,7 @@ def create_name(input_name: NameModel):
 @app.get("/getName")
 def get_names():
     # 이름을 레포지토리를 사용해서 가져오기
-    names = get_names()
+    names = NameRepository.get_names()
 
     try:
         # 이름이 없는 경우
