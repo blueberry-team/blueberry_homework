@@ -1,21 +1,17 @@
 from fastapi import FastAPI
-from pydantic import BaseModel
 
 app = FastAPI()
 
-class Item(BaseModel):
-    name: str
-    price: float
-    is_offer: bool = None
+# 일단 이름을 저장할 공간을 생성
+names = []
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+# 이름을 추가하는 함수
+@app.post("/createName")
+def create_name(name: str):
+    names.append(name)
+    return {"message": "이름이 추가되었습니다", "name": name}
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int):
-    return {"item_id": item_id}
-
-@app.post("/items/")
-def create_item(item: Item):
-    return item
+# 이름을 가져오는 함수
+@app.get("/getName")
+def get_names():
+    return names
