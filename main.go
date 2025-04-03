@@ -1,17 +1,24 @@
 package main
 
 import (
-    "net/http"
+	"net/http"
+	"fmt"
 
-    "github.com/go-chi/chi/v5"
-    "github.com/go-chi/chi/v5/middleware"
+	"blueberry_homework/internal/app"
+	"blueberry_homework/internal/handler"
+	"blueberry_homework/internal/repository"
+	"blueberry_homework/internal/route"
 )
 
 func main() {
-    r := chi.NewRouter()
-    r.Use(middleware.Logger)
-    r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-        w.Write([]byte("Hello Go!"))
-    })
-    http.ListenAndServe(":3000", r)
+    nameRepo := repository.NewNameRepository()
+    nameHandler := handler.NewNameHandler(nameRepo)
+
+    application := app.NewApp()
+    fmt.Println("app start!", application)
+
+    application.Router.Mount("/names", route.NameRouter(nameHandler))
+    fmt.Println("route set up done!!")
+
+    http.ListenAndServe(":3000", application.Router)
 }
