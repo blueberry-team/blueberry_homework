@@ -1,1 +1,36 @@
+# Gradle
+.gradle/
+build/
+!gradlew
+!gradlew.bat
+!gradlew-wrapper.jar
+!gradle-wrapper.properties
+
+# IntelliJ/IDEA
+*.iml
+*.ipr
+*.iws
 *.jar
+.idea/
+out/
+
+# 프로젝트 편집 환경 임시 파일
+*.swp
+*.swo
+
+# mac 자동 생성 파일
+.DS_Store
+
+# 로그 파일
+*.log
+*.log.*
+/logs/
+
+# 환경/설정 파일
+application*.yml
+.env
+
+# 테스트
+/test-results/
+coverage/
+reports/
