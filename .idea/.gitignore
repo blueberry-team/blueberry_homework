@@ -44,3 +44,6 @@ application*.yml
 /test-results/
 coverage/
 reports/
+
+# jar 파일
+/build/libs/
