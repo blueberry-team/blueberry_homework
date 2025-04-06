@@ -11,7 +11,7 @@
 - 상화 - Go (Chi)
 - 승재 - Go (Gin)
 - 한규 - .NET
-- 재혁 - Go (Fiber)
+- 재혁 - Rust (Axum)
 
 ## 규칙
 
