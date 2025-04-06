@@ -5,9 +5,9 @@
 
 ## curl 테스트
 
-#### 생성
+### 생성
 - curl -X POST -H "Content-Type: application/json" -d "이름" http://localhost:8080/name/createName
-#### 조회
+### 조회
 - curl http://localhost:8080/name/getName
 
 <img src="screenshot/image.png" alt=""/>
