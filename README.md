@@ -12,6 +12,7 @@
 - 승재 - Go (Gin)
 - 한규 - .NET
 - 재혁 - Rust (Axum)
+- 상일 - Kotlin + Spring
 
 ## 규칙
 
