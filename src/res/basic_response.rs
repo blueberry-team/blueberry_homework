@@ -24,9 +24,10 @@ impl BasicResponse {
         }
     }
 
-    pub fn bad_request(message: String) -> Self {
+    pub fn bad_request(message: String, error: String) -> Self {
         Self {
             message,
+            error,
         }
     }
 }

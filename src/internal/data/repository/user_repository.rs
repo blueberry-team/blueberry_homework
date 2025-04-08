@@ -31,13 +31,13 @@ impl UserRepository for UserRepositoryImpl {
         user
     }
 
-    // async fn get_names(&self) -> Vec<UserEntity> {
-    //     let names = self.users.lock().unwrap();
-    //     names.clone()
-    // }
-
-    async fn get_names(&self) -> Vec<String> {
+    async fn get_names(&self) -> Vec<UserEntity> {
         let names = self.users.lock().unwrap();
-        names.iter().map(|user| user.name.clone()).collect()
+        names.clone()
     }
+
+    // async fn get_names(&self) -> Vec<String> {
+    //     let names = self.users.lock().unwrap();
+    //     names.iter().map(|user| user.name.clone()).collect()
+    // }
 }

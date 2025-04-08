@@ -25,7 +25,7 @@ impl UserHandler {
     ) -> Response<Body> {
         // validation for user_dto
         if let Err(errors) = user_dto.validate() {
-            let response = BasicResponse::bad_request(format!("Invalid name"));
+            let response = BasicResponse::bad_request(format!("error"), format!("name must be 1 and 50 characters"));
             println!("{}", errors);
             return (StatusCode::BAD_REQUEST, Json(response)).into_response();
         }
