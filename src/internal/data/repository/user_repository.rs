@@ -40,4 +40,15 @@ impl UserRepository for UserRepositoryImpl {
     //     let names = self.users.lock().unwrap();
     //     names.iter().map(|user| user.name.clone()).collect()
     // }
+    async fn delete_name(&self, index: u32) -> Result<(), String> {
+        let mut users = self.users.lock().unwrap();
+        let index = index as usize;
+
+        if index >= users.len() {
+            return Err(format!("Index out of bounds: {}", index));
+        }
+
+        users.remove(index);
+        Ok(())
+    }
 }

@@ -1,6 +1,6 @@
 
 use axum::{
-    routing::{get, post}, Router
+    routing::{delete, get, post}, Router
 };
 
 use crate::handler::user_handler::UserHandler;
@@ -11,4 +11,6 @@ pub fn create_router() -> Router {
     Router::new()
         .route("/create-name", post(UserHandler::create_user_handler))
         .route("/get-names", get(UserHandler::get_names_handler))
+        .route("/delete-name", delete(UserHandler::delete_name_handler))
+
 }

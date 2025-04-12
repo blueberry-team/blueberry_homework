@@ -21,4 +21,8 @@ impl UserUsecase {
     pub async fn get_names(&self) -> Vec<UserEntity> {
         self.user_repo.get_names().await
     }
+
+    pub async fn delete_name(&self, index: u32) -> Result<(), String> {
+        self.user_repo.delete_name(index).await
+    }
 }
