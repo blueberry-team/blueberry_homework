@@ -8,17 +8,18 @@ import (
 )
 
 func main() {
-	// Initialize repository and handler
+	// 레포,핸들러 초기화
 	repo := repository.NewNameRepository() //바로밑에 핸들러의 파라미터로 넣어줌
 	nameHandler := handler.NewNameHandler(repo)
 
-	// Create Gin router
+	//진라우터생성
 	r := gin.Default()
 
-	// Define routes
-	r.POST("/names", nameHandler.CreateName)
-	r.GET("/names", nameHandler.GetName)//메서드를 함수값으로 넘김? nameHandler.CreateName 이게 마치 CreateName(nameHandler, c) 이렇게 쓰는 것 같음. c는 gin이 전달하는 *gin.Context 타입의 파라미터임
+	// 루트정의
+	r.POST("/create-name", nameHandler.CreateName)
+	r.GET("/get-names", nameHandler.GetName)//메서드를 함수값으로 넘김? nameHandler.CreateName 이게 마치 CreateName(nameHandler, c) 이렇게 쓰는 것 같음. c는 gin이 전달하는 *gin.Context 타입의 파라미터임
+	r.DELETE("/delete-name", nameHandler.DeleteName)
 
-	// Start server
+	// 서버시작
 	r.Run(":8080")
 }
