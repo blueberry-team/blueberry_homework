@@ -5,5 +5,6 @@ use crate::internal::domain::entities::user_entity::UserEntity;
 pub trait UserRepository {
     fn new() -> Self where Self: Sized;
     async fn create_name(&self, name: String) -> UserEntity;
-    async fn get_names(&self) -> Vec<String>;
+    async fn get_names(&self) -> Vec<UserEntity>;
+    async fn delete_name(&self, index: u32) -> Result<(), String>;
 }
