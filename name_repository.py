@@ -5,9 +5,13 @@ class NameRepository:
     # 이름을 추가하는 함수
     @staticmethod
     def add_name(name: str):
-        tmp_db.append(name)
+        tmp_db.append({"name": name})
 
     # 이름 목록을 가져오는 함수
     @staticmethod
     def get_names():
         return tmp_db
+    
+    @staticmethod
+    def delete_name(index: int):
+        tmp_db.pop(index)

@@ -45,6 +45,19 @@ def get_names():
             status_code=500, detail="서버 오류가 발생했습니다 : "
         ) from e
 
+@app.delete("/deleteName")
+def delete_name(index: int):
+    name_list = NameRepository.get_names()
+    if index < 0 or index >= len(name_list):
+        raise HTTPException(status_code=400, detail="유효하지 않은 인덱스입니다")
+    try:
+        NameRepository.delete_name(index)
+        return {"message": "이름이 삭제되었습니다", "names": name_list}
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail="서버 오류가 발생했습니다 : "
+        ) from e
+
 
 # 포트 번호를 .env로부터 가져오는 코드
 if __name__ == "__main__":
