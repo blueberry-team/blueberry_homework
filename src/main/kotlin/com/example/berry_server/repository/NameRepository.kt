@@ -14,7 +14,7 @@ class NameRepository {
 
     // 중복 이름 검사
     fun existName(name: String): Boolean {
-        return !nameList.any { it.name == name }
+        return nameList.any { it.name == name }
     }
 
     fun getNameList(): List<NameItem> {

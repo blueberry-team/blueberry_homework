@@ -5,9 +5,26 @@
 
 ## curl 테스트
 
+## 성공
 ### 생성
-<img src="screenshot/createName.png" alt=""/>
+<img src="screenshot/createName-success.png" alt=""/>
+
 ### 조회
-<img src="screenshot/getName.png" alt=""/>
+<img src="screenshot/getName-success.png" alt=""/>
+
 ### 삭제
-<img src="screenshot/deleteName.png" alt=""/>
+<img src="screenshot/deleteName-success.png" alt=""/>
+
+## 실패
+### 생성 - 이름 Null
+<img src="screenshot/createName-fail-name-null.png" alt=""/>
+
+### 생성 - 중복 이름 오류
+<img src="screenshot/createName-fail-duplicate.png" alt=""/>
+
+### 삭제 - 인덱스가 없는 경우
+<img src="screenshot/deleteName-fail-index-null.png" alt=""/>
+
+### 삭제 - 유효하지 않은 인덱스
+<img src="screenshot/deleteName-fail-index-invalid.png" alt=""/>
+
