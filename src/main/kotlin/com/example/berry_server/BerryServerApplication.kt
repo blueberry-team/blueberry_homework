@@ -1,4 +1,4 @@
-package com.example.berry_server.berry_server
+package com.example.berry_server
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

@@ -1,13 +1,13 @@
-package com.example.berry_server.berry_server.controller
+package com.example.berry_server.controller
 
-import com.example.berry_server.berry_server.util.Constants
-import com.example.berry_server.berry_server.dto.model.NameItem
-import com.example.berry_server.berry_server.dto.request.name.CreateNameRequest
-import com.example.berry_server.berry_server.dto.request.name.DeleteNameRequest
-import com.example.berry_server.berry_server.dto.response.ApiResponse
-import com.example.berry_server.berry_server.repository.NameRepository
-import com.example.berry_server.berry_server.util.Messages
-import com.example.berry_server.berry_server.util.Validation
+import com.example.berry_server.util.Constants
+import com.example.berry_server.dto.model.NameItem
+import com.example.berry_server.dto.request.name.CreateNameRequest
+import com.example.berry_server.dto.request.name.DeleteNameRequest
+import com.example.berry_server.dto.response.ApiResponse
+import com.example.berry_server.repository.NameRepository
+import com.example.berry_server.util.Messages
+import com.example.berry_server.util.Validation
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -33,14 +33,15 @@ class NameController(
         }
 
         // 중복 검사
-        val isDuplicated = !nameRepository.createName(request.name)
-        if (isDuplicated) {
+        if (nameRepository.existName(request.name)) {
             return ApiResponse(
-                message = Constants.ERROR,
-                error = Messages.ERROR_CREATE_NAME_DUPLICATED
+                error = Constants.ERROR,
+                message = Messages.ERROR_CREATE_NAME_DUPLICATED
             )
         }
 
+        // 이름 생성 성공
+        nameRepository.createName(request.name)
         return ApiResponse(
             message = "${Messages.SUCCESS_CREATE_NAME}: ${request.name}",
             data = nameRepository.getNameList()
@@ -59,11 +60,11 @@ class NameController(
     // 인덱스 이름 삭제
     @DeleteMapping("/deleteName")
     fun deleteName(@RequestBody request: DeleteNameRequest): ApiResponse<List<NameItem>> {
-        val isDeleted = nameRepository.deleteName(request.index)
+        val isDeleted = nameRepository.deleteName(request.deleteIndex)
 
         return ApiResponse(
             message = if (isDeleted) Constants.SUCCESS else Constants.ERROR,
-            error = if (isDeleted) null else "${Messages.ERROR_DELETE_NAME_INVALID_INDEX}: ${request.index}",
+            error = if (isDeleted) null else "${Messages.ERROR_DELETE_NAME_INVALID_INDEX}: ${request.deleteIndex}",
             data = nameRepository.getNameList()
         )
     }

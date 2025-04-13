@@ -1,4 +1,4 @@
-package com.example.berry_server.berry_server.dto.response
+package com.example.berry_server.dto.response
 
 data class ApiResponse<T>(
     val message: String,

@@ -1,4 +1,4 @@
-package com.example.berry_server.berry_server.util
+package com.example.berry_server.util
 
 object Constants {
 
