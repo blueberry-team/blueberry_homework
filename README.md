@@ -1,4 +1,4 @@
-# REST API 미니 테스트
+# REST API 미니 테스트 PART.1
 
 이 리포지토리는 다양한 프레임워크를 사용한 간단한 REST API 구현을 위한 미니 테스트 프로젝트입니다.
 
@@ -11,7 +11,8 @@
 - 상화 - Go (Chi)
 - 승재 - Go (Gin)
 - 한규 - .NET
-- 재혁 - Go (Fiber)
+- 재혁 - Rust (Axum)
+- 상일 - Kotlin + Spring
 
 ## 규칙
 
