@@ -88,3 +88,87 @@
   - 데이터 삭제(DELETE) 응답
   - 유효성 검증 실패 시 오류 응답
 - 캡처 이미지는 PR 설명에 첨부하여 제출합니다.
+
+---
+
+# REST API 미니 테스트 PART.3
+
+## 아키텍처 변경
+
+PART.3에서는 계층형 아키텍처를 적용하여 코드를 구조화합니다:
+
+```
+Handler -> UseCase -> Repository
+```
+
+## Entity와 Domain 생성
+
+- 이제 Entity와 Domain을 생성해야 합니다.
+- UserEntity 구조:
+  ```
+  UserEntity {
+    name: String,
+    createdAt: Time
+  }
+  ```
+
+## UseCase 계층 추가
+
+- UseCase는 Repository로 가기 전에 Entity를 처리합니다.
+- UseCase에서 현재 시간을 기준으로 createdAt 필드를 설정해야 합니다.
+- 기존 함수 중 Domain을 거치지 않아도 되는 로직들은:
+  - 일관성을 위해 모든 경로에서 UseCase를 거치도록 구현하거나
+  - 필요한 부분만 연결해도 됩니다.
+
+## 함수 변경 및 추가
+
+- 기존의 `deleteName` 함수는 `deleteIndex`로 이름을 변경합니다.
+- 새로운 `deleteName` 함수를 추가합니다:
+  - 이름을 입력받아 동일한 이름을 가진 항목을 찾아 삭제하는 기능
+  - 여러 항목이 있을 경우 모두 삭제해야 합니다.
+- GET 요청으로 이름을 가져올 때는 생성된 시간(createdAt)도 함께 반환해야 합니다.
+
+## 응답 형식
+
+- 모든 API 응답은 PART.2와 동일한 형식을 유지합니다.
+- 성공 시:
+  ```json
+  {
+    "message": "success",
+    "data": [/* 결과 데이터 */]
+  }
+  ```
+- GET 요청 응답 예시:
+  ```json
+  {
+    "message": "success",
+    "data": [
+      {
+        "name": "NAME",
+        "createdAt": "2023-05-15T14:30:45Z"
+      },
+      {
+        "name": "KING",
+        "createdAt": "2023-05-15T15:20:10Z"
+      }
+    ]
+  }
+  ```
+- 실패 시:
+  ```json
+  {
+    "message": "error",
+    "error": "오류 메시지"
+  }
+  ```
+
+## PR 제출 시 요구사항
+
+- PR을 올릴 때 모든 기능이 정상 동작하는지 확인할 수 있도록 Postman이나 Swagger에서 모든 API 응답 구조를 캡처하여 첨부해야 합니다.
+- 다음 항목에 대한 캡처를 포함해야 합니다:
+  - 데이터 생성(Create) 응답
+  - 데이터 조회(GET) 응답
+  - 인덱스로 데이터 삭제(deleteIndex) 응답
+  - 이름으로 데이터 삭제(deleteName) 응답
+  - 유효성 검증 실패 시 오류 응답
+- 캡처 이미지는 PR 설명에 첨부하여 제출합니다.
