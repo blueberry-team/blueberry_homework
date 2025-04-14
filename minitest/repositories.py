@@ -11,9 +11,16 @@ class NameRepository(BaseRepository):
         super().__init__(Name)
 
     def get_name(self):
-        return [{'name': name} for name in tmp_db]
+        return {
+            "message": "success",
+            "data": [{'name': name} for name in tmp_db]
+        }
         # return self.model.objects.all()
     
     def create_name(self, name: str):
-        return tmp_db.append(name)
+        tmp_db.append(name)
+        return {
+            "message": "success",
+            "data": [{'name': name} for name in tmp_db]
+        }
         # self.model.objects.create(name=name) 
