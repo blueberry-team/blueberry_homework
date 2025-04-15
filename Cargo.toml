@@ -16,5 +16,6 @@ dotenv = { version = "0.15.0", features = ["cli"] }
 async-trait = "0.1.88"
 validator = { version = "0.20.0", features = ["derive"] }
 axum-valid = "0.23.0"
+chrono = { version = "0.4.40", features = ["serde"]}
 
 

@@ -9,7 +9,7 @@ use axum::{
     response::IntoResponse,
 };
 use validator::Validate;
-use crate::dto::user_dto::{DeleteUserDto, UserDto};
+use crate::dto::user_dto::{DeleteNameIndexDto, UserDto, DeleteNameDto};
 use crate::internal::domain::repository_interface::user_repository::UserRepository;
 use crate::internal::domain::usecases::user_usecases::UserUsecase;
 use crate::res::basic_response::BasicResponse;
@@ -60,9 +60,9 @@ impl UserHandler {
         (StatusCode::OK, Json(response))
     }
 
-    pub async fn delete_name_handler(
+    pub async fn delete_index_handler(
         Extension(repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
-        result: Result<Json<DeleteUserDto>, axum::extract::rejection::JsonRejection>,
+        result: Result<Json<DeleteNameIndexDto>, axum::extract::rejection::JsonRejection>,
     ) -> impl IntoResponse {
         // parse json error
         let delete_dto = match result {
@@ -72,17 +72,17 @@ impl UserHandler {
                 return (StatusCode::BAD_REQUEST, Json(response)).into_response();
             }
         };
-        
+
         // validation for delete_dto
         if let Err(errors) = delete_dto.validate() {
             let response = BasicResponse::bad_request("error".to_string(), "인덱스는 0 이상의 값이어야 합니다".to_string());
             println!("{}", errors);
             return (StatusCode::BAD_REQUEST, Json(response)).into_response();
         }
-        
+
         let usecase = UserUsecase::new(repo);
-        
-        match usecase.delete_name(delete_dto.index).await {
+
+        match usecase.delete_index(delete_dto.index).await {
             // if success return ok and message
             Ok(_) => {
                 let response = BasicResponse::ok("Successfully deleted name".to_string());
@@ -95,4 +95,30 @@ impl UserHandler {
             }
         }
     }
+
+    pub async fn delete_name_handler(
+        Extension(repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
+        Json(delete_name_dto): Json<DeleteNameDto>,
+    ) -> impl IntoResponse {
+
+        // validation for delete_name_dto
+        if let Err(errors) = delete_name_dto.validate() {
+            let response = BasicResponse::bad_request("error".to_string(), "이름은 1자 이상 50자 이하여야 합니다".to_string());
+            println!("{}", errors);
+            return (StatusCode::BAD_REQUEST, Json(response)).into_response();
+        }
+
+        let usecase = UserUsecase::new(repo);
+        match usecase.delete_name(delete_name_dto.name).await {
+            Ok(_) => {
+                let response = BasicResponse::ok("Successfully deleted name".to_string());
+                (StatusCode::OK, Json(response)).into_response()
+            },
+            Err(error) => {
+                let response = BasicResponse::bad_request("error".to_string(), error);
+                (StatusCode::BAD_REQUEST, Json(response)).into_response()
+            }
+        }
+    }
+
 }

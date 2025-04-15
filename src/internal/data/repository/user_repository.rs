@@ -1,6 +1,5 @@
 use std::sync::Mutex;
 use async_trait::async_trait;
-
 use crate::internal::domain::entities::user_entity::UserEntity;
 use crate::internal::domain::repository_interface::user_repository::UserRepository;
 
@@ -24,8 +23,7 @@ impl UserRepository for UserRepositoryImpl {
         UserRepositoryImpl::new()
     }
 
-    async fn create_name(&self, name: String) -> UserEntity {
-        let user = UserEntity { name };
+    async fn create_name(&self, user: UserEntity) -> UserEntity {
         let mut users = self.users.lock().unwrap();
         users.push(user.clone());
         user
@@ -40,7 +38,7 @@ impl UserRepository for UserRepositoryImpl {
     //     let names = self.users.lock().unwrap();
     //     names.iter().map(|user| user.name.clone()).collect()
     // }
-    async fn delete_name(&self, index: u32) -> Result<(), String> {
+    async fn delete_index(&self, index: u32) -> Result<(), String> {
         let mut users = self.users.lock().unwrap();
         let index = index as usize;
 
@@ -50,5 +48,21 @@ impl UserRepository for UserRepositoryImpl {
 
         users.remove(index);
         Ok(())
+    }
+
+    async fn delete_name(&self, name: String) -> Result<(), String> {
+        let mut users = self.users.lock().unwrap();
+
+        // search index
+        let position = users.iter().position(|user| user.name == name);
+
+        // if not found return err or delete
+        match position {
+            Some(index) => {
+                users.remove(index);
+                Ok(())
+            },
+            None => Err(format!("User not found: {}", name))
+        }
     }
 }
