@@ -172,6 +172,3 @@ Handler -> UseCase -> Repository
   - 이름으로 데이터 삭제(deleteName) 응답
   - 유효성 검증 실패 시 오류 응답
 - 캡처 이미지는 PR 설명에 첨부하여 제출합니다.
-
-
-
