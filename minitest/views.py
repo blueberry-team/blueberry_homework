@@ -3,7 +3,7 @@ from rest_framework.response import Response # type: ignore
 from rest_framework import status # type: ignore
 from django.core.exceptions import ValidationError # type: ignore
 from rest_framework.exceptions import APIException # type: ignore
-from .use_cases.user import get_user, create_user, delete_user
+from .use_cases.user import get_user, create_user, delete_user_by_index, delete_user_by_name
 
 def _user_to_dict(user):
     # User 객체를 딕셔너리로 변환하는 헬퍼 메소드
@@ -43,6 +43,20 @@ class NameAPIView(APIView):
                     "error": e
                 }
             return Response(error_response, status=status.HTTP_400_BAD_REQUEST)
+        
+    def delete(self, request):
+        try:
+            name = request.body.decode('utf-8')
+            users = delete_user_by_name(name)
+            return Response({
+                "message": "success",
+                "data": [_user_to_dict(user) for user in users]
+            })
+        except APIException as e:
+            return Response({
+                "message": "error",
+                "data": str(e)
+            })
 
 class NameDeleteAPIView(APIView):
 
@@ -62,7 +76,7 @@ class NameDeleteAPIView(APIView):
         
     def delete(self, request, idx):
         try:
-            users = delete_user(idx)
+            users = delete_user_by_index(idx)
             return Response({
                 "message": "success",
                 "data": [_user_to_dict(user) for user in users]
@@ -72,4 +86,5 @@ class NameDeleteAPIView(APIView):
                 "message": "error",
                 "data": str(e)
             })
+        
         

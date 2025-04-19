@@ -21,8 +21,12 @@ class NameRepository(BaseRepository):
         return tmp_db
         # self.model.objects.create(name=name) 
 
-    def delete_name(self, idx: int):
+    def delete_index(self, idx: int):
         if idx > len(tmp_db):
             raise ValidationError('해당 인덱스에 값이 없습니다')
         tmp_db.pop(idx)
+        return tmp_db
+    
+    def delete_name(self, name: str):
+        tmp_db[:] = [user for user in tmp_db if user.name != name]
         return tmp_db

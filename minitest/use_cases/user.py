@@ -18,6 +18,10 @@ def create_user(name):
     users = name_repo.create_name(user)
     return users
 
-def delete_user(idx):
-    users = name_repo.delete_name(idx)
+def delete_user_by_index(idx):
+    users = name_repo.delete_index(idx)
+    return users
+
+def delete_user_by_name(name):
+    users = name_repo.delete_name(name)
     return users
