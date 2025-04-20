@@ -257,6 +257,14 @@ PART.4에서는 UserEntity에 다음 필드를 추가합니다:
    - **createCompany**
      - 기능: 새로운 회사를 생성합니다.
      - 처리 과정: UserRepository의 `findByName`을 먼저 호출하여 해당 사용자가 존재하는지 확인 후, 조건에 맞는 경우에만 회사를 생성합니다.
+     - 제약 조건: 이미 회사를 가지고 있는 사용자는 새로운 회사를 생성할 수 없습니다.
+     - 중복 확인: 동일한 사용자 이름으로 회사를 중복 생성하려는 경우 아래와 같은 오류 메시지를 반환해야 합니다:
+       ```json
+       {
+         "message": "error",
+         "error": "user already has a company"
+       }
+       ```
 
    - **getCompany**
      - 기능: 회사 정보를 조회합니다.
