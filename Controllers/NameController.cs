@@ -7,6 +7,7 @@ using BerryNameApi.DTO.Response;
 using BerryNameApi.UseCases;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using BerryNameApi.Utils;
 
 namespace BerryNameApi.Controllers
 {
@@ -27,7 +28,7 @@ namespace BerryNameApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(new ApiFailResponse
                 {
-                    Error = Constnats.NameLengthInvalid
+                    Error = Constants.NameLengthInvalid
                 });
 
             _useCase.CreateName(request.Name);
