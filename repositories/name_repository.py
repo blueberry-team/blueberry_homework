@@ -22,7 +22,9 @@ class NameRepository:
     # TODO : 현재 상태로는 전체 DB를 조회함 추후에 개선 필요
     @staticmethod
     def delete_name_by_name(name: str) -> NameEntity:
-        for item in tmp_db:
+        for index, item in enumerate(tmp_db):
+            print("item.name", item.name)
+            print("name", name)
             if item.name == name:
-                return tmp_db.pop(item)
+                return tmp_db.pop(index)
         return None
