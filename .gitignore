@@ -1,0 +1,33 @@
+# .NET 빌드 출력물
+bin/
+obj/
+
+# 사용자 설정 파일
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider / VS Code 관련
+.idea/
+.vscode/
+
+# NuGet
+project.lock.json
+project.assets.json
+*.nupkg
+*.snupkg
+packages/
+
+# 로그 / 캐시 / 임시파일
+*.log
+*.vspscc
+*.pdb
+*.dbmdl
+
+# OS별
+.DS_Store
+Thumbs.db
+
+# HTTP 요청 파일 결과 (.http 테스트용이라면 제외해도 됨)
+*.http
