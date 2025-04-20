@@ -7,7 +7,7 @@ namespace BerryNameApi.DTO.Response
 {
     public class ApiFailResponse
     {
-        public required string Message { get; set; } = "error";
+        public string Message { get; set; } = "error";
         public string? Error { get; set; }
     }
 }

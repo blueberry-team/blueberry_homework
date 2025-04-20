@@ -27,15 +27,13 @@ namespace BerryNameApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(new ApiFailResponse
                 {
-                    Message = "error",
-                    Error = "name must be between 1 and 50 characters"
+                    Error = Constnats.NameLengthInvalid
                 });
 
             _useCase.CreateName(request.Name);
 
             return Ok(new ApiSuccessResponse<IEnumerable<UserResponse>>
             {
-                Message = "success",
                 Data = _useCase.GetAll()
             });
 
@@ -46,7 +44,6 @@ namespace BerryNameApi.Controllers
         {
             return Ok(new ApiSuccessResponse<IEnumerable<UserResponse>>
             {
-                Message = "success",
                 Data = _useCase.GetAll()
             });
         }
@@ -57,21 +54,18 @@ namespace BerryNameApi.Controllers
             if (!request.Index.HasValue)
                 return BadRequest(new ApiFailResponse
                 {
-                    Message = "error",
-                    Error = "deleteIndex is required"
+                    Error = Constants.DeleteIndexRequired
                 });
 
             var deleted = _useCase.DeleteByIndex(request.Index.Value);
             if (!deleted)
                 return NotFound(new ApiFailResponse
                 {
-                    Message = "error",
-                    Error = $"Invalid index: {request.Index}"
+                    Error = $"{Constants.InvalidIndex}: {request.Index}"
                 });
 
             return Ok(new ApiSuccessResponse<IEnumerable<UserResponse>>
             {
-                Message = "success",
                 Data = _useCase.GetAll()
             });
         }
@@ -82,21 +76,18 @@ namespace BerryNameApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(new ApiFailResponse
                 {
-                    Message = "error",
-                    Error = "name must be between 1 and 50 characters"
+                    Error = Constants.NameLengthInvalid
                 });
 
             var count = _useCase.DeleteByName(request.Name);
             if (count == 0)
                 return NotFound(new ApiFailResponse
                 {
-                    Message = "error",
-                    Error = $"No user with name: {request.Name}"
+                    Error = $"{Constants.NameNotFound}: {request.Name}"
                 });
 
             return Ok(new ApiSuccessResponse<IEnumerable<UserResponse>>
             {
-                Message = "success",
                 Data = _useCase.GetAll()
             });
         }
