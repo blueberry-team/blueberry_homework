@@ -22,11 +22,11 @@ def get_names(handler: NameHandler = Depends(get_name_handler)):
     return handler.get_names()
 
 
-@custom_router.delete("/{index}")
-def delete_name(index: int, handler: NameHandler = Depends(get_name_handler)):
+@custom_router.delete("/index/{index}")
+def delete_name_by_index(index: int, handler: NameHandler = Depends(get_name_handler)):
     return handler.delete_name_by_index(index)
 
-@custom_router.delete("/{name}")
-def delete_name(name: str, handler: NameHandler = Depends(get_name_handler)):
+@custom_router.delete("/name/{name}")
+def delete_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):
     return handler.delete_name_by_name(name)
 

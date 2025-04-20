@@ -13,7 +13,7 @@ class NameUseCase:
         print(input_name.name)
         name_list = NameRepository.get_names()
         # 이름이 이미 존재하는 경우
-        if input_name.name in [item.get("name") for item in name_list]:
+        if input_name.name in [item.name for item in name_list]:
             raise HTTPException(status_code=400, detail="이름이 이미 존재합니다")
 
         # Request DTO를 Entity로 변환
