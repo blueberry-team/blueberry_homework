@@ -1,63 +1,16 @@
 import os
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException
-from name_model import NameModel
-from name_repository import NameRepository
-
+from fastapi import FastAPI
+from routers.custom_router import custom_router
 # 환경변수 로드
 load_dotenv()
 
 app = FastAPI()
 
+# 라우터 등록
+app.include_router(custom_router)
+
 PORT = int(os.getenv("PORT", 8000))  # 기본값 8000
-
-
-@app.post("/createName")
-def create_name(input_name: NameModel):
-    name_list = NameRepository.get_names()
-    # 이름이 이미 존재하는 경우
-    if input_name.name in name_list:
-        raise HTTPException(status_code=400, detail="이름이 이미 존재합니다")
-    # 성공!
-    try:
-        NameRepository.add_name(input_name.name)
-        return {"message": "이름이 추가되었습니다", "name": input_name.name}
-    except Exception as e:
-        # 예상치 못한 오류가 발생한 경우
-        raise HTTPException(
-            status_code=500, detail="서버 오류가 발생했습니다 : "
-        ) from e
-
-
-@app.get("/getName")
-def get_names():
-    # 이름을 레포지토리를 사용해서 가져오기
-    name_list = NameRepository.get_names()
-    try:
-        # 이름이 없는 경우
-        if not name_list:
-            return {"message": "등록된 이름이 없습니다", "names": name_list}
-        # 성공!
-        return {"message": "이름 목록을 가져왔습니다", "names": name_list}
-    except Exception as e:
-        # 예상치 못한 오류가 발생한 경우
-        raise HTTPException(
-            status_code=500, detail="서버 오류가 발생했습니다 : "
-        ) from e
-
-@app.delete("/deleteName")
-def delete_name(index: int):
-    name_list = NameRepository.get_names()
-    if index < 0 or index >= len(name_list):
-        raise HTTPException(status_code=400, detail="유효하지 않은 인덱스입니다")
-    try:
-        NameRepository.delete_name(index)
-        return {"message": "이름이 삭제되었습니다", "names": name_list}
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, detail="서버 오류가 발생했습니다 : "
-        ) from e
-
 
 # 포트 번호를 .env로부터 가져오는 코드
 if __name__ == "__main__":
