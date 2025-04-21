@@ -45,14 +45,47 @@
 - 배열 안에 저장될 내용은 `[{name: "NAME"}, {name: "KING"}]` 형식의 객체 배열로 변경합니다.
 - GET 요청 응답도 `[{name: "KING"}]` 형태로 반환되어야 합니다.
 
-## 응답 형식 변경
+## 응답 형식
 
-- Create 요청과 GET 요청 시 응답에 `message: success` 필드가 포함되어야 합니다.
-- 예시 응답 형식:
+- API 요청 유형에 따라 응답 형식이 달라집니다:
+
+### POST 요청 응답 (생성/수정/삭제)
+- 성공 시 `message` 필드만 포함됩니다:
+  ```json
+  {
+    "message": "success"
+  }
+  ```
+
+### GET 요청 응답 (조회)
+- 성공 시 `message`와 `data` 필드가 모두 포함됩니다:
   ```json
   {
     "message": "success",
-    "data": [{name: "NAME"}, {name: "KING"}]
+    "data": [/* 결과 데이터 */]
+  }
+  ```
+- 예시:
+  ```json
+  {
+    "message": "success",
+    "data": [
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "name": "NAME",
+        "createdAt": "2023-05-15T14:30:45Z",
+        "updatedAt": "2023-05-15T14:30:45Z"
+      }
+    ]
+  }
+  ```
+
+### 실패 응답
+- 모든 요청 유형에서 실패 시 동일한 형식으로 응답합니다:
+  ```json
+  {
+    "message": "error",
+    "error": "오류 메시지"
   }
   ```
 
@@ -170,6 +203,123 @@ Handler -> UseCase -> Repository
   - 데이터 조회(GET) 응답
   - 인덱스로 데이터 삭제(deleteIndex) 응답
   - 이름으로 데이터 삭제(deleteName) 응답
+  - 유효성 검증 실패 시 오류 응답
+- 캡처 이미지는 PR 설명에 첨부하여 제출합니다.
+
+---
+
+# REST API 미니 테스트 PART.4
+
+## UserEntity 확장
+
+PART.4에서는 UserEntity에 다음 필드를 추가합니다:
+  ```
+  UserEntity {
+    id: String/UUID,
+    name: String,
+    createdAt: Time,
+    updatedAt: Time
+  }
+  ```
+
+## 새로운 함수 추가
+
+### UserRepository 및 UseCase에 추가되는 함수
+
+1. **changeName**
+   - 기능: 사용자 이름을 변경합니다.
+   - 동작: 이름이 변경될 때 `updatedAt` 시간이 현재 시간으로 업데이트 되어야 합니다.
+   - API 경로: 적절한 라우팅 설정 필요 (PUT 또는 PATCH 메서드 권장)
+
+2. **findByName**
+   - 기능: 이름을 기준으로 사용자가 존재하는지 확인합니다.
+   - 위치: `user_repository`에 구현해야 합니다.
+   - 참고: 별도의 라우터 경로는 필요하지 않으며, 내부 로직에서 사용됩니다.
+
+## Company Entity 추가
+
+새로운 Company 엔티티를 생성합니다:
+  ```
+  CompanyEntity {
+    id: String/UUID,
+    name: String,
+    company_name: String,
+    created_at: Time
+  }
+  ```
+
+## Company 관련 구성 요소
+
+1. **CompanyRepository**
+   - 새로운 빈 배열 형태의 DB를 추가하여 회사 데이터를 저장합니다.
+
+2. **CompanyUseCase**
+   - **createCompany**
+     - 기능: 새로운 회사를 생성합니다.
+     - 처리 과정: UserRepository의 `findByName`을 먼저 호출하여 해당 사용자가 존재하는지 확인 후, 조건에 맞는 경우에만 회사를 생성합니다.
+     - 제약 조건: 이미 회사를 가지고 있는 사용자는 새로운 회사를 생성할 수 없습니다.
+     - 중복 확인: 동일한 사용자 이름으로 회사를 중복 생성하려는 경우 아래와 같은 오류 메시지를 반환해야 합니다:
+       ```json
+       {
+         "message": "error",
+         "error": "user already has a company"
+       }
+       ```
+
+   - **getCompany**
+     - 기능: 회사 정보를 조회합니다.
+
+## 응답 형식
+
+- API 요청 유형에 따라 응답 형식이 달라집니다:
+
+### POST 요청 응답 (생성/수정/삭제)
+- 성공 시 `message` 필드만 포함됩니다:
+  ```json
+  {
+    "message": "success"
+  }
+  ```
+
+### GET 요청 응답 (조회)
+- 성공 시 `message`와 `data` 필드가 모두 포함됩니다:
+  ```json
+  {
+    "message": "success",
+    "data": [/* 결과 데이터 */]
+  }
+  ```
+- 예시:
+  ```json
+  {
+    "message": "success",
+    "data": [
+      {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "name": "NAME",
+        "company_name": "COMPANY",
+        "created_at": "2023-05-15T14:30:45Z"
+      }
+    ]
+  }
+  ```
+
+### 실패 응답
+- 모든 요청 유형에서 실패 시 동일한 형식으로 응답합니다:
+  ```json
+  {
+    "message": "error",
+    "error": "오류 메시지"
+  }
+  ```
+
+## PR 제출 시 요구사항
+
+- PR을 올릴 때 모든 기능이 정상 동작하는지 확인할 수 있도록 Postman이나 Swagger에서 모든 API 응답 구조를 캡처하여 첨부해야 합니다.
+- 다음 항목에 대한 캡처를 포함해야 합니다:
+  - User 생성 및 조회 응답
+  - User 이름 변경(changeName) 응답
+  - Company 생성 및 조회 응답
   - 유효성 검증 실패 시 오류 응답
 - 캡처 이미지는 PR 설명에 첨부하여 제출합니다.
 
