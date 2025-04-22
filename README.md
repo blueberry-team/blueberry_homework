@@ -222,6 +222,18 @@ PART.4에서는 UserEntity에 다음 필드를 추가합니다:
   }
   ```
 
+## 중복 이름 제약 추가
+
+- `createName` 함수에서는 중복된 이름이 없는지 반드시 체크해야 합니다.
+- UserEntity가 확장됨에 따라 이후 `createCompany` 함수까지 연계되기 때문에 유저는 더 이상 중복된 이름을 가질 수 없습니다.
+- 중복된 이름으로 생성 시도 시 다음과 같은 오류를 반환해야 합니다:
+  ```json
+  {
+    "message": "error",
+    "error": "A name with the same value already exists"
+  }
+  ```
+
 ## 새로운 함수 추가
 
 ### UserRepository 및 UseCase에 추가되는 함수
@@ -296,7 +308,7 @@ PART.4에서는 UserEntity에 다음 필드를 추가합니다:
 
    - **getCompany**
      - 기능: 회사 정보를 조회합니다.
-     
+
 
 ## 응답 형식
 
