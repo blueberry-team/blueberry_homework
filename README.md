@@ -242,13 +242,21 @@ PART.4에서는 UserEntity에 다음 필드를 추가합니다:
    - 기능: 사용자 이름을 변경합니다.
    - 검색 방식: create에서 받은 유저의 UUID를 통해 검색한 후 이름을 변경해야 합니다.
    - 시간 제약: 이름이 변경될 때 `updatedAt` 시간이 현재 시간으로 업데이트되어야 하며, 반드시 `createdAt`과 `updatedAt` 시간이 달라야 합니다.
-   - 추가 제약: 만약 이름이 기존 이름과 동일하다면(변경되지 않았다면) 다음과 같은 오류를 반환해야 합니다:
-     ```json
-     {
-       "message": "error",
-       "error": "A name with the same value already exists."
-     }
-     ```
+   - 중복 확인:
+     - 자기 자신: 변경하려는 이름이 기존 이름과 동일하다면(변경되지 않았다면) 다음과 같은 오류를 반환해야 합니다:
+       ```json
+       {
+         "message": "error",
+         "error": "A name with the same value already exists."
+       }
+       ```
+     - 다른 유저와의 중복: 변경하려는 이름이 이미 다른 유저가 사용 중인 이름이라면 다음과 같은 오류를 반환해야 합니다:
+       ```json
+       {
+         "message": "error",
+         "error": "A name with the same value already exists."
+       }
+       ```
    - API 경로: 적절한 라우팅 설정 필요 (PUT 또는 PATCH 메서드 권장)
    - 요청 형식 예시:
      ```json
