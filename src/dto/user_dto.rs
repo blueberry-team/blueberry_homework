@@ -9,6 +9,14 @@ pub struct UserDto {
 }
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
+pub struct ChangeNameDto {
+    #[validate(length(min = 1,))]
+    pub user_id: String,
+    #[validate(length(min = 1, max = 50))]
+    pub name: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct DeleteNameIndexDto {
     #[validate(range(min = 0))]
     pub index: u32,

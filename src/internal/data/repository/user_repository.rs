@@ -1,5 +1,6 @@
 use std::sync::Mutex;
 use async_trait::async_trait;
+use chrono::{DateTime, Utc};
 use crate::internal::domain::entities::user_entity::UserEntity;
 use crate::internal::domain::repository_interface::user_repository::UserRepository;
 
@@ -23,10 +24,45 @@ impl UserRepository for UserRepositoryImpl {
         UserRepositoryImpl::new()
     }
 
-    async fn create_name(&self, user: UserEntity) -> UserEntity {
+    async fn create_name(&self, user: UserEntity) -> Result<UserEntity, String> {
         let mut users = self.users.lock().unwrap();
+        // check name if user already have same value
+        if users.iter().any(|u| u.name == user.name) {
+            return Err(format!("A name with the same value already exists"));
+        }
         users.push(user.clone());
-        user
+        Ok(user)
+    }
+
+    async fn change_name(&self, user_id: String, name: String, update_at: DateTime<Utc>) -> Result<(), String> {
+        let mut users = self.users.lock().unwrap();
+        // search name
+        let position = users.iter().position(|user| user.id == user_id);
+        match position {
+            Some(index) => {
+                // check name if user already have same value
+                if users[index].name == name {
+                    return Err(format!("The name is the same as the current name"));
+                }
+                // if another user have same name
+                if users.iter().any(|user| user.name == name) {
+                    return Err(format!("A name with the same value already exists"));
+                }
+                users[index].name = name;
+                users[index].update_at = update_at;
+                Ok(())
+            },
+            None => Err(format!("User not found: {}", user_id))
+        }
+    }
+
+    async fn find_by_name(&self, name: String) -> Result<(), String> {
+        let users = self.users.lock().unwrap();
+        let position = users.iter().position(|user| user.name == name);
+        match position {
+            Some(_) => Ok(()),
+            None => Err(format!("User not found: {}", name))
+        }
     }
 
     async fn get_names(&self) -> Vec<UserEntity> {
