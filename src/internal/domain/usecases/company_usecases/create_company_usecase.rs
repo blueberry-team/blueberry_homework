@@ -27,8 +27,4 @@ impl CreateCompanyUsecase {
         let company = CompanyEntity::new(id, company_dto.name, company_dto.company_name, create_time, update_time);
         self.company_repo.create_company(company).await
     }
-
-    pub async fn get_companies_usecase(&self) -> Vec<CompanyEntity> {
-        self.company_repo.get_companies().await
-    }
 }
