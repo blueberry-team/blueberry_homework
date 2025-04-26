@@ -9,3 +9,8 @@ class Name(models.Model):
     
     def __str__(self):
         return self.name
+    
+class Company(models.Model):
+    company_name = models.TextField()
+    def __str__(self):
+        return self.company_name

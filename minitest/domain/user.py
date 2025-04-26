@@ -2,10 +2,12 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-@dataclass(frozen=True)
+@dataclass()
 class User:
+    id: str #uuid
     name: str
     created_at: datetime
+    updated_at: datetime
 
     def validate(self):
         if not self.name or len(self.name) < 1:
