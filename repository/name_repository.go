@@ -1,27 +1,53 @@
 package repository
 
+import (
+	"blueberry_homework_go_gin/entity"
+)
+
+// NameRepository 이름을 저장하고 관리하는 저장소
 type NameRepository struct {
-	names []map[string]string
+	users []entity.UserEntity
 }
 
-func NewNameRepository() *NameRepository { //얘는 함수 , func 함수명 (파라미터) 리턴타입{ }
+// NewNameRepository 새로운 NameRepository 인스턴스를 생성
+func NewNameRepository() *NameRepository {
 	return &NameRepository{
-		names: make([]map[string]string, 0),
+		users: make([]entity.UserEntity, 0),
 	}
 }
 
-func (r *NameRepository) CreateName(name string) { //얘는 메서드 , func (리시버) 함수명 (파라미터) 리턴타입{ }. 리시버는 사실상 숨겨진 첫번째 파라미터!!!
-	r.names = append(r.names, map[string]string{"name": name})
+// CreateName 새 사용자 이름을 추가
+func (r *NameRepository) CreateName(user entity.UserEntity) {
+	r.users = append(r.users, user)
 }
 
-func (r *NameRepository) GetName() []map[string]string {
-	return r.names
+// GetNames 모든 사용자 목록을 반환
+func (r *NameRepository) GetNames() []entity.UserEntity {
+	return r.users
 }
 
-func (r *NameRepository) DeleteName(index int) bool {
-	if index < 0 || index >= len(r.names) {
+// DeleteByIndex 특정 인덱스의 사용자를 삭제
+func (r *NameRepository) DeleteByIndex(index int) bool {
+	if index < 0 || index >= len(r.users) {
 		return false
 	}
-	r.names = append(r.names[:index], r.names[index+1:]...)
+
+	// 해당 인덱스 제거 (slice에서 해당 인덱스를 제외하고 다시 구성)
+	r.users = append(r.users[:index], r.users[index+1:]...)
 	return true
+}
+
+// DeleteByName 특정 이름을 가진 모든 사용자를 삭제
+func (r *NameRepository) DeleteByName(name string) bool {
+	originalLength := len(r.users)
+	var filteredUsers []entity.UserEntity
+
+	for _, user := range r.users {
+		if user.Name != name {
+			filteredUsers = append(filteredUsers, user)
+		}
+	}
+
+	r.users = filteredUsers
+	return len(r.users) < originalLength // 하나라도 삭제되었으면 true 반환
 }

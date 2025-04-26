@@ -3,23 +3,26 @@ package main
 import (
 	"blueberry_homework_go_gin/handler"
 	"blueberry_homework_go_gin/repository"
+	"blueberry_homework_go_gin/usecase"
 
-	"github.com/gin-gonic/gin" // 패키지? import 하는 것?
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// 레포,핸들러 초기화
-	repo := repository.NewNameRepository() //바로밑에 핸들러의 파라미터로 넣어줌
-	nameHandler := handler.NewNameHandler(repo)
+	// 계층별 초기화: Repository -> UseCase -> Handler
+	repo := repository.NewNameRepository()
+	nameUseCase := usecase.NewNameUseCase(repo)
+	nameHandler := handler.NewNameHandler(nameUseCase)
 
-	//진라우터생성
+	// Gin 라우터 생성
 	r := gin.Default()
 
-	// 루트정의
+	// 라우트 정의
 	r.POST("/create-name", nameHandler.CreateName)
-	r.GET("/get-names", nameHandler.GetName)//메서드를 함수값으로 넘김? nameHandler.CreateName 이게 마치 CreateName(nameHandler, c) 이렇게 쓰는 것 같음. c는 gin이 전달하는 *gin.Context 타입의 파라미터임
-	r.DELETE("/delete-name", nameHandler.DeleteName)
+	r.GET("/get-names", nameHandler.GetNames)
+	r.DELETE("/delete-index", nameHandler.DeleteByIndex) // 인덱스로 삭제 (기존 /delete-name 변경)
+	r.DELETE("/delete-name", nameHandler.DeleteByName)   // 이름으로 삭제 (신규)
 
-	// 서버시작
+	// 서버 시작
 	r.Run(":8080")
 }
