@@ -21,4 +21,8 @@ type NameRepository interface {
 
 	// 이름 변경 함수
 	ChangeName(req req.ChangeNameRequest) error
+
+	// 내부 로직용 이름 찾기 함수
+	FindByName(name string) bool
+
 }

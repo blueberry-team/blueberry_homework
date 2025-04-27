@@ -74,3 +74,16 @@ func (r *nameRepo) ChangeName(req req.ChangeNameRequest) error {
 	}
 	return fmt.Errorf("id not found")
 }
+
+// 이름 존재여부 확인 함수
+func (r *nameRepo) FindByName(name string) (bool) {
+	for _, entity := range r.names {
+		if entity.Name == name {
+			return true
+		}
+	}
+	return false
+}
+
+// 
+
