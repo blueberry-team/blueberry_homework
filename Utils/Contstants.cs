@@ -22,6 +22,9 @@ namespace BerryNameApi.Utils
         // 이름 중복
         public const string DuplicateName = "name already exists";
 
+        // 유저 찾기 실패
+        public const string UserNotFound = "user not found";
+
         // 이름 삭제 실패
         public const string NameNotFound = "No user with that name";
     }

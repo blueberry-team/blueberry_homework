@@ -15,8 +15,16 @@ namespace BerryNameApi.Repositories
         // 생성
         public void CreateName(UserEntity user) => _store.Add(user);
 
-        // 인덱스로 삭제
+        // 중복 검색 ID
+        public UserEntity? FindById(Guid id)
+        {
+            return _store.FirstOrDefault(user => user.Id == id);
+        }
 
+        // 중복 검색 Name
+        public UserEntity? FindByName(string name) => _store.FirstOrDefault(user => user.Name == name);
+
+        // 인덱스로 삭제
         public bool DeleteByIndex(int index)
         {
             if (index < 0 || index >= _store.Count) return false;
@@ -25,12 +33,11 @@ namespace BerryNameApi.Repositories
         }
 
         // 이름으로 삭제
-
-        public int DeleteByName(string name)
+        public bool DeleteByName(string name)
         {
             var countBefore = _store.Count;
             _store.RemoveAll(x => x.Name == name);
-            return countBefore - _store.Count;
+            return countBefore != _store.Count;
         }
     }
 }

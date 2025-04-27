@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using BerryNameApi.DTO.Response;
 using BerryNameApi.Entities;
 using BerryNameApi.Repositories;
+using BerryNameApi.Utils;
+using blueberry_homework_dotnet.UseCases;
 
 namespace BerryNameApi.UseCases
 {
@@ -23,18 +25,72 @@ namespace BerryNameApi.UseCases
             CreatedAt = u.CreatedAt
         });
 
-        public void CreateName(string name)
+        public Result CreateName(string name)
         {
-            var entity = new UserEntity
+            // 이름 중복 검색
+            if (_repository.FindByName(name) == null)
             {
+                return Result.Fail(Constants.DuplicateName);
+            }
+
+            var UtcNow = DateTime.UtcNow;
+
+            var user = new UserEntity
+            {
+                Id = Guid.NewGuid(),
                 Name = name,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = UtcNow,
+                UpdatedAt = UtcNow,
             };
-            _repository.CreateName(entity);
+            _repository.CreateName(user);
+            return Result.Ok();
         }
 
-        public bool DeleteByIndex(int index) => _repository.DeleteByIndex(index);
+        public Result ChangeName(Guid id, string newName)
+        {
+            var user = _repository.FindById(id);
+            if (user == null)
+            {
+                return Result.Fail(Constants.UserNotFound);
+            }
 
-        public int DeleteByName(string name) => _repository.DeleteByName(name);
+            // 이전 이름과 동일 이름
+            if (user.Name == newName)
+            {
+                return Result.Fail(Constants.DuplicateName);
+            }
+
+            // 이름 중복
+            var otherUser = _repository.FindByName(newName);
+            if (otherUser != null)
+            {
+                return Result.Fail(Constants.DuplicateName);
+            }
+
+            user.Name = newName;
+            user.UpdatedAt = DateTime.UtcNow;
+
+            return Result.Ok();
+        }
+
+        public Result DeleteByIndex(int index)
+        {
+            if (!_repository.DeleteByIndex(index))
+            {
+                return Result.Fail($"{Constants.InvalidIndex}: {index}");
+            }
+
+            return Result.Ok();
+        }
+
+        public Result DeleteByName(string name)
+        {
+            if (!_repository.DeleteByName(name))
+            {
+                return Result.Fail(Constants.NameNotFound);
+            }
+
+            return Result.Ok();
+        }
     }
 }

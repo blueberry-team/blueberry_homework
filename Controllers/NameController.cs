@@ -8,6 +8,7 @@ using BerryNameApi.UseCases;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using BerryNameApi.Utils;
+using blueberry_homework_dotnet.DTO.Request;
 
 namespace BerryNameApi.Controllers
 {
@@ -31,13 +32,47 @@ namespace BerryNameApi.Controllers
                     Error = Constants.NameLengthInvalid
                 });
 
-            _useCase.CreateName(request.Name);
+            var result = _useCase.CreateName(request.Name);
+
+            if (!result.Success)
+            {
+                return BadRequest(new ApiFailResponse
+                {
+                    Error = result.ErrorMessage
+                });
+            }
 
             return Ok(new ApiSuccessResponse<IEnumerable<UserResponse>>
             {
-                Data = _useCase.GetAll()
+                Message = Constants.Success
             });
 
+        }
+
+        [HttpPut("changeName")]
+        public IActionResult ChangeName([FromBody] ChangeNameRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new ApiFailResponse
+                {
+                    Error = Constants.NameLengthInvalid
+                });
+            }
+
+            var result = _useCase.ChangeName(request.Id!.Value, request.Name);
+            if (!result.Success)
+            {
+                return BadRequest(new ApiFailResponse
+                {
+                    Error = result.ErrorMessage
+                });
+            }
+
+            return Ok(new ApiSuccessResponse<IEnumerable<UserResponse>>
+            {
+                Message = Constants.Success
+            });
         }
 
         [HttpGet("getName")]
@@ -58,16 +93,16 @@ namespace BerryNameApi.Controllers
                     Error = Constants.DeleteIndexRequired
                 });
 
-            var deleted = _useCase.DeleteByIndex(request.Index.Value);
-            if (!deleted)
-                return NotFound(new ApiFailResponse
+            var result = _useCase.DeleteByIndex(request.Index.Value);
+            if (!result.Success)
+                return BadRequest(new ApiFailResponse
                 {
-                    Error = $"{Constants.InvalidIndex}: {request.Index}"
+                    Error = result.ErrorMessage
                 });
 
             return Ok(new ApiSuccessResponse<IEnumerable<UserResponse>>
             {
-                Data = _useCase.GetAll()
+                Message = Constants.Success
             });
         }
 
@@ -80,11 +115,11 @@ namespace BerryNameApi.Controllers
                     Error = Constants.NameLengthInvalid
                 });
 
-            var count = _useCase.DeleteByName(request.Name);
-            if (count == 0)
-                return NotFound(new ApiFailResponse
+            var result = _useCase.DeleteByName(request.Name);
+            if (!result.Success)
+                return BadRequest(new ApiFailResponse
                 {
-                    Error = $"{Constants.NameNotFound}: {request.Name}"
+                    Error = result.ErrorMessage
                 });
 
             return Ok(new ApiSuccessResponse<IEnumerable<UserResponse>>
