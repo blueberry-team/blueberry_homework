@@ -1,14 +1,17 @@
 import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
-from routers.custom_router import custom_router
+from routers.name_router import name_router
+from routers.company_router import company_router
+
 # 환경변수 로드
 load_dotenv()
 
 app = FastAPI()
 
 # 라우터 등록
-app.include_router(custom_router)
+app.include_router(name_router)
+app.include_router(company_router)
 
 PORT = int(os.getenv("PORT", 8000))  # 기본값 8000
 

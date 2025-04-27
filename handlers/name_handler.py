@@ -1,5 +1,6 @@
 from fastapi import HTTPException
 
+from constants.error_response import ERROR_RESPONSES
 from dtos.request.name_req_dto import NameReqDTO
 from usecases.name_usecase import NameUseCase
 
@@ -7,16 +8,15 @@ from usecases.name_usecase import NameUseCase
 class NameHandler:
     def create_name(self, input_name: NameReqDTO):
         try:
-            print(input_name)
-            result = NameUseCase.create_name(input_name)
-            return {"message": "이름이 추가되었습니다", "name": result["name"]}
+            added_name = NameUseCase.create_name(input_name)
+            return {"message": "이름이 추가되었습니다", "name": added_name }
         except HTTPException as e:
             # HTTP 예외는 그대로 다시 발생시켜 FastAPI가 처리하도록 함
             raise
         except Exception as e:
             # 예상치 못한 오류가 발생한 경우
             raise HTTPException(
-                status_code=500, detail="서버 오류가 발생했습니다"
+                status_code=500, detail=ERROR_RESPONSES["SERVER_ERROR"]
             ) from e
 
     def get_names(self):
@@ -32,7 +32,7 @@ class NameHandler:
         except Exception as e:
             # 예상치 못한 오류가 발생한 경우
             raise HTTPException(
-                status_code=500, detail="서버 오류가 발생했습니다"
+                status_code=500, detail=ERROR_RESPONSES["SERVER_ERROR"]
             ) from e
 
     def delete_name_by_index(self, index: int):
@@ -43,7 +43,7 @@ class NameHandler:
             raise
         except Exception as e:
             raise HTTPException(
-                status_code=500, detail="서버 오류가 발생했습니다"
+                status_code=500, detail=ERROR_RESPONSES["SERVER_ERROR"]
             ) from e
 
     def delete_name_by_name(self, name: str):
@@ -54,5 +54,28 @@ class NameHandler:
             raise
         except Exception as e:
             raise HTTPException(
-                status_code=500, detail="서버 오류가 발생했습니다"
+                status_code=500, detail=ERROR_RESPONSES["SERVER_ERROR"]
             ) from e
+    
+    def change_name(self, used_id: str, new_name: str):
+        try:
+            updated_name = NameUseCase.change_name(used_id, new_name)
+            return {"message": "이름이 수정되었습니다", "updated_name": updated_name}
+        except HTTPException as e:
+            raise
+        except Exception as e:
+            raise HTTPException(
+                status_code=500, detail=ERROR_RESPONSES["SERVER_ERROR"]
+            ) from e
+            
+    def get_name_by_name(self, name: str):
+        try:
+            name_by_name = NameUseCase.get_name_by_name(name)
+            return {"message": "이름이 조회되었습니다", "name_by_name": name_by_name}
+        except HTTPException as e:
+            raise
+        except Exception as e:
+            raise HTTPException(
+                status_code=500, detail=ERROR_RESPONSES["SERVER_ERROR"]
+            ) from e
+
