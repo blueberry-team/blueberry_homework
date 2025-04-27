@@ -20,6 +20,8 @@ func NewCompanyRepository() repointerface.CompanyRepository {
 
 // Company entity 를 저장소에 추가하는 함수
 func (r *companyRepo) CreateCompany(entity entities.CompanyEntity) error {
+	// 컴패니 중복 확인
+	// 추후 기존 컴패니에 이름만 추가하는 방식으로 갈까 싶어서 일단 추가해둠
 	for _, company := range r.companies {
 		if company.Name == entity.Name {
 			return fmt.Errorf("company already exist")
