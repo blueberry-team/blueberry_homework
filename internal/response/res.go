@@ -8,6 +8,12 @@ type GetNamesResponse struct {
 	Data    []entities.NameEntity `json:"data"`
 }
 
+// GetCompanies response structure
+type GetCompaniesResponse struct {
+	Message string `json:"message"`
+	Data []entities.CompanyEntity `json:"data"`
+}
+
 // 성공 응답 structure
 type SuccessResponse struct {
 	Message string `json:"message"`

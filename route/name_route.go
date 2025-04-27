@@ -9,6 +9,7 @@ import (
 func NameRouter(h *handler.NameHandler) chi.Router {
     r := chi.NewRouter()
 
+    // name
     r.Post("/create-name", h.CreateName)
     r.Get("/get-names", h.GetNames)
     r.Delete("/delete-index", h.DeleteByIndex)
