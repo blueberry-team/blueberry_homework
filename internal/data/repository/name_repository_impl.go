@@ -11,7 +11,7 @@ import (
 
 // nameRepo는 NameRepository 인터페이스의 구현체입니다.
 type nameRepo struct {
-	// map 선언
+	// 저장소
 	names []entities.NameEntity
 }
 
@@ -84,6 +84,3 @@ func (r *nameRepo) FindByName(name string) (bool) {
 	}
 	return false
 }
-
-// 
-

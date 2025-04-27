@@ -48,6 +48,7 @@ func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// 중복 에러 반환 확인
 	err = h.usecase.CreateName(name)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)

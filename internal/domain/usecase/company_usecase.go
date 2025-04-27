@@ -15,6 +15,7 @@ func NewCompanyUsecase(r repointerface.CompanyRepository) *CompanyUsecase {
 	}
 }
 
+// 저장된 회사 정보 반환 함수
 func (u *CompanyUsecase) GetCompanies() []entities.CompanyEntity {
 	return u.repo.GetCompanies()
 }

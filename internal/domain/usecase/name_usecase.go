@@ -19,6 +19,8 @@ func NewNameUsecase(r repointerface.NameRepository) *NameUsecase {
 	}
 }
 
+// 이름 생성함수
+// createdAt, updatedAt 초기화도 여기서 이뤄집니다.
 func (u *NameUsecase) CreateName(name string) error {
 	time := time.Now()
 	entity := entities.NameEntity{
