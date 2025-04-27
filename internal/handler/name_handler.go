@@ -48,7 +48,16 @@ func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h.usecase.CreateName(name)
+	err = h.usecase.CreateName(name)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(res.ErrorResponse{
+			Message: "error",
+			Error:   err.Error(),
+		})
+		return
+	}
+
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(res.SuccessResponse{
 		Message: "success",
@@ -112,6 +121,36 @@ func (h *NameHandler) DeleteByName (w http.ResponseWriter, r *http.Request) {
 	}
 
 	h.usecase.DeleteByName(req.Name)
+
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(res.SuccessResponse{
+		Message: "success",
+	})
+}
+
+// ChangeName 추가
+func (h *NameHandler) ChangeName(w http.ResponseWriter, r *http.Request) {
+	var req req.ChangeNameRequest
+
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil || strings.TrimSpace(req.Id) == "" || strings.TrimSpace(req.Name) == "" {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(res.ErrorResponse{
+			Message: "error",
+			Error:   "invalid request format",
+		})
+		return
+	}
+
+	err = h.usecase.ChangeName(req)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(res.ErrorResponse{
+			Message: "error",
+			Error:   err.Error(),
+		})
+		return
+	}
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(res.SuccessResponse{

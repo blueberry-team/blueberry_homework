@@ -13,7 +13,7 @@ func NameRouter(h *handler.NameHandler) chi.Router {
     r.Get("/get-names", h.GetNames)
     r.Delete("/delete-index", h.DeleteByIndex)
     r.Delete("/delete-name", h.DeleteByName)
-
+    r.Post("/change-name", h.ChangeName)
 
     return r
 }

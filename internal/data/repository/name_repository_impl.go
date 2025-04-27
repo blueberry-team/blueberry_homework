@@ -3,8 +3,11 @@ package repository
 import (
 	"blueberry_homework/internal/domain/entities"
 	"blueberry_homework/internal/domain/repo_interface"
-)
+	"blueberry_homework/internal/dto"
 
+	"fmt"
+	"time"
+)
 
 // nameRepo는 NameRepository 인터페이스의 구현체입니다.
 type nameRepo struct {
@@ -22,8 +25,14 @@ func NewNameRepository() repointerface.NameRepository {
 }
 
 // CreateName은 새로운 이름을 저장소에 추가합니다.
-func (r *nameRepo) CreateName(entity entities.NameEntity) {
+func (r *nameRepo) CreateName(entity entities.NameEntity) error {
+	for _, nameEntity := range r.names {
+		if nameEntity.Name == entity.Name {
+			return fmt.Errorf("name already exists")
+		}
+	}
 	r.names = append(r.names, entity)
+	return nil
 }
 
 // GetNames는 저장된 모든 이름을 반환합니다.
@@ -51,4 +60,17 @@ func (r *nameRepo) DeleteByName(name string) {
 		}
 	}
 	r.names = filtered
+}
+
+// 여기서 time update 가 맞는 것인가 아닌것인가...
+// 유저를 찾고나서 해야하니까 여기서 시간을 업데이트 하는 것이 옳은 것 같긴하다고 생각함
+func (r *nameRepo) ChangeName(req req.ChangeNameRequest) error {
+	for i, name := range r.names {
+		if name.Id == req.Id {
+			r.names[i].Name = req.Name
+			r.names[i].UpdatedAt = time.Now()
+			return nil
+		}
+	}
+	return fmt.Errorf("id not found")
 }
