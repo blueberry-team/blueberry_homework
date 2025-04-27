@@ -28,7 +28,7 @@ namespace BerryNameApi.UseCases
         public Result CreateName(string name)
         {
             // 이름 중복 검색
-            if (_repository.FindByName(name) == null)
+            if (_repository.FindByName(name) != null)
             {
                 return Result.Fail(Constants.DuplicateName);
             }

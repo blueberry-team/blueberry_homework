@@ -27,5 +27,8 @@ namespace BerryNameApi.Utils
 
         // 이름 삭제 실패
         public const string NameNotFound = "No user with that name";
+
+        // 유저 회사 존재
+        public const string UserAlreadyCompany = "User Already Has Company";
     }
 }
