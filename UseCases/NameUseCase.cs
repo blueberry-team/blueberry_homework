@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BerryNameApi.DTO.Response;
 using BerryNameApi.Entities;
 using BerryNameApi.Repositories;
@@ -19,10 +15,12 @@ namespace BerryNameApi.UseCases
             _repository = repository;
         }
 
-        public IEnumerable<UserResponse> GetAll() => _repository.GetAll().Select(u => new UserResponse
+        public IEnumerable<UserResponse> GetAll() => _repository.GetAll().Select(user => new UserResponse
         {
-            Name = u.Name,
-            CreatedAt = u.CreatedAt
+            Id = user.Id,
+            Name = user.Name,
+            CreatedAt = user.CreatedAt,
+            UpdatedAt = user.UpdatedAt,
         });
 
         public Result CreateName(string name)

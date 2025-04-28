@@ -1,6 +1,7 @@
 using BerryNameApi.DTO.Response;
 using BerryNameApi.Utils;
 using blueberry_homework_dotnet.DTO.Request;
+using blueberry_homework_dotnet.DTO.Response;
 using blueberry_homework_dotnet.Entities;
 using blueberry_homework_dotnet.UseCases;
 using Microsoft.AspNetCore.Mvc;
@@ -40,7 +41,7 @@ namespace blueberry_homework_dotnet.Controllers
                 });
             }
 
-            return Ok(new ApiSuccessResponse<object> { Message = Constants.Success });
+            return Ok(new ApiSuccessResponse<IEnumerable<CompanyResponse>> { Message = Constants.Success });
         }
 
         [HttpGet("getCompany")]
