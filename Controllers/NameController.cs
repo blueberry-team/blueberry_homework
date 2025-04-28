@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BerryNameApi.DTO.Request;
 using BerryNameApi.DTO.Response;
 using BerryNameApi.UseCases;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using BerryNameApi.Utils;
 using blueberry_homework_dotnet.DTO.Request;
 

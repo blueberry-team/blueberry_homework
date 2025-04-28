@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using blueberry_homework_dotnet.Entities;
 
 namespace blueberry_homework_dotnet.Repositories

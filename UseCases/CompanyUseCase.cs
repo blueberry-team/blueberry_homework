@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using BerryNameApi.Repositories;
 using BerryNameApi.Utils;
 using blueberry_homework_dotnet.Entities;
