@@ -8,6 +8,8 @@ import (
 	"blueberry_homework/route"
 	"fmt"
 	"net/http"
+
+	"github.com/gocql/gocql"
 )
 
 func main() {
@@ -21,6 +23,24 @@ func main() {
     createCompanyUsecase := usecase.NewCreateCompanyUsecase(nameRepo, companyRepo)
     companyUsecase := usecase.NewCompanyUsecase(companyRepo)
     companyHandler := handler.NewCompanyHandler(createCompanyUsecase, companyUsecase)
+
+    // 클러스터 설정 (로컬 Scylla에 연결)
+    cluster := gocql.NewCluster("localhost")
+
+    // Keyspace 없이 연결만 테스트할 것이므로 생략
+    // cluster.Keyspace = "..."
+
+    // 일관성 설정 (안정성 있는 기본값)
+    cluster.Consistency = gocql.Quorum
+
+    // 세션 생성 시도
+    session, err := cluster.CreateSession()
+    if err != nil {
+        panic(fmt.Sprintf("❌ Scylla 연결 실패: %v", err))
+    }
+    defer session.Close()
+    fmt.Println("✅ Scylla 연결 성공!")
+
 
     application := app.NewApp()
     fmt.Println("app start!", application)
