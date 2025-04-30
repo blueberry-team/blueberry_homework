@@ -27,9 +27,6 @@ func main() {
     // 클러스터 설정 (로컬 Scylla에 연결)
     cluster := gocql.NewCluster("localhost")
 
-    // Keyspace 없이 연결만 테스트할 것이므로 생략
-    // cluster.Keyspace = "..."
-
     // 일관성 설정 (안정성 있는 기본값)
     cluster.Consistency = gocql.Quorum
 
