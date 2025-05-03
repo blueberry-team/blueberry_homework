@@ -1,4 +1,4 @@
-package repointerface
+package repo_interface
 
 import (
 	"blueberry_homework/internal/domain/entities"

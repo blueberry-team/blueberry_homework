@@ -1,4 +1,4 @@
-package res
+package response
 
 import "blueberry_homework/internal/domain/entities"
 

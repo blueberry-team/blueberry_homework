@@ -2,7 +2,7 @@ package handler
 
 import (
 	"blueberry_homework/internal/domain/usecase"
-	"blueberry_homework/internal/dto"
+	"blueberry_homework/internal/request"
 	"blueberry_homework/internal/response"
 
 	"encoding/json"
@@ -24,13 +24,13 @@ func NewNameHandler(u *usecase.NameUsecase) *NameHandler {
 // CreateName은 새로운 이름을 생성하는 HTTP 엔드포인트 핸들러입니다.
 // POST 요청의 body에서 JSON 형식의 이름을 받아 저장합니다.
 func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
-	var req req.NameRequest
+	var req request.NameRequest
 
 	// null check validation
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || req.Name == "" {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(res.ErrorResponse{
+		json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   "Invalid request format",
 		})
@@ -41,7 +41,7 @@ func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
 	name := strings.TrimSpace(req.Name)
 	if len(name) < 1 || len(name) > 50 {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(res.ErrorResponse{
+		json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   "name must be between 1 and 50 characters",
 		})
@@ -52,7 +52,7 @@ func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
 	err = h.usecase.CreateName(name)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(res.ErrorResponse{
+		json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   err.Error(),
 		})
@@ -60,83 +60,101 @@ func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(res.SuccessResponse{
+	json.NewEncoder(w).Encode(response.SuccessResponse{
 		Message: "success",
 	})
 }
 
 // GetNames는 저장된 모든 이름을 조회하는 HTTP 엔드포인트 핸들러입니다.
 func (h *NameHandler) GetNames(w http.ResponseWriter, r *http.Request) {
+	names, err := h.usecase.GetNames()
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(response.ErrorResponse{
+			Message: "Error",
+			Error: err.Error(),
+		})
+		return
+	}
+
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(res.GetNamesResponse{
+	json.NewEncoder(w).Encode(response.GetNamesResponse{
 		Message: "success",
-		Data:    h.usecase.GetNames(),
+		Data:    names,
 	})
 }
 
 // DeleteByIndex는 인덱스를 받아 해당하는 이름을 삭제하는 핸들러입니다.
-func (h *NameHandler) DeleteByIndex(w http.ResponseWriter, r *http.Request) {
-	var req req.DeleteByIndexRequest
+// func (h *NameHandler) DeleteByIndex(w http.ResponseWriter, r *http.Request) {
+// 	var req req.DeleteByIndexRequest
 
-	// index type validation
-	err := json.NewDecoder(r.Body).Decode(&req)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(res.ErrorResponse{
-			Message: "error",
-			Error:   "invalid request index",
-		})
-		return
-	}
+// 	// index type validation
+// 	err := json.NewDecoder(r.Body).Decode(&req)
+// 	if err != nil {
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		json.NewEncoder(w).Encode(res.ErrorResponse{
+// 			Message: "error",
+// 			Error:   "invalid request index",
+// 		})
+// 		return
+// 	}
 
-	// index range validation
-	currentNames := h.usecase.GetNames()
-	if req.Index < 0 || req.Index >= len(currentNames) {
-		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(res.ErrorResponse{
-			Message: "error",
-			Error:   "invalid index range",
-		})
-		return
-	}
+// 	// index range validation
+// 	currentNames := h.usecase.GetNames()
+// 	if req.Index < 0 || req.Index >= len(currentNames) {
+// 		w.WriteHeader(http.StatusBadRequest)
+// 		json.NewEncoder(w).Encode(res.ErrorResponse{
+// 			Message: "error",
+// 			Error:   "invalid index range",
+// 		})
+// 		return
+// 	}
 
-	h.usecase.DeleteByIndex(req.Index)
+// 	h.usecase.DeleteByIndex(req.Index)
 
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(res.SuccessResponse{
-		Message: "success",
-	})
-}
+// 	w.WriteHeader(http.StatusOK)
+// 	json.NewEncoder(w).Encode(res.SuccessResponse{
+// 		Message: "success",
+// 	})
+// }
 
-func (h *NameHandler) DeleteByName (w http.ResponseWriter, r *http.Request) {
-	var req req.DeleteByNameRequest
+func (h *NameHandler) DeleteByName(w http.ResponseWriter, r *http.Request) {
+	var req request.DeleteByNameRequest
 
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || strings.TrimSpace(req.Name) == "" {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(res.ErrorResponse{
+		json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
-			Error: "Invalid request format",
+			Error:   "Invalid request format",
 		})
 		return
 	}
 
-	h.usecase.DeleteByName(req.Name)
+	err = h.usecase.DeleteByName(req.Name)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(response.ErrorResponse{
+			Message: "error",
+			Error: err.Error(),
+		})
+		return
+	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(res.SuccessResponse{
+	json.NewEncoder(w).Encode(response.SuccessResponse{
 		Message: "success",
 	})
 }
 
 // ChangeName 추가
 func (h *NameHandler) ChangeName(w http.ResponseWriter, r *http.Request) {
-	var req req.ChangeNameRequest
+	var req request.ChangeNameRequest
 
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || strings.TrimSpace(req.Id) == "" || strings.TrimSpace(req.Name) == "" {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(res.ErrorResponse{
+		json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   "invalid request format",
 		})
@@ -146,7 +164,7 @@ func (h *NameHandler) ChangeName(w http.ResponseWriter, r *http.Request) {
 	err = h.usecase.ChangeName(req)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(res.ErrorResponse{
+		json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   err.Error(),
 		})
@@ -154,7 +172,7 @@ func (h *NameHandler) ChangeName(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(res.SuccessResponse{
+	json.NewEncoder(w).Encode(response.SuccessResponse{
 		Message: "success",
 	})
 }

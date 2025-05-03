@@ -1,4 +1,4 @@
-package req
+package request
 
 type NameRequest struct {
     Name string `json:"name"`

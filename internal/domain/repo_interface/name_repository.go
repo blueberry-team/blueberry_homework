@@ -1,8 +1,8 @@
-package repointerface
+package repo_interface
 
 import (
 	"blueberry_homework/internal/domain/entities"
-	"blueberry_homework/internal/dto"
+	"blueberry_homework/internal/request"
 )
 
 // NameRepository는 이름을 관리하는 인터페이스입니다.
@@ -11,18 +11,17 @@ type NameRepository interface {
 	CreateName(entity entities.NameEntity) error
 
 	// GetNames는 저장된 모든 이름을 반환합니다.
-	GetNames() []entities.NameEntity
+	GetNames() ([]entities.NameEntity, error)
 
 	// DeleteByIndex 은 index 를 받아 해당하는 이름을 삭제하고 재정렬합니다
-	DeleteByIndex(index int)
+	// DeleteByIndex(index int)
 
 	// DeleteByName 은 이름을 받아 해당하는 이름을 삭제하고 재정렬합니다
-	DeleteByName(name string)
+	DeleteByName(name string) error
 
 	// 이름 변경 함수
-	ChangeName(req req.ChangeNameRequest) error
+	ChangeName(req request.ChangeNameRequest) error
 
 	// 내부 로직용 이름 찾기 함수
 	FindByName(name string) bool
-
 }

@@ -4,17 +4,22 @@ import (
 	"blueberry_homework/internal/domain/entities"
 	"blueberry_homework/internal/domain/repo_interface"
 	"fmt"
+
+	"github.com/gocql/gocql"
 )
+
 // companyRepo CompanyRepository 인터페이스의 구현체입니다.
 type companyRepo struct {
 	// 저장소
 	companies []entities.CompanyEntity
+	session *gocql.Session
 }
 
 // NewCompanyRepository 새로운 CompanyRepository 인스턴스를 생성합니다.
-func NewCompanyRepository() repointerface.CompanyRepository {
+func NewCompanyRepository(session *gocql.Session) repo_interface.CompanyRepository {
 	return &companyRepo{
 		companies: []entities.CompanyEntity{},
+		session: session,
 	}
 }
 

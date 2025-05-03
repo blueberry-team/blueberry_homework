@@ -6,10 +6,10 @@ import (
 )
 
 type CompanyUsecase struct {
-	repo repointerface.CompanyRepository
+	repo repo_interface.CompanyRepository
 }
 
-func NewCompanyUsecase(r repointerface.CompanyRepository) *CompanyUsecase {
+func NewCompanyUsecase(r repo_interface.CompanyRepository) *CompanyUsecase {
 	return &CompanyUsecase{
 		repo: r,
 	}

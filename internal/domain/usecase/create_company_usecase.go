@@ -2,8 +2,8 @@ package usecase
 
 import (
 	"blueberry_homework/internal/domain/entities"
-	repointerface "blueberry_homework/internal/domain/repo_interface"
-	req "blueberry_homework/internal/dto"
+	"blueberry_homework/internal/domain/repo_interface"
+	req "blueberry_homework/internal/request"
 	"fmt"
 	"time"
 
@@ -12,14 +12,14 @@ import (
 
 // CreateCompanyUsecase는 회사 생성을 담당하는 유스케이스 구조체입니다.
 type CreateCompanyUsecase struct {
-	nameRepo    repointerface.NameRepository
-	companyRepo repointerface.CompanyRepository
+	nameRepo    repo_interface.NameRepository
+	companyRepo repo_interface.CompanyRepository
 }
 
 // NewCreateCompanyUsecase는 CreateCompanyUsecase의 새로운 인스턴스를 생성합니다.
 // nameRepo: 이름 조회를 위한 레포지토리
 // companyRepo: 회사 정보 관리를 위한 레포지토리
-func NewCreateCompanyUsecase(n repointerface.NameRepository, c repointerface.CompanyRepository) *CreateCompanyUsecase {
+func NewCreateCompanyUsecase(n repo_interface.NameRepository, c repo_interface.CompanyRepository) *CreateCompanyUsecase {
 	return &CreateCompanyUsecase{
 		nameRepo:    n,
 		companyRepo: c,

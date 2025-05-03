@@ -2,8 +2,8 @@ package handler
 
 import (
 	"blueberry_homework/internal/domain/usecase"
-	req "blueberry_homework/internal/dto"
-	res "blueberry_homework/internal/response"
+	"blueberry_homework/internal/request"
+	"blueberry_homework/internal/response"
 	"encoding/json"
 	"net/http"
 )
@@ -22,13 +22,13 @@ func NewCompanyHandler(cu *usecase.CreateCompanyUsecase, u *usecase.CompanyUseca
 
 // CreateCompany는 새로운 회사를 생성합니다.
 func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
-	var req req.CreateCompanyRequest
+	var req request.CreateCompanyRequest
 
 	// null check validation
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || req.CompanyName == "" || req.Name == "" {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(res.ErrorResponse{
+		json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   "Invalid request format",
 		})
@@ -39,7 +39,7 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 	err = h.createUsecase.CreateCompany(req)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(res.ErrorResponse{
+		json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   err.Error(),
 		})
@@ -47,7 +47,7 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(res.SuccessResponse{
+	json.NewEncoder(w).Encode(response.SuccessResponse{
 		Message: "success",
 	})
 }
@@ -56,7 +56,7 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 // 성공 시 200 OK 상태 코드와 함께 회사 목록을 반환합니다.
 func (h *CompanyHandler) GetCompanies(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(res.GetCompaniesResponse{
+	json.NewEncoder(w).Encode(response.GetCompaniesResponse{
 		Message: "success",
 		Data:    h.companyUsecase.GetCompanies(),
 	})
