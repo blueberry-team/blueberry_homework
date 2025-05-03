@@ -6,5 +6,5 @@ import (
 
 type CompanyRepository interface {
 	CreateCompany(company entities.CompanyEntity) error
-	GetCompanies() []entities.CompanyEntity
+	GetCompanies() ([]entities.CompanyEntity, error)
 }

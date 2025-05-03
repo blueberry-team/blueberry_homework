@@ -55,9 +55,20 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 // GetCompanies는 모든 회사 목록을 조회하는 HTTP 엔드포인트를 처리합니다.
 // 성공 시 200 OK 상태 코드와 함께 회사 목록을 반환합니다.
 func (h *CompanyHandler) GetCompanies(w http.ResponseWriter, r *http.Request) {
+	companies, err := h.companyUsecase.GetCompanies()
+
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(response.ErrorResponse{
+			Message: "Error",
+			Error: err.Error(),
+		})
+		return
+	}
+
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(response.GetCompaniesResponse{
 		Message: "success",
-		Data:    h.companyUsecase.GetCompanies(),
+		Data:    companies,
 	})
 }
