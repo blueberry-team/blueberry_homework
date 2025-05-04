@@ -26,7 +26,7 @@ def get_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)
     return handler.get_name_by_name(name)
 
 
-@name_router.put("/{name}")
+@name_router.put("/{used_id}")
 def change_name(
     used_id: str, new_name: str, handler: NameHandler = Depends(get_name_handler)
 ):
