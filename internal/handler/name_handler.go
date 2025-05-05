@@ -30,10 +30,13 @@ func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || req.Name == "" {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(response.ErrorResponse{
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
-			Error:   "Invalid request format",
-		})
+			Error: "Invalid request format",
+        }); err != nil {
+            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+            return
+        }
 		return
 	}
 
@@ -41,10 +44,13 @@ func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
 	name := strings.TrimSpace(req.Name)
 	if len(name) < 1 || len(name) > 50 {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(response.ErrorResponse{
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   "name must be between 1 and 50 characters",
-		})
+		}); err != nil {
+            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+            return
+        }
 		return
 	}
 
@@ -52,17 +58,23 @@ func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
 	err = h.usecase.CreateName(name)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(response.ErrorResponse{
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   err.Error(),
-		})
+		}); err != nil {
+            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+            return
+        }
 		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(response.SuccessResponse{
+	if err:= json.NewEncoder(w).Encode(response.SuccessResponse{
 		Message: "success",
-	})
+	}); err != nil {
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return
+	}
 }
 
 // GetNames는 저장된 모든 이름을 조회하는 HTTP 엔드포인트 핸들러입니다.
@@ -70,18 +82,24 @@ func (h *NameHandler) GetNames(w http.ResponseWriter, r *http.Request) {
 	names, err := h.usecase.GetNames()
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(response.ErrorResponse{
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "Error",
 			Error: err.Error(),
-		})
+		}); err != nil {
+            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+            return
+        }
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(response.GetNamesResponse{
+	if err := json.NewEncoder(w).Encode(response.GetNamesResponse{
 		Message: "success",
 		Data:    names,
-	})
+	}); err != nil {
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return
+	}
 }
 
 // DeleteByIndex는 인덱스를 받아 해당하는 이름을 삭제하는 핸들러입니다.
@@ -124,27 +142,36 @@ func (h *NameHandler) DeleteByName(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || strings.TrimSpace(req.Name) == "" {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(response.ErrorResponse{
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   "Invalid request format",
-		})
+		}); err != nil {
+            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+            return
+        }
 		return
 	}
 
 	err = h.usecase.DeleteByName(req.Name)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(response.ErrorResponse{
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error: err.Error(),
-		})
+		}); err != nil {
+            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+            return
+        }
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(response.SuccessResponse{
+	if err := json.NewEncoder(w).Encode(response.SuccessResponse{
 		Message: "success",
-	})
+	}); err != nil {
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return
+	}
 }
 
 // ChangeName 추가
@@ -154,25 +181,34 @@ func (h *NameHandler) ChangeName(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || strings.TrimSpace(req.Id) == "" || strings.TrimSpace(req.Name) == "" {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(response.ErrorResponse{
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   "invalid request format",
-		})
+		}); err != nil {
+            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+            return
+        }
 		return
 	}
 
 	err = h.usecase.ChangeName(req)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(response.ErrorResponse{
+		if err:= json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   err.Error(),
-		})
+		}); err != nil {
+            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+            return
+        }
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(response.SuccessResponse{
+	if err := json.NewEncoder(w).Encode(response.SuccessResponse{
 		Message: "success",
-	})
+	}); err != nil {
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return
+	}
 }

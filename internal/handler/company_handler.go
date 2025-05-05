@@ -28,10 +28,13 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || req.CompanyName == "" || req.Name == "" {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(response.ErrorResponse{
+		if err:= json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   "Invalid request format",
-		})
+		}); err != nil {
+            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+            return
+        }
 		return
 	}
 
@@ -39,17 +42,23 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 	err = h.createUsecase.CreateCompany(req)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(response.ErrorResponse{
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   err.Error(),
-		})
+		}); err != nil {
+            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+            return
+        }
 		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(response.SuccessResponse{
+	if err := json.NewEncoder(w).Encode(response.SuccessResponse{
 		Message: "success",
-	})
+	}); err != nil {
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return
+	}
 }
 
 // GetCompanies는 모든 회사 목록을 조회하는 HTTP 엔드포인트를 처리합니다.
@@ -59,16 +68,22 @@ func (h *CompanyHandler) GetCompanies(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		json.NewEncoder(w).Encode(response.ErrorResponse{
+		if err:= json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "Error",
 			Error: err.Error(),
-		})
+		}); err != nil {
+            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+            return
+        }
 		return
 	}
 
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(response.GetCompaniesResponse{
+	if err := json.NewEncoder(w).Encode(response.GetCompaniesResponse{
 		Message: "success",
 		Data:    companies,
-	})
+	}); err != nil {
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return
+	}
 }
