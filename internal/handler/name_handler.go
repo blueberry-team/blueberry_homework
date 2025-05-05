@@ -102,40 +102,6 @@ func (h *NameHandler) GetNames(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// DeleteByIndex는 인덱스를 받아 해당하는 이름을 삭제하는 핸들러입니다.
-// func (h *NameHandler) DeleteByIndex(w http.ResponseWriter, r *http.Request) {
-// 	var req req.DeleteByIndexRequest
-
-// 	// index type validation
-// 	err := json.NewDecoder(r.Body).Decode(&req)
-// 	if err != nil {
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		json.NewEncoder(w).Encode(res.ErrorResponse{
-// 			Message: "error",
-// 			Error:   "invalid request index",
-// 		})
-// 		return
-// 	}
-
-// 	// index range validation
-// 	currentNames := h.usecase.GetNames()
-// 	if req.Index < 0 || req.Index >= len(currentNames) {
-// 		w.WriteHeader(http.StatusBadRequest)
-// 		json.NewEncoder(w).Encode(res.ErrorResponse{
-// 			Message: "error",
-// 			Error:   "invalid index range",
-// 		})
-// 		return
-// 	}
-
-// 	h.usecase.DeleteByIndex(req.Index)
-
-// 	w.WriteHeader(http.StatusOK)
-// 	json.NewEncoder(w).Encode(res.SuccessResponse{
-// 		Message: "success",
-// 	})
-// }
-
 func (h *NameHandler) DeleteByName(w http.ResponseWriter, r *http.Request) {
 	var req request.DeleteByNameRequest
 

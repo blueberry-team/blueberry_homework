@@ -81,16 +81,6 @@ func (r *nameRepo) GetNames() ([]entities.NameEntity, error) {
 	return results, nil
 }
 
-// DeleteName 은 인덱스에 해당하는 이름을 지우고 재정렬합니다.
-// func (r *nameRepo) DeleteByIndex(index int) {
-// 	// 삭제 + 재정렬 (앞으로 당기기)
-// 	// :index 는 인덱스 전까지, index: 는 인덱스에서부터 끝까지
-// 	// The append built-in function appends elements to the end of a slice.
-// 	// 즉 append(a, b) 라고 하면 a slice 뒤에 b slice 를 가져다 붙임
-// 	// 그래서 한 개를 스킵할 수 있음
-// 	// r.names = append(r.names[:index], r.names[index+1:]...)
-// }
-
 // 이름으로 색인해서 삭제
 func (r *nameRepo) DeleteByName(name string) error {
 	// 1. 먼저 name으로 id 찾기

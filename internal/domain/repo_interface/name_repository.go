@@ -13,9 +13,6 @@ type NameRepository interface {
 	// GetNames는 저장된 모든 이름을 반환합니다.
 	GetNames() ([]entities.NameEntity, error)
 
-	// DeleteByIndex 은 index 를 받아 해당하는 이름을 삭제하고 재정렬합니다
-	// DeleteByIndex(index int)
-
 	// DeleteByName 은 이름을 받아 해당하는 이름을 삭제하고 재정렬합니다
 	DeleteByName(name string) error
 
