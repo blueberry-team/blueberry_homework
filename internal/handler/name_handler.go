@@ -29,6 +29,7 @@ func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
 	// null check validation
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || req.Name == "" {
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -43,6 +44,7 @@ func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
 	// 글자수 제한 validation
 	name := strings.TrimSpace(req.Name)
 	if len(name) < 1 || len(name) > 50 {
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -57,6 +59,7 @@ func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
 	// 중복 에러 반환 확인
 	err = h.usecase.CreateName(name)
 	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -67,7 +70,9 @@ func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
         }
 		return
 	}
-
+	
+	// 성공응답
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	if err:= json.NewEncoder(w).Encode(response.SuccessResponse{
 		Message: "success",

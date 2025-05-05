@@ -2,12 +2,13 @@ package main
 
 import (
 	"blueberry_homework/app"
-    "blueberry_homework/internal/db"
 	"blueberry_homework/internal/data/repository"
+	"blueberry_homework/internal/db"
 	"blueberry_homework/internal/domain/usecase"
 	"blueberry_homework/internal/handler"
 	"blueberry_homework/route"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -35,5 +36,5 @@ func main() {
     application.Router.Mount("/companies", route.CompanyRouter(companyHandler))
 
     fmt.Println("route set up done!!")
-    http.ListenAndServe(":3000", application.Router)
+    log.Fatal(http.ListenAndServe(":3000", application.Router))
 }
