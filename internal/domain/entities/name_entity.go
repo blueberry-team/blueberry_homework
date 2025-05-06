@@ -1,9 +1,13 @@
 package entities
 
-import "time"
+import (
+	"time"
+
+	"github.com/gocql/gocql"
+)
 
 type NameEntity struct {
-	Id string `json:"id"`
+	Id gocql.UUID `json:"id"`
 	Name string `json:"name"`
     CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`

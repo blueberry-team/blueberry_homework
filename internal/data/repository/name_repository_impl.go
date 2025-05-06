@@ -67,7 +67,7 @@ func (r *nameRepo) GetNames() ([]entities.NameEntity, error) {
 
 	for iter.Scan(&id, &name, &createdAt, &updatedAt) {
 		results = append(results, entities.NameEntity{
-			Id:        id.String(),
+			Id:        id,
 			Name:      name,
 			CreatedAt: createdAt,
 			UpdatedAt: updatedAt,

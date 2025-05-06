@@ -56,7 +56,7 @@ func (r *companyRepo) GetCompanies() ([]entities.CompanyEntity, error) {
 
 	for iter.Scan(&id, &name, &companyName, &createdAt) {
 		results = append(results, entities.CompanyEntity{
-			Id:          id.String(),
+			Id:          id,
 			Name:        name,
 			CompanyName: companyName,
 			CreatedAt:   createdAt,

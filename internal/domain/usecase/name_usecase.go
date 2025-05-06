@@ -6,7 +6,7 @@ import (
 	"blueberry_homework/internal/request"
 	"time"
 
-	"github.com/google/uuid"
+	"github.com/gocql/gocql"
 )
 
 type NameUsecase struct {
@@ -24,7 +24,7 @@ func NewNameUsecase(r repo_interface.NameRepository) *NameUsecase {
 func (u *NameUsecase) CreateName(name string) error {
 	time := time.Now()
 	entity := entities.NameEntity{
-		Id:        uuid.New().String(),
+		Id:        gocql.UUIDFromTime(time),
 		Name:      name,
 		CreatedAt: time,
 		UpdatedAt: time,

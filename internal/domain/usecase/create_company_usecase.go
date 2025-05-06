@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/google/uuid"
+	"github.com/gocql/gocql"
 )
 
 // CreateCompanyUsecase는 회사 생성을 담당하는 유스케이스 구조체입니다.
@@ -36,12 +36,12 @@ func (cr *CreateCompanyUsecase) CreateCompany(req req.CreateCompanyRequest) erro
 	}
 
 	// company 엔티티 생성
-	now := time.Now()
+	time := time.Now()
 	newCompany := entities.CompanyEntity{
-		Id:          uuid.New().String(),
+		Id:          gocql.UUIDFromTime(time),
 		Name:        req.Name,
 		CompanyName: req.CompanyName,
-		CreatedAt:   now,
+		CreatedAt:   time,
 	}
 	return cr.companyRepo.CreateCompany(newCompany)
 }
