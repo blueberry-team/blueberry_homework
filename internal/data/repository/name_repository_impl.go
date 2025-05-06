@@ -96,7 +96,7 @@ func (r *nameRepo) DeleteByName(name string) error {
 	// 1. 먼저 name으로 id 찾기
     var id gocql.UUID
     err := r.session.Query(`
-        SELECT id FROM names WHERE name = ? LIMIT 1 ALLOW FILTERING
+        SELECT id FROM names WHERE name = ? LIMIT 1
     `, name).Scan(&id)
 
     if err != nil {
