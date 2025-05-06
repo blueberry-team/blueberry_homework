@@ -27,6 +27,7 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 	// null check validation
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || req.CompanyName == "" || req.Name == "" {
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err:= json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -81,8 +82,8 @@ func (h *CompanyHandler) GetCompanies(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(response.GetCompaniesResponse{
 		Message: "success",
 		Data:    companies,

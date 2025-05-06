@@ -4,6 +4,7 @@ import (
 	"blueberry_homework/internal/domain/entities"
 	"blueberry_homework/internal/domain/repo_interface"
 	"blueberry_homework/internal/request"
+	"sync"
 
 	"fmt"
 	"time"
@@ -15,6 +16,8 @@ import (
 type nameRepo struct {
 	// 저장소
 	session *gocql.Session
+	// Mutex 추가
+	mu sync.Mutex
 }
 
 // NewNameRepository는 새로운 NameRepository 인스턴스를 생성합니다.
@@ -28,8 +31,11 @@ func NewNameRepository(session *gocql.Session) repo_interface.NameRepository {
 
 // CreateName은 새로운 이름을 저장소에 추가합니다.
 func (r *nameRepo) CreateName(entity entities.NameEntity) error {
+	// Mutex로 락을 걸어 동시 접근을 방지합니다.
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
 	// 중복체크
-	// 스칼라에서는 단순한 존재여부 확인은
 	var existingName string
 	err := r.session.Query(`
 		SELECT name FROM names WHERE name = ? LIMIT 1
@@ -83,6 +89,10 @@ func (r *nameRepo) GetNames() ([]entities.NameEntity, error) {
 
 // 이름으로 색인해서 삭제
 func (r *nameRepo) DeleteByName(name string) error {
+	// Mutex로 락을 걸어 동시 접근을 방지합니다.
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
 	// 1. 먼저 name으로 id 찾기
     var id gocql.UUID
     err := r.session.Query(`
@@ -105,6 +115,25 @@ func (r *nameRepo) DeleteByName(name string) error {
 // 여기서 time update 가 맞는 것인가 아닌것인가...
 // 유저를 찾고나서 해야하니까 여기서 시간을 업데이트 하는 것이 옳은 것 같긴하다고 생각함
 func (r *nameRepo) ChangeName(req request.ChangeNameRequest) error {
+	// Mutex로 락을 걸어 동시 접근을 방지합니다.
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	// 이름 중복 체크 (선택적)
+	var existingName string
+	err := r.session.Query(`
+		SELECT name FROM names WHERE name = ? LIMIT 1
+	`, req.Name).Scan(&existingName)
+
+	if err == nil {
+		// 중복인 경우
+		return fmt.Errorf("name already exists: %s", existingName)
+	}
+	if err != gocql.ErrNotFound {
+		// 쿼리 오류
+		return err
+	}
+
 	return r.session.Query(`
 	UPDATE names SET name = ?, updated_at = ? WHERE id = ?
 	`, req.Name, time.Now(), req.Id).Exec()

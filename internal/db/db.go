@@ -73,6 +73,15 @@ func InitScylla() (*gocql.Session, error) {
 		return nil, fmt.Errorf("companies 테이블 생성 실패: %v", err)
 	}
 
+	// 7. company_name 컬럼 인덱스 생성 (FILTER 용도)
+	err = session.Query(`
+		CREATE INDEX IF NOT EXISTS ON companies (company_name);
+	`).Exec()
+	if err != nil {
+		session.Close()
+		return nil, fmt.Errorf("company_name 인덱스 생성 실패: %v", err)
+	}
+
 	fmt.Println("✅ Scylla 초기화 완료!")
 	return session, nil
 }

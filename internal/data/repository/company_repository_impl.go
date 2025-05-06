@@ -4,6 +4,7 @@ import (
 	"blueberry_homework/internal/domain/entities"
 	"blueberry_homework/internal/domain/repo_interface"
 	"fmt"
+	"sync"
 	"time"
 
 	"github.com/gocql/gocql"
@@ -13,6 +14,9 @@ import (
 type companyRepo struct {
 	// 저장소
 	session *gocql.Session
+	// Mutex 추가
+	mu sync.Mutex
+
 }
 
 // NewCompanyRepository 새로운 CompanyRepository 인스턴스를 생성합니다.
@@ -24,11 +28,15 @@ func NewCompanyRepository(session *gocql.Session) repo_interface.CompanyReposito
 
 // Company entity 를 저장소에 추가하는 함수
 func (r *companyRepo) CreateCompany(entity entities.CompanyEntity) error {
+	// Mutex로 락을 걸어 동시 접근을 방지합니다.
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
 	// 컴패니 중복 확인
 	var existingCompany string
 	err := r.session.Query(`
-		SELECT name FROM companies WHERE name = ? LIMIT 1 ALLOW FILTERING
-	`, entity.Name).Scan(&existingCompany)
+		SELECT company_name FROM companies WHERE company_name = ? LIMIT 1
+	`, entity.CompanyName).Scan(&existingCompany)
 	if err == nil {
 		return fmt.Errorf("company already exists: %s", existingCompany)
 	}
