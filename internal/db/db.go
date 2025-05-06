@@ -19,9 +19,6 @@ func InitScylla() (*gocql.Session, error) {
 	// 쿼리 타임아웃 설정
 	cluster.ConnectTimeout = 5 * time.Second
 
-	// cluster := gocql.NewCluster("localhost")
-	// cluster.Consistency = gocql.Quorum
-
 	// keyspace 생성용 세션
 	session, err := cluster.CreateSession()
 	if err != nil {
@@ -45,7 +42,6 @@ func InitScylla() (*gocql.Session, error) {
 	cluster.Keyspace = "blueberry"
 	session, err = cluster.CreateSession()
 	if err != nil {
-		session.Close()
 		return nil, fmt.Errorf("scylla 연결 실패 (blueberry): %v", err)
 	}
 
