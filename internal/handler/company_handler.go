@@ -41,6 +41,7 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 	// 중복 에러 봔환 확인
 	err = h.createUsecase.CreateCompany(req)
 	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -52,6 +53,7 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(response.SuccessResponse{
 		Message: "success",
@@ -67,6 +69,7 @@ func (h *CompanyHandler) GetCompanies(w http.ResponseWriter, r *http.Request) {
 	companies, err := h.companyUsecase.GetCompanies()
 
 	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err:= json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "Error",
@@ -79,6 +82,7 @@ func (h *CompanyHandler) GetCompanies(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(response.GetCompaniesResponse{
 		Message: "success",
 		Data:    companies,

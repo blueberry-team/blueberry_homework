@@ -70,7 +70,7 @@ func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
         }
 		return
 	}
-	
+
 	// 성공응답
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
@@ -86,6 +86,7 @@ func (h *NameHandler) CreateName(w http.ResponseWriter, r *http.Request) {
 func (h *NameHandler) GetNames(w http.ResponseWriter, r *http.Request) {
 	names, err := h.usecase.GetNames()
 	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "Error",
@@ -97,6 +98,7 @@ func (h *NameHandler) GetNames(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(response.GetNamesResponse{
 		Message: "success",
@@ -112,6 +114,7 @@ func (h *NameHandler) DeleteByName(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || strings.TrimSpace(req.Name) == "" {
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -125,6 +128,7 @@ func (h *NameHandler) DeleteByName(w http.ResponseWriter, r *http.Request) {
 
 	err = h.usecase.DeleteByName(req.Name)
 	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -136,6 +140,7 @@ func (h *NameHandler) DeleteByName(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(response.SuccessResponse{
 		Message: "success",
@@ -151,6 +156,7 @@ func (h *NameHandler) ChangeName(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || strings.TrimSpace(req.Id) == "" || strings.TrimSpace(req.Name) == "" {
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -164,6 +170,7 @@ func (h *NameHandler) ChangeName(w http.ResponseWriter, r *http.Request) {
 
 	err = h.usecase.ChangeName(req)
 	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err:= json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -175,6 +182,7 @@ func (h *NameHandler) ChangeName(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(response.SuccessResponse{
 		Message: "success",
