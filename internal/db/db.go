@@ -2,12 +2,25 @@ package db
 
 import (
 	"fmt"
+	"os"
+	"strings"
+	"time"
+
 	"github.com/gocql/gocql"
 )
 
 func InitScylla() (*gocql.Session, error) {
-	cluster := gocql.NewCluster("localhost")
+	// 환경 변수나 설정 파일에서 읽은 값으로 대체
+	hosts := getEnvOrDefault("SCYLLA_HOSTS", "localhost")
+	cluster := gocql.NewCluster(strings.Split(hosts, ",")...)
 	cluster.Consistency = gocql.Quorum
+	// 연결 타임아웃 설정
+	cluster.Timeout = 10 * time.Second
+	// 쿼리 타임아웃 설정
+	cluster.ConnectTimeout = 5 * time.Second
+
+	// cluster := gocql.NewCluster("localhost")
+	// cluster.Consistency = gocql.Quorum
 
 	// keyspace 생성용 세션
 	session, err := cluster.CreateSession()
@@ -84,4 +97,12 @@ func InitScylla() (*gocql.Session, error) {
 
 	fmt.Println("✅ Scylla 초기화 완료!")
 	return session, nil
+}
+
+// getEnvOrDefault 환경 변수를 읽거나 기본값을 반환합니다
+func getEnvOrDefault(key, defaultValue string) string {
+	if value, exists := os.LookupEnv(key); exists {
+		return value
+	}
+	return defaultValue
 }
