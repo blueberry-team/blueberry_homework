@@ -119,9 +119,22 @@ func (r *nameRepo) ChangeName(req request.ChangeNameRequest) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
+	// ID 존재 여부 확인
+	var existingId string
+	err := r.session.Query(`
+		SELECT id FROM names WHERE id = ? LIMIT 1
+	`, req.Id).Scan(&existingId)
+
+	if err != nil {
+		if err == gocql.ErrNotFound {
+			return fmt.Errorf("id not found: %s", req.Id)
+		}
+		return err
+	}
+
 	// 이름 중복 체크 (선택적)
 	var existingName string
-	err := r.session.Query(`
+	err = r.session.Query(`
 		SELECT name FROM names WHERE name = ? LIMIT 1
 	`, req.Name).Scan(&existingName)
 
