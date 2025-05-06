@@ -32,6 +32,7 @@ func InitScylla() (*gocql.Session, error) {
 	cluster.Keyspace = "blueberry"
 	session, err = cluster.CreateSession()
 	if err != nil {
+		session.Close()
 		return nil, fmt.Errorf("scylla 연결 실패 (blueberry): %v", err)
 	}
 
@@ -45,6 +46,7 @@ func InitScylla() (*gocql.Session, error) {
 		);
 	`).Exec()
 	if err != nil {
+		session.Close()
 		return nil, fmt.Errorf("names 테이블 생성 실패: %v", err)
 	}
 
@@ -53,6 +55,7 @@ func InitScylla() (*gocql.Session, error) {
 		CREATE INDEX IF NOT EXISTS ON names (name);
 	`).Exec()
 	if err != nil {
+		session.Close()
 		return nil, fmt.Errorf("name 인덱스 생성 실패: %v", err)
 	}
 
@@ -66,6 +69,7 @@ func InitScylla() (*gocql.Session, error) {
 		);
 	`).Exec()
 	if err != nil {
+		session.Close()
 		return nil, fmt.Errorf("companies 테이블 생성 실패: %v", err)
 	}
 

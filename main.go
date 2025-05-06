@@ -17,6 +17,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+    defer session.Close()
 
     // name
     nameRepo := repository.NewNameRepository(session)
