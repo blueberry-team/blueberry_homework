@@ -12,6 +12,7 @@ require (
 
 require (
 	github.com/hailocab/go-hostpool v0.0.0-20160125115350-e80d13ce29ed // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/klauspost/compress v1.17.9 // indirect
 	gopkg.in/inf.v0 v0.9.1 // indirect
 )

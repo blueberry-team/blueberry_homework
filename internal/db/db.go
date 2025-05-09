@@ -2,22 +2,25 @@ package db
 
 import (
 	"fmt"
-	"os"
-	"strings"
 	"time"
+
+	"blueberry_homework/config"
 
 	"github.com/gocql/gocql"
 )
 
-func InitScylla() (*gocql.Session, error) {
-	// 환경 변수나 설정 파일에서 읽은 값으로 대체
-	hosts := getEnvOrDefault("SCYLLA_HOSTS", "localhost")
-	cluster := gocql.NewCluster(strings.Split(hosts, ",")...)
+func InitScylla(cfg *config.Config) (*gocql.Session, error) {
+	cluster := gocql.NewCluster(cfg.ScyllaHosts...)
+
+	// Consistency 설정
 	cluster.Consistency = gocql.Quorum
 	// 연결 타임아웃 설정
-	cluster.Timeout = 10 * time.Second
+	cluster.Timeout = 30 * time.Second
 	// 쿼리 타임아웃 설정
-	cluster.ConnectTimeout = 5 * time.Second
+	cluster.ConnectTimeout = 10 * time.Second
+
+	// 명시적으로 system 키스페이스 설정 (키스페이스 생성용)
+	cluster.Keyspace = "system"
 
 	// keyspace 생성용 세션
 	session, err := cluster.CreateSession()
@@ -39,7 +42,7 @@ func InitScylla() (*gocql.Session, error) {
 	}
 	session.Close() // 초기 세션 종료
 
-	cluster.Keyspace = "blueberry"
+	cluster.Keyspace = cfg.ScyllaKeyspace
 	session, err = cluster.CreateSession()
 	if err != nil {
 		return nil, fmt.Errorf("scylla 연결 실패 (blueberry): %v", err)
@@ -93,12 +96,4 @@ func InitScylla() (*gocql.Session, error) {
 
 	fmt.Println("✅ Scylla 초기화 완료!")
 	return session, nil
-}
-
-// getEnvOrDefault 환경 변수를 읽거나 기본값을 반환합니다
-func getEnvOrDefault(key, defaultValue string) string {
-	if value, exists := os.LookupEnv(key); exists {
-		return value
-	}
-	return defaultValue
 }

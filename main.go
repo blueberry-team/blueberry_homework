@@ -2,40 +2,21 @@ package main
 
 import (
 	"blueberry_homework/app"
-	"blueberry_homework/internal/data/repository"
-	"blueberry_homework/internal/db"
-	"blueberry_homework/internal/domain/usecase"
-	"blueberry_homework/internal/handler"
-	"blueberry_homework/route"
 	"fmt"
 	"log"
 	"net/http"
 )
 
 func main() {
-    session, err := db.InitScylla()
+	// 애플리케이션 생성 및 초기화
+	application, err := app.Init()
 	if err != nil {
-		panic(err)
+		log.Fatalf("애플리케이션 초기화 실패: %v", err)
 	}
-    defer session.Close()
+	defer application.Session.Close()
 
-    // name
-    nameRepo := repository.NewNameRepository(session)
-    nameUsecase := usecase.NewNameUsecase(nameRepo)
-    nameHandler := handler.NewNameHandler(nameUsecase)
-
-    // company
-    companyRepo := repository.NewCompanyRepository(session)
-    createCompanyUsecase := usecase.NewCreateCompanyUsecase(nameRepo, companyRepo)
-    companyUsecase := usecase.NewCompanyUsecase(companyRepo)
-    companyHandler := handler.NewCompanyHandler(createCompanyUsecase, companyUsecase)
-
-    application := app.NewApp()
-    fmt.Println("app start!", application)
-
-    application.Router.Mount("/names", route.NameRouter(nameHandler))
-    application.Router.Mount("/companies", route.CompanyRouter(companyHandler))
-
-    fmt.Println("route set up done!!")
-    log.Fatal(http.ListenAndServe(":3000", application.Router))
+	// 서버 시작
+	serverAddr := fmt.Sprintf(":%s", application.Config.ServerPort)
+	fmt.Printf("서버가 시작되었습니다: http://localhost%s\n", serverAddr)
+	log.Fatal(http.ListenAndServe(serverAddr, application.Router))
 }
