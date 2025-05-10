@@ -1,3 +1,6 @@
+### 아키텍쳐
+User(views) -> [usecase(entity) -> repository(models)] -> DB(mongodb)
+
 ### Django 프로젝트 생성 후 서버 동작
 ```
 django-admin startproject mysite .
@@ -22,3 +25,12 @@ python manage.py startapp minitest
 - GET
 ![스크린샷 2025-04-05 오후 5 40 15](https://github.com/user-attachments/assets/4248b0a9-2b4a-49ac-9291-3d29a7136d99)
 
+### MongoDB 
+- Django는 내장된 마이그레이션 시스템을 사용하여 초기화
+```
+# 모델 변경사항을 마이그레이션 파일로 생성
+python manage.py makemigrations
+
+# 마이그레이션 적용하여 데이터베이스 스키마 변경
+python manage.py migrate
+```

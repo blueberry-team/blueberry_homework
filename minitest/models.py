@@ -1,16 +1,43 @@
 from django.db import models
+import uuid
 from django.core.validators import MinLengthValidator, MaxLengthValidator
+from django.core.exceptions import ValidationError
 
-# 이름 입력, 조회 모델
 class Name(models.Model):
-    # validator들은 실제 데이터베이스 모델과 연동되어 있을 때 자동으로 적용되며, 지금은 임시 리스트 사용중이므로 실행되지 않음
-    name = models.TextField(validators=[MinLengthValidator(1, '1자 이상 적어주세요'), MaxLengthValidator(50, '50자 이하 적어주세요')])
-    # datetime
-    
+    "사용자 모델"
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
-    
+
+    class Meta:
+        db_table = 'users'
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+
+
 class Company(models.Model):
-    company_name = models.TextField()
+    """회사 모델"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100)
+    company_name = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+            self.clean()
+            super().save(*args, **kwargs)
+            
     def __str__(self):
         return self.company_name
+
+    class Meta:
+        db_table = 'companies'
+        verbose_name = 'Company'
+        verbose_name_plural = 'Companies'
