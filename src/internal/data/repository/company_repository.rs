@@ -6,7 +6,7 @@ use uuid::Uuid;
 
 use crate::internal::domain::entities::company_entity::CompanyEntity;
 use crate::internal::domain::repository_interface::company_repository::CompanyRepository;
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 
 pub struct CompanyRepositoryImpl {
     session: Arc<Session>,

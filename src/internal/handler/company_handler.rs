@@ -10,7 +10,7 @@ use axum::{
 use validator::Validate;
 
 use crate::{
-    dto::company_dto::CompanyDto,
+    dto::req::company_req::CompanyReq,
     internal::domain::{
         repository_interface::{company_repository::CompanyRepository,
         user_repository::UserRepository},
@@ -19,7 +19,7 @@ use crate::{
             get_companies_usecase::GetCompaniesUsecase,
         },
     },
-    res::basic_response::BasicResponse,
+    dto::res::basic_response::BasicResponse,
 };
 
 pub struct CompanyHandler;
@@ -28,17 +28,17 @@ impl CompanyHandler {
     pub async fn create_company_handler(
         Extension(company_repo): Extension<Arc<dyn CompanyRepository + Send + Sync>>,
         Extension(user_repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
-        Json(company_dto): Json<CompanyDto>,
+        Json(company_req): Json<CompanyReq>,
     ) -> Response<Body> {
         // validation for company_dto
-        if let Err(errors) = company_dto.validate() {
+        if let Err(errors) = company_req.validate() {
             let response = BasicResponse::bad_request(format!("error"), format!("name must be 1 and 50 characters"));
             println!("{}", errors);
             return (StatusCode::BAD_REQUEST, Json(response)).into_response();
         }
         let usecase = CreateCompanyUsecase::new(user_repo, company_repo);
 
-        match usecase.create_company_usecase(company_dto).await {
+        match usecase.create_company_usecase(company_req).await {
             Ok(_) => {
                 let response = BasicResponse::created("Success".to_string());
                 (StatusCode::CREATED, Json(response)).into_response()

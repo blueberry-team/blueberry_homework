@@ -9,10 +9,10 @@ use axum::{
     response::IntoResponse,
 };
 use validator::Validate;
-use crate::dto::user_dto::{ChangeNameDto, DeleteNameDto, DeleteNameIndexDto, UserDto};
+use crate::dto::req::user_req::{ChangeNameReq, DeleteNameReq, UserReq};
 use crate::internal::domain::repository_interface::user_repository::UserRepository;
 use crate::internal::domain::usecases::user_usecases::UserUsecase;
-use crate::res::basic_response::BasicResponse;
+use crate::dto::res::basic_response::BasicResponse;
 
 
 pub struct UserHandler;
@@ -21,17 +21,17 @@ impl UserHandler {
 
     pub async fn create_user_handler(
         Extension(repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
-        Json(user_dto): Json<UserDto>,
+        Json(user_req): Json<UserReq>,
     ) -> Response<Body> {
         // validation for user_dto
-        if let Err(errors) = user_dto.validate() {
+        if let Err(errors) = user_req.validate() {
             let response = BasicResponse::bad_request(format!("error"), format!("name must be 1 and 50 characters"));
             println!("{}", errors);
             return (StatusCode::BAD_REQUEST, Json(response)).into_response();
         }
         let usecase = UserUsecase::new(repo);
 
-        match usecase.create_name_usecase(user_dto).await {
+        match usecase.create_name_usecase(user_req).await {
             Ok(_) => {
                 let response = BasicResponse::created("Success".to_string());
                 (StatusCode::CREATED, Json(response)).into_response()
@@ -45,16 +45,16 @@ impl UserHandler {
 
     pub async fn change_name_handler(
         Extension(repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
-        Json(change_name_dto): Json<ChangeNameDto>,
+        Json(change_name_req): Json<ChangeNameReq>,
     ) -> impl IntoResponse {
         // validation for change_name_dto
-        if let Err(errors) = change_name_dto.validate() {
+        if let Err(errors) = change_name_req.validate() {
             let response = BasicResponse::bad_request("error".to_string(), "name must be 1 and 50 characters".to_string());
             println!("{}", errors);
             return (StatusCode::BAD_REQUEST, Json(response)).into_response();
         }
         let usecase = UserUsecase::new(repo);
-        match usecase.change_name_usecase(change_name_dto).await {
+        match usecase.change_name_usecase(change_name_req).await {
             Ok(_) => {
                 let response = BasicResponse::ok("Success".to_string());
                 (StatusCode::OK, Json(response)).into_response()
@@ -89,18 +89,18 @@ impl UserHandler {
 
     pub async fn delete_name_handler(
         Extension(repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
-        Json(delete_name_dto): Json<DeleteNameDto>,
+        Json(delete_name_req): Json<DeleteNameReq>,
     ) -> impl IntoResponse {
 
         // validation for delete_name_dto
-        if let Err(errors) = delete_name_dto.validate() {
+        if let Err(errors) = delete_name_req.validate() {
             let response = BasicResponse::bad_request("error".to_string(), "이름은 1자 이상 50자 이하여야 합니다".to_string());
             println!("{}", errors);
             return (StatusCode::BAD_REQUEST, Json(response)).into_response();
         }
 
         let usecase = UserUsecase::new(repo);
-        match usecase.delete_name_usecase(delete_name_dto.name).await {
+        match usecase.delete_name_usecase(delete_name_req.name).await {
             Ok(_) => {
                 let response = BasicResponse::ok("Successfully deleted name".to_string());
                 (StatusCode::OK, Json(response)).into_response()

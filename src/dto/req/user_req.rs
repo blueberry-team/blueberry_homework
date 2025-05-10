@@ -3,13 +3,13 @@ use validator::Validate;
 
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
-pub struct UserDto {
+pub struct UserReq {
     #[validate(length(min =1, max = 50))]
     pub name: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
-pub struct ChangeNameDto {
+pub struct ChangeNameReq {
     #[validate(length(min = 1,))]
     pub user_id: String,
     #[validate(length(min = 1, max = 50))]
@@ -17,13 +17,7 @@ pub struct ChangeNameDto {
 }
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
-pub struct DeleteNameIndexDto {
-    #[validate(range(min = 0))]
-    pub index: u32,
-}
-
-#[derive(Debug, Serialize, Deserialize, Validate)]
-pub struct DeleteNameDto {
+pub struct DeleteNameReq {
     #[validate(length(min = 1, max = 50))]
     pub name: String,
 }

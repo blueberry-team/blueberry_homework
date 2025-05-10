@@ -1,6 +1,6 @@
 use axum::{routing::{post, get}, Router};
 
-use crate::handler::company_handler::CompanyHandler;
+use crate::internal::handler::company_handler::CompanyHandler;
 
 pub fn create_router() -> Router {
 
