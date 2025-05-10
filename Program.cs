@@ -3,8 +3,13 @@ using BerryNameApi.UseCases;
 using blueberry_homework_dotnet.App;
 using blueberry_homework_dotnet.Repositories;
 using blueberry_homework_dotnet.UseCases;
+using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Mongo DB
+Env.Load();
+AppInitializer.Init(builder.Services, builder.Configuration);
 
 // 의존성
 builder.Services.AddSingleton<NameRepository>();
@@ -16,9 +21,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Mongo DB
-AppInitializer.Init(builder.Services, builder.Configuration);
-
 var app = builder.Build();
 
 app.UseSwagger();
@@ -26,4 +28,3 @@ app.UseSwaggerUI();
 
 app.MapControllers();
 app.Run();
-

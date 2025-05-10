@@ -7,7 +7,7 @@ obj/
 *.suo
 *.userosscache
 *.sln.docstates
-Config/.env
+.env
 
 # Rider / VS Code 관련
 .idea/
