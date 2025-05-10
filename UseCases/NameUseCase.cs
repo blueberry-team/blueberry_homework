@@ -59,8 +59,7 @@ namespace BerryNameApi.UseCases
             }
 
             // 이름 중복
-            var otherUser = _repository.FindByName(newName);
-            if (otherUser != null)
+            if (_repository.FindByName(newName) != null)
             {
                 return Result.Fail(Constants.DuplicateName);
             }
@@ -68,27 +67,29 @@ namespace BerryNameApi.UseCases
             user.Name = newName;
             user.UpdatedAt = DateTime.UtcNow;
 
+            // DB 입력
+            if (!_repository.ChangeName(user))
+            {
+                return Result.Fail(Constants.DatabaseError);
+            }
+
             return Result.Ok();
         }
 
         public Result DeleteByIndex(int index)
         {
-            if (!_repository.DeleteByIndex(index))
-            {
-                return Result.Fail($"{Constants.InvalidIndex}: {index}");
-            }
-
-            return Result.Ok();
+            var deleted = _repository.DeleteByIndex(index);
+            return deleted
+                ? Result.Ok()
+                : Result.Fail($"{Constants.InvalidIndex}: {index}");
         }
 
         public Result DeleteByName(string name)
         {
-            if (!_repository.DeleteByName(name))
-            {
-                return Result.Fail(Constants.NameNotFound);
-            }
-
-            return Result.Ok();
+            var count = _repository.DeleteByName(name);
+            return count > 0
+                ? Result.Ok()
+                : Result.Fail(Constants.NameNotFound);
         }
     }
 }

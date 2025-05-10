@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace BerryNameApi.Utils
 {
     public static class Constants
@@ -21,6 +16,9 @@ namespace BerryNameApi.Utils
 
         // 이름 중복
         public const string DuplicateName = "name already exists";
+
+        // DB 입력 실패
+        public const string DatabaseError = "Database Error";
 
         // 유저 찾기 실패
         public const string UserNotFound = "user not found";

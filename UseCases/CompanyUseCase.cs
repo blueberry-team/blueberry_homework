@@ -1,5 +1,6 @@
 using BerryNameApi.Repositories;
 using BerryNameApi.Utils;
+using blueberry_homework_dotnet.DTO.Response;
 using blueberry_homework_dotnet.Entities;
 using blueberry_homework_dotnet.Repositories;
 
@@ -44,9 +45,16 @@ namespace blueberry_homework_dotnet.UseCases
             return Result.Ok();
         }
 
-        public IEnumerable<CompanyEntity> GetAllCompanies()
+        public IEnumerable<CompanyResponse> GetAllCompanies()
         {
-            return _companyRepository.GetAll();
+            return _companyRepository.GetAll()
+            .Select(company => new CompanyResponse
+            {
+                Id = company.Id,
+                Name = company.Name,
+                CompanyName = company.CompanyName,
+                CreatedAt = company.CreatedAt
+            });
         }
     }
 }

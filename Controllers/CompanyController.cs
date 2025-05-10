@@ -2,7 +2,6 @@ using BerryNameApi.DTO.Response;
 using BerryNameApi.Utils;
 using blueberry_homework_dotnet.DTO.Request;
 using blueberry_homework_dotnet.DTO.Response;
-using blueberry_homework_dotnet.Entities;
 using blueberry_homework_dotnet.UseCases;
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,7 +47,7 @@ namespace blueberry_homework_dotnet.Controllers
         public IActionResult GetCompany()
         {
             var companies = _useCase.GetAllCompanies();
-            return Ok(new ApiSuccessResponse<IEnumerable<CompanyEntity>>
+            return Ok(new ApiSuccessResponse<IEnumerable<CompanyResponse>>
             {
                 Message = Constants.Success,
                 Data = companies
