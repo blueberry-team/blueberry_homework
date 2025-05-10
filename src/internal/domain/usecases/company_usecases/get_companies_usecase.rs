@@ -15,7 +15,7 @@ impl GetCompaniesUsecase {
         Self { company_repo }
     }
 
-    pub async fn get_companies_usecase(&self) -> Vec<CompanyEntity> {
+    pub async fn get_companies_usecase(&self) -> Result<Vec<CompanyEntity>, String> {
         self.company_repo.get_companies().await
     }
 }

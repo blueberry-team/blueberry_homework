@@ -73,55 +73,18 @@ impl UserHandler {
         let names = usecase.get_names_usecase().await;
 
         // if names is empty return Empty name list please create name
-        let (message, status_code) = if names.is_empty() {
-            ("Empty name list please create name", StatusCode::OK)
-        } else {
-            ("Success", StatusCode::OK)
+        let (message, status_code, data) = match names {
+            Ok(names) => ("Success", StatusCode::OK, names),
+            Err(_) => ("Empty name list please create name", StatusCode::OK, Vec::new()),
         };
 
         let response = serde_json::json!({
             "message": message,
             "status_code": status_code.as_u16(),
-            "data": names,
+            "data": data,
         });
 
         (StatusCode::OK, Json(response))
-    }
-
-    pub async fn delete_index_handler(
-        Extension(repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
-        result: Result<Json<DeleteNameIndexDto>, axum::extract::rejection::JsonRejection>,
-    ) -> impl IntoResponse {
-        // parse json error
-        let delete_dto = match result {
-            Ok(json) => json.0,
-            Err(_) => {
-                let response = BasicResponse::bad_request("error".to_string(), "유효한 JSON 형식이 아니거나 인덱스 필드가 누락되었습니다".to_string());
-                return (StatusCode::BAD_REQUEST, Json(response)).into_response();
-            }
-        };
-
-        // validation for delete_dto
-        if let Err(errors) = delete_dto.validate() {
-            let response = BasicResponse::bad_request("error".to_string(), "인덱스는 0 이상의 값이어야 합니다".to_string());
-            println!("{}", errors);
-            return (StatusCode::BAD_REQUEST, Json(response)).into_response();
-        }
-
-        let usecase = UserUsecase::new(repo);
-
-        match usecase.delete_index_usecase(delete_dto.index).await {
-            // if success return ok and message
-            Ok(_) => {
-                let response = BasicResponse::ok("Successfully deleted name".to_string());
-                (StatusCode::OK, Json(response)).into_response()
-            },
-            // if error return bad_request and error message
-            Err(error) => {
-                let response = BasicResponse::bad_request("error".to_string(), error);
-                (StatusCode::BAD_REQUEST, Json(response)).into_response()
-            }
-        }
     }
 
     pub async fn delete_name_handler(

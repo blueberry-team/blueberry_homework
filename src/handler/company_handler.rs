@@ -58,7 +58,7 @@ impl CompanyHandler {
         let companies = usecase.get_companies_usecase().await;
 
         // if companies is empty return Empty company list please create company
-        let (message, status_code) = if companies.is_empty() {
+        let (message, status_code) = if companies.is_err() {
             ("Empty company list please create company", StatusCode::OK)
         } else {
             ("Success", StatusCode::OK)

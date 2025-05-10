@@ -3,7 +3,14 @@ extern crate blueberry_homework;
 use axum::{
     routing::get, Extension, Router
 };
-use blueberry_homework::{config::config::Config, internal::{data::repository::{CompanyRepositoryImpl, UserRepositoryImpl}, domain::repository_interface::{company_repository::CompanyRepository, user_repository::UserRepository}}, router};
+use blueberry_homework::{
+    app::app::App,
+    internal::{
+        data::repository::{CompanyRepositoryImpl, UserRepositoryImpl},
+        domain::repository_interface::{company_repository::CompanyRepository, user_repository::UserRepository},
+    },
+    router,
+};
 use tracing::Level;
 use std::{net::SocketAddr, sync::Arc};
 use tower_http::trace::{self, TraceLayer};
@@ -18,18 +25,14 @@ async fn main() {
         .init();
 
     // Load config
-    let config = Config::init_config();
-    tracing::info!("Config loaded: {:?}", config);
+    let app = App::new().await.unwrap();
+    tracing::info!("App loaded: {}", app.config.server_port.clone());
 
     // 공유 레포지토리를 여기서 설정해주는 이유는
     // 현재 [] 리스트가 생성되는데 이 리스트가 앱이 종료될 때까지 유지되어야 하기 때문이다.
     // 따라서 앱이 종료될 때까지 리스트가 유지되어야 하기 때문에 여기서 설정해준다.
-    let user_repo = Arc::new(UserRepositoryImpl::new()) as Arc<dyn UserRepository + Send + Sync>;
-    let company_repo = Arc::new(CompanyRepositoryImpl::new()) as Arc<dyn CompanyRepository + Send + Sync>;
-
-    // Setup base router
-    let app = Router::new()
-        .route("/", get(|| async { "Hello, World!" }));
+    let user_repo = Arc::new(UserRepositoryImpl::new(app.session.clone())) as Arc<dyn UserRepository + Send + Sync>;
+    let company_repo = Arc::new(CompanyRepositoryImpl::new(app.session.clone())) as Arc<dyn CompanyRepository + Send + Sync>;
 
     // name_router의 라우터를 가져와서 Extension 레이어 추가
     let name_router = router::name_router::create_router()
@@ -40,7 +43,7 @@ async fn main() {
         .layer(Extension(user_repo.clone()));
 
     // 모든 라우터를 병합한 후에 TraceLayer 적용
-    let app = app
+    let app_router = Router::new()
         .merge(name_router)
         .merge(company_router)
         .layer(
@@ -50,9 +53,9 @@ async fn main() {
         );
 
     // Start server
-    let addr = SocketAddr::from(([127, 0, 0, 1], config.server_port));
+    let addr = SocketAddr::from(([127, 0, 0, 1], app.config.server_port));
     tracing::info!("Listening on {}", addr);
 
     let listener = TcpListener::bind(addr).await.unwrap();
-    axum::serve(listener, app).await.unwrap();
+    axum::serve(listener, app_router).await.unwrap();
 }

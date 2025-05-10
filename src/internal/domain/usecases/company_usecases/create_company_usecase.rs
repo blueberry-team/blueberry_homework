@@ -16,8 +16,8 @@ impl CreateCompanyUsecase {
     }
 
     pub async fn create_company_usecase(&self, company_dto: CompanyDto) -> Result<CompanyEntity, String> {
-        let time = Utc::now();
-        let id = Uuid::new_v4().to_string();
+        let time = Utc::now().timestamp();
+        let id = Uuid::new_v4();
         let create_time = time;
         let update_time = time;
         let check_user = self.user_repo.find_by_name(company_dto.name.clone()).await;
