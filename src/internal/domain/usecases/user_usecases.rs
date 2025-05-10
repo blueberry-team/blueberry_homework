@@ -1,4 +1,5 @@
 use std::sync::Arc;
+use chrono::Utc;
 use uuid::Uuid;
 
 use crate::dto::user_dto::{ChangeNameDto, UserDto};
@@ -17,7 +18,11 @@ impl UserUsecase {
 
     pub async fn create_name_usecase(&self, user_dto: UserDto) -> Result<UserEntity, String> {
         let id = Uuid::new_v4();
-        let user = UserEntity::new(id, user_dto.name);
+        let time = Utc::now().timestamp();
+        let create_at = time;
+        let update_at = time;
+
+        let user = UserEntity::new(id, user_dto.name, create_at, update_at);
         self.user_repo.create_name(user).await
     }
 

@@ -6,6 +6,8 @@ pub struct UserEntity {
     #[serde(serialize_with = "serialize_uuid", deserialize_with = "deserialize_uuid")]
     pub id: Uuid,
     pub name: String,
+    pub create_at: i64,
+    pub update_at: i64,
 }
 
 // uuid -> string
@@ -26,7 +28,7 @@ where
 
 
 impl UserEntity {
-    pub fn new(id: Uuid, name: String) -> Self {
-        Self { id, name }
+    pub fn new(id: Uuid, name: String, create_at: i64, update_at: i64) -> Self {
+        Self { id, name, create_at, update_at }
     }
 }

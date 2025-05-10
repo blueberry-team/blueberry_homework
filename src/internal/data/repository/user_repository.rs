@@ -51,12 +51,10 @@ impl UserRepository for UserRepositoryImpl {
 
         let query = "INSERT INTO user (id, name, create_at, update_at) VALUES (?, ?, ?, ?)";
 
-        let created_timestamp = Utc::now().timestamp();
-
         let user_data = user.clone();
 
         self.session
-            .query_iter(query, (user_data.id, user_data.name, created_timestamp, created_timestamp))
+            .query_iter(query, (user_data.id, user_data.name, user_data.create_at, user_data.update_at))
             .await
             .map_err(|e| format!("Error creating user: {}", e))?;
 
@@ -118,13 +116,13 @@ impl UserRepository for UserRepositoryImpl {
 
 
     async fn get_all_user_names(&self) -> Result<Vec<UserEntity>, String> {
-        let query = "SELECT id, name FROM user";
+        let query = "SELECT id, name, create_at, update_at FROM user";
 
         let rows_stream = self.session
             .query_iter(query, ())
             .await
             .map_err(|e| format!("Error getting row: {}", e))?
-            .rows_stream::<(Uuid, String)>()
+            .rows_stream::<(Uuid, String, i64, i64)>()
             .map_err(|e| format!("Error getting row: {}", e))?;
 
         let mut users = Vec::new();
@@ -135,10 +133,12 @@ impl UserRepository for UserRepositoryImpl {
             .await
             .map_err(|e| format!("Error collecting users: {}", e))?;
 
-        for (id, name) in collected_rows {
+        for (id, name, create_at, update_at) in collected_rows {
             users.push(UserEntity {
                 id,
                 name,
+                create_at,
+                update_at,
             });
         }
 
@@ -147,7 +147,7 @@ impl UserRepository for UserRepositoryImpl {
 
 
     async fn delete_name(&self, name: String) -> Result<(), String> {
-        // 먼저 해당 이름을 가진 사용자가 존재하는지 확인
+        // check user exist
         let check_query = "SELECT id FROM user WHERE name = ?";
         let mut id_stream = self.session
             .query_iter(check_query, (name.clone(),))
