@@ -56,13 +56,13 @@ impl ScyllaDB {
         session.use_keyspace(&self.keyspace, false).await?;
 
         // db 초기화 로직, 테스트용임
-        // session
-        // .query_iter("DROP TABLE IF EXISTS user", &[])
-        // .await?;
+        session
+        .query_iter("DROP TABLE IF EXISTS user", &[])
+        .await?;
 
-        // session
-        // .query_iter("DROP TABLE IF EXISTS company", &[])
-        // .await?;
+        session
+        .query_iter("DROP TABLE IF EXISTS company", &[])
+        .await?;
 
         // create table
         self.create_user_table(&session).await?;
@@ -80,8 +80,11 @@ impl ScyllaDB {
             "CREATE TABLE IF NOT EXISTS user (
             id UUID,
             name TEXT,
-            create_at BIGINT,
-            update_at BIGINT,
+            email TEXT,
+            password BLOB,
+            role TEXT,
+            created_at BIGINT,
+            updated_at BIGINT,
             PRIMARY KEY (id)
             )",
             &[],
@@ -107,8 +110,8 @@ impl ScyllaDB {
             id UUID PRIMARY KEY,
             name TEXT,
             company_name TEXT,
-            create_at BIGINT,
-            update_at BIGINT
+            created_at BIGINT,
+            updated_at BIGINT
             )",
             &[],
         )

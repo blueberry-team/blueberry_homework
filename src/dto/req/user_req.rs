@@ -3,21 +3,21 @@ use validator::Validate;
 
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
-pub struct UserReq {
+pub struct SignUpReq {
+    #[validate(email)]
+    pub email: String,
     #[validate(length(min =1, max = 50))]
     pub name: String,
+    #[validate(length(min = 1, max = 50))]
+    pub password: String,
+    #[validate(length(min = 1, max = 50))]
+    pub role: String,
 }
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
-pub struct ChangeNameReq {
-    #[validate(length(min = 1,))]
-    pub user_id: String,
+pub struct LogInReq {
+    #[validate(email)]
+    pub email: String,
     #[validate(length(min = 1, max = 50))]
-    pub name: String,
-}
-
-#[derive(Debug, Serialize, Deserialize, Validate)]
-pub struct DeleteNameReq {
-    #[validate(length(min = 1, max = 50))]
-    pub name: String,
+    pub password: String,
 }

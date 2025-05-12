@@ -1,13 +1,12 @@
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-#[derive(Debug, Clone, Deserialize, Serialize)]
-pub struct UserEntity {
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct TokenUserResponse {
     #[serde(serialize_with = "serialize_uuid", deserialize_with = "deserialize_uuid")]
     pub id: Uuid,
     pub email: String,
     pub name: String,
-    pub password: Vec<u8>,
     pub role: String,
     pub created_at: i64,
     pub updated_at: i64,
@@ -27,11 +26,4 @@ where
 {
     let s = String::deserialize(deserializer)?;
     Uuid::parse_str(&s).map_err(serde::de::Error::custom)
-}
-
-
-impl UserEntity {
-    pub fn new(id: Uuid, email: String, name: String, password: Vec<u8>, role: String, created_at: i64, updated_at: i64) -> Self {
-        Self { id, email, name, password, role, created_at, updated_at }
-    }
 }

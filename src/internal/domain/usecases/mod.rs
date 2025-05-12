@@ -1,2 +1,2 @@
-pub mod user_usecases;
 pub mod company_usecases;
+pub mod auth_usecases;
