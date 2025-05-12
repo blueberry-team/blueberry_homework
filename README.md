@@ -385,3 +385,70 @@ PART.5에서는 실제 데이터베이스를 추가하여 임시 배열 저장�
   - 데이터베이스 연결 성공 로그
   - 모든 API 기능의 정상 동작 확인 캡처
 - 데이터베이스 설정 방법 및 실행 방법에 대한 간단한 문서를 PR 설명에 포함해야 합니다.
+
+---
+
+# REST API 미니 테스트 PART.6
+
+## 인증(Auth) 시스템 도입
+
+- UserEntity는 변경되어야 합니다.
+- 다음과 같은 인증 기능이 추가됩니다:
+  - 회원가입 `sign-up`
+  - 로그인 `log-in`
+  - 유저정보 수정 `change-user`
+  - 유저정보 획득 `get-user`
+
+## 회원가입 요구사항
+
+- 회원가입 시 필요한 정보:
+  - email
+  - password
+  - name
+  - address
+  - role
+  - createdAt
+  - updatedAt
+
+- role은 다음 두 가지 유형만 가능합니다:
+  - boss
+  - worker
+
+## 보안 요구사항
+
+- 비밀번호는 반드시 해싱 처리 및 난독화 처리가 필요합니다.
+- Auth 모듈 내에 `findById` 기능이 구현되어야 합니다.
+
+## Company 기능 확장
+
+- Company 기능에 다음 작업이 추가됩니다:
+  - create (생성)
+  - get (조회)
+  - change (수정)
+  - delete (삭제)
+
+- 회사 생성(create) 제한:
+  - 'boss' role을 가진 사용자만 회사를 등록할 수 있습니다.
+  - 회사 정보에는 userId가 중복으로 포함되어야 합니다.
+
+  - 회사를 생성 시 필요한 정보:
+  - userId
+  - companyName
+  - companyAddress
+  - totalStaff
+  - createdAt
+  - updatedAt
+
+- 선택 사항:
+  - 색인을 위한 `findByCompany`와 같은 로직 추가
+
+## 데이터 저장
+
+- 모든 정보는 데이터베이스에 저장되어야 합니다.
+
+## PR 제출 시 요구사항
+
+- Postman 대신 다음 정보를 첨부해야 합니다:
+  - 'boss' role을 가진 사용자 생성 내역
+  - 'worker' role을 가진 사용자 생성 내역
+  - 생성된 회사 정보
