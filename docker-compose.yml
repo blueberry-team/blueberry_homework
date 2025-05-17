@@ -1,0 +1,27 @@
+services:
+  scylla:
+    image: scylladb/scylla:latest
+    container_name: scylla_db
+    ports:
+      - "9042:9042" # CQL
+      - "9160:9160" # Native Transport
+      - "10000:10000" # REST API port
+    volumes:
+      - scylla_data:/var/lib/scylladb
+      - ./scylla.yaml:/etc/scylla/scylla.yaml
+    environment:
+      - SCYLLA_DEVELOPER_MODE=1
+      - SCYLLA_AUTHENTICATOR=PasswordAuthenticator
+      - SCYLLA_AUTHORIZER=CassandraAuthorizer
+      - SCYLLA_DEFAULT_USER=${DB_USER}
+      - SCYLLA_DEFAULT_PASSWORD=${DB_PASSWORD}
+    command: --smp 1 --memory 2G --overprovisioned 1
+    healthcheck:
+      test: ["CMD", "scylla", "--version"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  scylla_data:
