@@ -40,6 +40,7 @@ namespace blueberry_homework_dotnet.UseCases
             };
 
             _companyRepository.CreateCompany(company);
+            Console.WriteLine($"🏢 Company created: {request.CompanyName} by user {request.UserId}");
             return Result.Ok();
         }
 

@@ -37,6 +37,7 @@ namespace blueberry_homework_dotnet.UseCases
             };
 
             _repository.CreateUser(user);
+            Console.WriteLine($"✅ Created user: {request.Email}, Role: {request.Role} id: {user.Id}");
             return Result.Ok();
         }
 
