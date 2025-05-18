@@ -2,7 +2,14 @@ use std::sync::Arc;
 
 use uuid::Uuid;
 
-use crate::{dto::req::user_req::SignUpReq, internal::domain::{entities::UserEntity, repository_interface::user_repository::UserRepository, service::password_hash::hash_password}};
+use crate::{
+    dto::req::user_req::SignUpReq,
+    internal::domain::{
+        entities::UserEntity,
+        repository_interface::user_repository::UserRepository,
+        service::password_hash::hash_password
+    }
+};
 
 #[derive(Clone)]
 pub struct SignUpUsecase {

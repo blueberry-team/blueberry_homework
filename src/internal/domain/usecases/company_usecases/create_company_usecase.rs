@@ -1,7 +1,16 @@
 use std::{sync::Arc, str::FromStr};
 use uuid::Uuid;
 
-use crate::{dto::req::company_req::CompanyReq, internal::domain::{entities::CompanyEntity, repository_interface::{company_repository::CompanyRepository, user_repository::UserRepository}}};
+use crate::{
+    dto::req::company_req::CompanyReq,
+    internal::domain::{
+        entities::company_entity::CompanyEntity,
+        repository_interface::{
+            company_repository::CompanyRepository,
+            user_repository::UserRepository
+        }
+    }
+};
 
 #[derive(Clone)]
 pub struct CreateCompanyUsecase {

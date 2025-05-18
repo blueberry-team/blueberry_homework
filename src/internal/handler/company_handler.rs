@@ -2,7 +2,10 @@ use std::sync::Arc;
 
 use axum::{
     body::Body,
-    http::{Response, StatusCode},
+    http::{
+        Response,
+        StatusCode
+    },
     response::IntoResponse,
     Extension,
     Json,
@@ -51,7 +54,7 @@ impl CompanyHandler {
                 (StatusCode::OK, Json(response)).into_response()
             }
             Err(error) => {
-                // 에러 유형에 따라 다른 상태 코드 반환
+                // each error type has different status code
                 let status_code = if error.contains("already exists") {
                     StatusCode::CONFLICT
                 } else if error.contains("not found") {

@@ -25,7 +25,7 @@ impl UserHandler {
         Extension(repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
         Json(user_req): Json<SignUpReq>,
     ) -> Response<Body> {
-        // 유효성 검사 오류 메시지를 동적으로 구성
+        // validation error message is dynamic
         if let Err(errors) = user_req.validate() {
             let error_messages = errors.field_errors().iter()
                 .flat_map(|(field, errors)| {
@@ -48,7 +48,7 @@ impl UserHandler {
                 (StatusCode::CREATED, Json(response)).into_response()
             },
             Err(error) => {
-                // 에러 유형에 따라 다른 상태 코드 반환
+                // each error type has different status code
                 let status_code = if error.contains("already exists") {
                     StatusCode::CONFLICT
                 } else if error.contains("not found") {

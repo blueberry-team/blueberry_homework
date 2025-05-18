@@ -2,7 +2,13 @@ use std::sync::Arc;
 
 use uuid::Uuid;
 
-use crate::{dto::res::company_response::CompanyResponse, internal::domain::repository_interface::{company_repository::CompanyRepository, user_repository::UserRepository}};
+use crate::{
+    dto::res::company_response::CompanyResponse,
+    internal::domain::repository_interface::{
+        company_repository::CompanyRepository,
+        user_repository::UserRepository
+    }
+};
 
 #[derive(Clone)]
 pub struct GetCompanyUsecase {

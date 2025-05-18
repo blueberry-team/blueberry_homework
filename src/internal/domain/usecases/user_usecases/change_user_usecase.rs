@@ -2,7 +2,13 @@ use std::sync::Arc;
 
 use uuid::Uuid;
 
-use crate::{dto::req::user_req::ChangeUserReq, internal::domain::{entities::user_entity::ChangeUserEntity, repository_interface::user_repository::UserRepository}};
+use crate::{
+    dto::req::user_req::ChangeUserReq,
+    internal::domain::{
+        entities::user_entity::ChangeUserEntity,
+        repository_interface::user_repository::UserRepository
+    }
+};
 
 pub struct ChangeUserUsecase {
     user_repo: Arc<dyn UserRepository + Send + Sync>,

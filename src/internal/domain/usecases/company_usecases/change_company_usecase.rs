@@ -4,11 +4,14 @@ use uuid::Uuid;
 
 use crate::{
     dto::req::company_req::ChangeCompanyReq,
-    internal::domain::{entities::company_entity::ChangeCompanyEntity, repository_interface::{company_repository::CompanyRepository, user_repository::UserRepository
-    }}
+    internal::domain::{
+        entities::company_entity::ChangeCompanyEntity,
+        repository_interface::{
+            company_repository::CompanyRepository,
+            user_repository::UserRepository
+        }
+    }
 };
-
-
 
 #[derive(Clone)]
 pub struct ChangeCompanyUsecase {

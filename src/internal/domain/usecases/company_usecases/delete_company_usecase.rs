@@ -2,10 +2,13 @@ use std::sync::Arc;
 
 use uuid::Uuid;
 
-use crate::{dto::req::company_req::GetCompanyReq, internal::domain::repository_interface::{
-    company_repository::CompanyRepository,
-    user_repository::UserRepository
-}};
+use crate::{
+    dto::req::company_req::GetCompanyReq,
+    internal::domain::repository_interface::{
+        company_repository::CompanyRepository,
+        user_repository::UserRepository
+    }
+};
 
 #[derive(Clone)]
 pub struct DeleteCompanyUsecase {

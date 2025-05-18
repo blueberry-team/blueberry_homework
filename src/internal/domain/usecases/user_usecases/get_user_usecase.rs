@@ -2,7 +2,10 @@ use std::sync::Arc;
 
 use uuid::Uuid;
 
-use crate::{dto::res::user_response::UserResponse, internal::domain::repository_interface::user_repository::UserRepository};
+use crate::{
+    dto::res::user_response::UserResponse,
+    internal::domain::repository_interface::user_repository::UserRepository
+};
 
 pub struct  GetUserUsecase {
     user_repo: Arc<dyn UserRepository + Send + Sync>,
