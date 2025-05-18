@@ -6,27 +6,23 @@ namespace BerryNameApi.Utils
         public const string Success = "success";
         public const string Error = "error";
 
-        // 유효성 검사 에러
+        // DB
+        public const string DatabaseError = "Database Error";
+
+        // Name
         public const string NameRequired = "name is required";
         public const string NameLengthInvalid = "name must be between 1 and 50 characters";
-
-        // 삭제 관련 에러
+        public const string DuplicateName = "name already exists";
+        public const string NameNotFound = "No user with that name";
         public const string DeleteIndexRequired = "deleteIndex is required";
         public const string InvalidIndex = "Invalid index";
 
-        // 이름 중복
-        public const string DuplicateName = "name already exists";
-
-        // DB 입력 실패
-        public const string DatabaseError = "Database Error";
-
-        // 유저 찾기 실패
-        public const string UserNotFound = "user not found";
-
-        // 이름 삭제 실패
-        public const string NameNotFound = "No user with that name";
-
-        // 유저 회사 존재
+        // Company
         public const string UserAlreadyCompany = "User Already Has Company";
+
+        // Auth
+        public const string UserNotFound = "User not found";
+        public const string EmailAlreadyExist = "Email already exist";
+        public const string IncorrectPassword = "Incorrect password";
     }
 }

@@ -14,8 +14,12 @@ AppInitializer.Init(builder.Services, builder.Configuration);
 // 의존성
 builder.Services.AddSingleton<NameRepository>();
 builder.Services.AddTransient<NameUseCase>();
+
 builder.Services.AddSingleton<CompanyRepository>();
 builder.Services.AddTransient<CompanyUseCase>();
+
+builder.Services.AddSingleton<AuthRepository>();
+builder.Services.AddTransient<AuthUseCase>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
