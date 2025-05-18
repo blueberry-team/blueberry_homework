@@ -1,10 +1,11 @@
 use async_trait::async_trait;
-use chrono::Utc;
+use chrono::{DateTime, Utc};
 use futures::TryStreamExt;
 use scylla::client::session::Session;
 use uuid::Uuid;
 
-use crate::internal::domain::entities::company_entity::CompanyEntity;
+use crate::dto::res::company_response::CompanyResponse;
+use crate::internal::domain::entities::company_entity::{ChangeCompanyEntity, CompanyEntity};
 use crate::internal::domain::repository_interface::company_repository::CompanyRepository;
 use std::sync::Arc;
 
@@ -26,11 +27,11 @@ impl CompanyRepository for CompanyRepositoryImpl {
         panic!("Use ScyllaCompanyImpl::new(session) instead")
     }
 
-    async fn has_company(&self, name: String) -> Result<bool, String> {
-        let query = "SELECT id FROM company WHERE company_name = ?";
+    async fn check_company_with_user_id(&self, user_id: Uuid) -> Result<bool, String> {
+        let query = "SELECT user_id FROM company WHERE user_id = ?";
 
         let mut rows = self.session
-            .query_iter(query, (name.clone(),))
+            .query_iter(query, (user_id,))
             .await
             .map_err(|e| format!("Error querying company: {}", e))?
             .rows_stream::<(Uuid,)>()
@@ -41,53 +42,71 @@ impl CompanyRepository for CompanyRepositoryImpl {
         Ok(result.is_some())
     }
 
-    async fn create_company(&self, company: CompanyEntity) -> Result<CompanyEntity, String> {
-        // check user already have company
-        let check_result = self.has_company(company.name.clone()).await?;
-        if check_result {
-            return Err(format!("User already have company"));
-        }
-
-        let query = "INSERT INTO company (id, name, company_name, create_at, update_at) VALUES (?, ?, ?, ?, ?)";
+    async fn create_company(&self, company: CompanyEntity) -> Result<(), String> {
+        let query = "INSERT INTO company (id, user_id, company_name, company_address, total_staff, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         let created_timestamp = Utc::now().timestamp();
 
-        let company_data = company.clone();
+        let values = (
+            company.id,
+            company.user_id,
+            company.company_name,
+            company.company_address,
+            company.total_staff,
+            created_timestamp,
+            created_timestamp,
+        );
 
         self.session
-            .query_iter(query, (company_data.id, company_data.name, company_data.company_name, created_timestamp, created_timestamp))
+            .query_iter(query, values)
             .await
             .map_err(|e| format!("Error creating company: {}", e))?;
 
-        Ok(company)
+        Ok(())
     }
 
-    async fn get_companies(&self) -> Result<Vec<CompanyEntity>, String> {
-        let query = "SELECT id, name, company_name, create_at, update_at FROM company";
+    async fn get_user_company(&self, user_id: Uuid) -> Result<CompanyResponse, String> {
+        let query = "SELECT id, user_id, company_name, company_address, total_staff, created_at, updated_at FROM company WHERE user_id = ?";
 
-        let rows_stream = self.session
-            .query_iter(query, ())
+        let mut rows = self.session
+            .query_iter(query, (user_id,))
             .await
-            .map_err(|e| format!("Error getting row: {}", e))?
-            .rows_stream::<(Uuid, String, String, i64, i64)>()
+            .map_err(|e| format!("Error querying company: {}", e))?
+            .rows_stream::<(Uuid, Uuid, String, String, i16, i64, i64)>()
             .map_err(|e| format!("Error getting row: {}", e))?;
 
-        let mut companies = Vec::new();
+        let result = rows.try_next().await.map_err(|e| format!("Error getting row: {}", e))?;
+        if let Some((id, user_id, company_name, company_address, total_staff, created_at, updated_at)) = result {
+            let dt_created_at: DateTime<Utc> = DateTime::from_timestamp(created_at, 0).unwrap();
+            let dt_updated_at: DateTime<Utc> = DateTime::from_timestamp(updated_at, 0).unwrap();
 
-        let collected_rows: Vec<_> = rows_stream
-            .try_collect()
-            .await
-            .map_err(|e| format!("Error collecting companies: {}", e))?;
-
-        for (id, name, company_name, create_at, update_at) in collected_rows {
-            companies.push(CompanyEntity {
-                id,
-                name,
-                company_name,
-                create_at,
-                update_at,
-            });
+            Ok(CompanyResponse { id, user_id, company_name, company_address, total_staff, created_at: dt_created_at, updated_at: dt_updated_at })
+        } else {
+            Err(format!("Company not found"))
         }
-        Ok(companies)
+    }
+
+    async fn change_company(&self, company: ChangeCompanyEntity) -> Result<(), String> {
+        let query = "UPDATE company SET company_name = ?, company_address = ?, company_phone = ?, total_staff = ?, updated_at = ? WHERE user_id = ?";
+
+        let updated_at = Utc::now().timestamp();
+
+        self.session
+            .query_iter(query, (company.company_name, company.company_address, company.company_phone, company.total_staff, updated_at, company.user_id))
+            .await
+            .map_err(|e| format!("Error changing company: {}", e))?;
+
+        Ok(())
+    }
+
+    async fn delete_company(&self, user_id: Uuid) -> Result<(), String> {
+        let query = "DELETE FROM company WHERE user_id = ?";
+
+        self.session
+            .query_iter(query, (user_id,))
+            .await
+            .map_err(|e| format!("Error deleting company: {}", e))?;
+
+        Ok(())
     }
 }

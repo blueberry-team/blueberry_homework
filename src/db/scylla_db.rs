@@ -56,9 +56,9 @@ impl ScyllaDB {
         session.use_keyspace(&self.keyspace, false).await?;
 
         // db 초기화 로직, 테스트용임
-        session
-        .query_iter("DROP TABLE IF EXISTS user", &[])
-        .await?;
+        // session
+        // .query_iter("DROP TABLE IF EXISTS user", &[])
+        // .await?;
 
         session
         .query_iter("DROP TABLE IF EXISTS company", &[])
@@ -82,6 +82,7 @@ impl ScyllaDB {
             name TEXT,
             email TEXT,
             password BLOB,
+            salt TEXT,
             role TEXT,
             created_at BIGINT,
             updated_at BIGINT,
@@ -95,7 +96,7 @@ impl ScyllaDB {
         // so cant update the name
         // will create a secondary index on the name column
         session.query_iter(
-            "CREATE INDEX IF NOT EXISTS name_index ON user (name)",
+            "CREATE INDEX IF NOT EXISTS email_index ON user (email)",
             &[],
         )
         .await?;
@@ -108,8 +109,10 @@ impl ScyllaDB {
         session.query_iter(
             "CREATE TABLE IF NOT EXISTS company (
             id UUID PRIMARY KEY,
-            name TEXT,
+            user_id UUID,
             company_name TEXT,
+            company_address TEXT,
+            total_staff SMALLINT,
             created_at BIGINT,
             updated_at BIGINT
             )",
@@ -118,7 +121,7 @@ impl ScyllaDB {
         .await?;
 
         session.query_iter(
-            "CREATE INDEX IF NOT EXISTS company_name_index ON company (company_name)",
+            "CREATE INDEX IF NOT EXISTS user_id_index ON company (user_id)",
             &[],
         )
         .await?;

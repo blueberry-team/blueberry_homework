@@ -1,8 +1,9 @@
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct CompanyEntity {
+pub struct CompanyResponse {
     #[serde(serialize_with = "serialize_uuid", deserialize_with = "deserialize_uuid")]
     pub id: Uuid,
     #[serde(serialize_with = "serialize_uuid", deserialize_with = "deserialize_uuid")]
@@ -10,6 +11,8 @@ pub struct CompanyEntity {
     pub company_name: String,
     pub company_address: String,
     pub total_staff: i16,
+    pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
 }
 
 // uuid -> string
@@ -26,27 +29,4 @@ where
 {
     let s = String::deserialize(deserializer)?;
     Uuid::parse_str(&s).map_err(serde::de::Error::custom)
-}
-
-
-impl CompanyEntity {
-    pub fn new(id: Uuid, user_id: Uuid, company_name: String, company_address: String, total_staff: i16) -> Self {
-        Self { id, user_id, company_name, company_address, total_staff }
-    }
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone)]
-pub struct ChangeCompanyEntity {
-    #[serde(serialize_with = "serialize_uuid", deserialize_with = "deserialize_uuid")]
-    pub user_id: Uuid,
-    pub company_name: String,
-    pub company_address: String,
-    pub company_phone: String,
-    pub total_staff: i16,
-}
-
-impl ChangeCompanyEntity {
-    pub fn new(user_id: Uuid, company_name: String, company_address: String, company_phone: String, total_staff: i16) -> Self {
-        Self { user_id, company_name, company_address, company_phone, total_staff }
-    }
 }

@@ -10,16 +10,14 @@ use axum::{
 use validator::Validate;
 
 use crate::{
-    dto::req::company_req::CompanyReq,
+    dto::{req::company_req::{ChangeCompanyReq, CompanyReq, GetCompanyReq}, res::basic_response::BasicResponse},
     internal::domain::{
         repository_interface::{company_repository::CompanyRepository,
         user_repository::UserRepository},
         usecases::company_usecases::{
-            create_company_usecase::CreateCompanyUsecase,
-            get_companies_usecase::GetCompaniesUsecase,
+            change_company_usecase::ChangeCompanyUsecase, create_company_usecase::CreateCompanyUsecase, delete_company_usecase::DeleteCompanyUsecase, get_company_usecase::GetCompanyUsecase
         },
     },
-    dto::res::basic_response::BasicResponse,
 };
 
 pub struct CompanyHandler;
@@ -32,44 +30,119 @@ impl CompanyHandler {
     ) -> Response<Body> {
         // validation for company_dto
         if let Err(errors) = company_req.validate() {
-            let response = BasicResponse::bad_request(format!("error"), format!("name must be 1 and 50 characters"));
-            println!("{}", errors);
+            let error_messages = errors.field_errors().iter()
+                .flat_map(|(field, errors)| {
+                    errors.iter().map(move |err| {
+                        format!("{}: {}", field, err.message.clone().unwrap_or_default())
+                    })
+                })
+                .collect::<Vec<String>>()
+                .join(", ");
+
+            let response = BasicResponse::bad_request(format!("error"), error_messages);
             return (StatusCode::BAD_REQUEST, Json(response)).into_response();
         }
+
         let usecase = CreateCompanyUsecase::new(user_repo, company_repo);
 
         match usecase.create_company_usecase(company_req).await {
             Ok(_) => {
-                let response = BasicResponse::created("Success".to_string());
-                (StatusCode::CREATED, Json(response)).into_response()
+                let response = BasicResponse::ok("Success".to_string());
+                (StatusCode::OK, Json(response)).into_response()
             }
             Err(error) => {
-                let response = BasicResponse::bad_request(format!("error"), format!("name must be 1 and 50 characters"));
-                println!("{}", error);
-                (StatusCode::BAD_REQUEST, Json(response)).into_response()
+                // 에러 유형에 따라 다른 상태 코드 반환
+                let status_code = if error.contains("already exists") {
+                    StatusCode::CONFLICT
+                } else if error.contains("not found") {
+                    StatusCode::NOT_FOUND
+                } else {
+                    StatusCode::BAD_REQUEST
+                };
+
+                let response = BasicResponse::bad_request(format!("error"), error);
+                (status_code, Json(response)).into_response()
             }
         }
     }
 
-    pub async fn get_companies_handler(
+    pub async fn get_company_handler(
         Extension(company_repo): Extension<Arc<dyn CompanyRepository + Send + Sync>>,
+        Extension(user_repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
+        Json(get_company_req): Json<GetCompanyReq>,
     ) -> Response<Body> {
-        let usecase = GetCompaniesUsecase::new(company_repo);
-        let companies = usecase.get_companies_usecase().await;
+        // validation for get_company_dto
+        if let Err(errors) = get_company_req.validate() {
+            let response = BasicResponse::bad_request(format!("error"), format!("name must be 1 and 50 characters"));
+            println!("{}", errors);
+            return (StatusCode::BAD_REQUEST, Json(response)).into_response();
+        }
+        let usecase = GetCompanyUsecase::new(company_repo, user_repo);
+        let company = usecase.get_company_usecase(get_company_req.user_id).await;
+        match company {
+            Ok(company) => {
+                let response = serde_json::json!({
+                    "message": "Success",
+                    "status_code": StatusCode::OK.as_u16(),
+                    "data": company,
+                });
+                (StatusCode::OK, Json(response)).into_response()
+            }
+            Err(error) => {
+                let response = BasicResponse::bad_request(format!("error"), format!("name must be 1 and 50 characters"));
+                println!("{}", error);
+                return (StatusCode::BAD_REQUEST, Json(response)).into_response();
+            }
+        }
+    }
 
-        // if companies is empty return Empty company list please create company
-        let (message, status_code) = if companies.is_err() {
-            ("Empty company list please create company", StatusCode::OK)
-        } else {
-            ("Success", StatusCode::OK)
-        };
+    pub async fn change_company_handler(
+        Extension(company_repo): Extension<Arc<dyn CompanyRepository + Send + Sync>>,
+        Extension(user_repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
+        Json(change_company_req): Json<ChangeCompanyReq>,
+    ) -> Response<Body> {
+        // validation for change_company_dto
+        if let Err(errors) = change_company_req.validate() {
+            let response = BasicResponse::bad_request(format!("error"), format!("name must be 1 and 50 characters"));
+            println!("{}", errors);
+            return (StatusCode::BAD_REQUEST, Json(response)).into_response();
+        }
+        let usecase = ChangeCompanyUsecase::new(user_repo, company_repo);
+        match usecase.change_company_usecase(change_company_req).await {
+            Ok(_) => {
+                let response = BasicResponse::ok("Success".to_string());
+                (StatusCode::OK, Json(response)).into_response()
+            }
+            Err(error) => {
+                let response = BasicResponse::bad_request(format!("error"), format!("name must be 1 and 50 characters"));
+                println!("{}", error);
+                return (StatusCode::BAD_REQUEST, Json(response)).into_response();
+            }
+        }
+    }
 
-        let response = serde_json::json!({
-            "message": message,
-            "status_code": status_code.as_u16(),
-            "data": companies,
-        });
-
-        (StatusCode::OK, Json(response)).into_response()
+    pub async fn delete_company_handler(
+        Extension(company_repo): Extension<Arc<dyn CompanyRepository + Send + Sync>>,
+        Extension(user_repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
+        Json(get_company_req): Json<GetCompanyReq>,
+    ) -> Response<Body> {
+        // validation for get_company_dto
+        if let Err(errors) = get_company_req.validate() {
+            let response = BasicResponse::bad_request(format!("error"), format!("name must be 1 and 50 characters"));
+            println!("{}", errors);
+            return (StatusCode::BAD_REQUEST, Json(response)).into_response();
+        }
+        let usecase = DeleteCompanyUsecase::new(user_repo, company_repo);
+        match usecase.delete_company_usecase(get_company_req).await {
+            Ok(_) => {
+                let response = BasicResponse::ok("Success".to_string());
+                (StatusCode::OK, Json(response)).into_response()
+            }
+            Err(error) => {
+                let response = BasicResponse::bad_request(format!("error"), format!("name must be 1 and 50 characters"));
+                println!("{}", error);
+                return (StatusCode::BAD_REQUEST, Json(response)).into_response();
+            }
+        }
     }
 }
