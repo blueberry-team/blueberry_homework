@@ -82,13 +82,14 @@ namespace BerryNameApi.Controllers
         [HttpDelete("deleteIndex")]
         public IActionResult DeleteByIndex([FromBody] DeleteIndexRequest request)
         {
-            if (!request.Index.HasValue)
-                return BadRequest(new ApiFailResponse
-                {
-                    Error = Constants.DeleteIndexRequired
-                });
+            // index 필수 || 400 에러 노출
+            // if (!request.Index.HasValue)
+            //     return BadRequest(new ApiFailResponse
+            //     {
+            //         Error = Constants.DeleteIndexRequired
+            //     });
 
-            var result = _useCase.DeleteByIndex(request.Index.Value);
+            var result = _useCase.DeleteByIndex(request.Index);
             if (!result.Success)
                 return BadRequest(new ApiFailResponse
                 {
