@@ -60,9 +60,9 @@ impl ScyllaDB {
         // .query_iter("DROP TABLE IF EXISTS user", &[])
         // .await?;
 
-        session
-        .query_iter("DROP TABLE IF EXISTS company", &[])
-        .await?;
+        // session
+        // .query_iter("DROP TABLE IF EXISTS company", &[])
+        // .await?;
 
         // create table
         self.create_user_table(&session).await?;
