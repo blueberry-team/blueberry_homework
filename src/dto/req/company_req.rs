@@ -2,7 +2,7 @@ use serde::{Deserialize, Serialize};
 use validator::Validate;
 
 #[derive(Debug, Serialize, Deserialize, Clone, Validate)]
-pub struct CompanyReq {
+pub struct CreateCompanyReq {
     #[validate(length(min = 1))]
     pub user_id: String,
     #[validate(length(min = 1, max = 50))]
@@ -15,6 +15,12 @@ pub struct CompanyReq {
 
 #[derive(Debug, Serialize, Deserialize, Clone, Validate)]
 pub struct GetCompanyReq {
+    #[validate(length(min = 1))]
+    pub user_id: String,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, Validate)]
+pub struct DeleteCompanyReq {
     #[validate(length(min = 1))]
     pub user_id: String,
 }

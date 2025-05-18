@@ -1,6 +1,14 @@
-use axum::{routing::{delete, get, post, put}, Router};
+use axum::{
+    routing::{delete, get, post, put},
+    Router,
+};
 
-use crate::internal::handler::company_handler::CompanyHandler;
+use crate::internal::handler::company_handler::{
+    create_company_handler::CreateCompanyHandler,
+    get_company_handler::GetCompanyHandler,
+    change_company_handler::ChangeCompanyHandler,
+    delete_company_handler::DeleteCompanyHandler,
+};
 
 pub fn create_router() -> Router {
 
@@ -8,9 +16,9 @@ pub fn create_router() -> Router {
         .nest(
             "/company",
             Router::new()
-                .route("/create-company", post(CompanyHandler::create_company_handler))
-                .route("/get-company", get(CompanyHandler::get_company_handler))
-                .route("/change-company", put(CompanyHandler::change_company_handler))
-                .route("/delete-company", delete(CompanyHandler::delete_company_handler))
+                .route("/create-company", post(CreateCompanyHandler::create_company_handler))
+                .route("/get-company", get(GetCompanyHandler::get_company_handler))
+                .route("/change-company", put(ChangeCompanyHandler::change_company_handler))
+                .route("/delete-company", delete(DeleteCompanyHandler::delete_company_handler))
         )
 }

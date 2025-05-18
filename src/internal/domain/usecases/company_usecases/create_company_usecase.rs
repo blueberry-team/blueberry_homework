@@ -2,7 +2,7 @@ use std::{sync::Arc, str::FromStr};
 use uuid::Uuid;
 
 use crate::{
-    dto::req::company_req::CompanyReq,
+    dto::req::company_req::CreateCompanyReq,
     internal::domain::{
         entities::company_entity::CompanyEntity,
         repository_interface::{
@@ -23,7 +23,7 @@ impl CreateCompanyUsecase {
         Self { user_repo, company_repo }
     }
 
-    pub async fn create_company_usecase(&self, company_req: CompanyReq) -> Result<(), String> {
+    pub async fn create_company_usecase(&self, company_req: CreateCompanyReq) -> Result<(), String> {
         let id = Uuid::new_v4();
         let parsed_user_id =
             Uuid::parse_str(&company_req.user_id)
