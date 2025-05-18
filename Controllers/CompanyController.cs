@@ -30,7 +30,7 @@ namespace blueberry_homework_dotnet.Controllers
                 });
             }
 
-            var result = _useCase.CreateCompany(request.UserName, request.CompanyName);
+            var result = _useCase.CreateCompany(request);
             if (!result.Success)
             {
                 return BadRequest(new ApiFailResponse
@@ -44,14 +44,41 @@ namespace blueberry_homework_dotnet.Controllers
         }
 
         [HttpGet("getCompany")]
-        public IActionResult GetCompany()
+        public IActionResult GetCompany([FromQuery] Guid userId)
         {
-            var companies = _useCase.GetAllCompanies();
-            return Ok(new ApiSuccessResponse<IEnumerable<CompanyResponse>>
+            var company = _useCase.GetCompany(userId);
+            if (company == null)
+            {
+                return NotFound(new { message = Constants.Error, error = Constants.CompanyNotFound });
+            }
+
+            var companyResponse = new CompanyResponse
+            {
+                Id = company.Id,
+                CompanyName = company.CompanyName,
+                CompanyAddress = company.CompanyAddress,
+                TotalStaff = company.TotalStaff,
+                CreatedAt = company.CreatedAt,
+                UpdatedAt = company.UpdatedAt
+            };
+            return Ok(new ApiSuccessResponse<CompanyResponse>
             {
                 Message = Constants.Success,
-                Data = companies
+                Data = companyResponse
             });
+        }
+
+        [HttpPatch("changeCompany")]
+        public IActionResult ChangeCompany([FromQuery] Guid userId, [FromBody] CreateCompanyRequest body)
+        {
+            var result = _useCase.ChangeCompany(userId, body.CompanyName, body.CompanyAddress, body.TotalStaff);
+
+            if (!result.Success)
+            {
+                return BadRequest(new ApiFailResponse { Error = result.ErrorMessage });
+            }
+
+            return Ok(new ApiSuccessResponse<IEnumerable<CompanyResponse>> { Message = Constants.Success });
         }
     }
 }

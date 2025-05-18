@@ -10,6 +10,4 @@ namespace blueberry_homework_dotnet.DTO.Response
         public required DateTime CreatedAt { get; set; }
         public required DateTime UpdatedAt { get; set; }
     }
-
-
 }

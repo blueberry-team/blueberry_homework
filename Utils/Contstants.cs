@@ -19,6 +19,8 @@ namespace BerryNameApi.Utils
 
         // Company
         public const string UserAlreadyCompany = "User Already Has Company";
+        public const string BossCreateCompany = "Only boss can create a company";
+        public const string CompanyNotFound = "Company not found";
 
         // Auth
         public const string UserNotFound = "User not found";

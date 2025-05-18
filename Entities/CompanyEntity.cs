@@ -8,8 +8,15 @@ namespace blueberry_homework_dotnet.Entities
         [BsonId]
         [BsonRepresentation(BsonType.String)]
         public Guid Id { get; set; }
-        public required string Name { get; set; }
-        public required string CompanyName { get; set; }
+
+        [BsonRepresentation(BsonType.String)]
+        public Guid UserId { get; set; }
+
+        public string CompanyName { get; set; } = string.Empty;
+        public string CompanyAddress { get; set; } = string.Empty;
+        public int TotalStaff { get; set; }
+
         public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

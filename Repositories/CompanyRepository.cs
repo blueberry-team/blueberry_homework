@@ -12,19 +12,25 @@ namespace blueberry_homework_dotnet.Repositories
             _collection = database.GetCollection<CompanyEntity>("companies");
         }
 
-        public IEnumerable<CompanyEntity> GetAll()
-        {
-            return _collection.Find(FilterDefinition<CompanyEntity>.Empty).ToList();
-        }
-
         public void CreateCompany(CompanyEntity company)
         {
             _collection.InsertOne(company);
         }
 
-        public CompanyEntity? FindByUserName(string name)
+        public CompanyEntity? FindByUserId(Guid userId)
         {
-            return _collection.Find(c => c.Name == name).FirstOrDefault();
+            return _collection.Find(company => company.UserId == userId).FirstOrDefault();
         }
+
+        public void UpdateCompany(CompanyEntity company)
+        {
+            _collection.ReplaceOne(company => company.Id == company.Id, company);
+        }
+
+        public void DeleteCompany(Guid id)
+        {
+            _collection.DeleteOne(company => company.Id == id);
+        }
+
     }
 }
