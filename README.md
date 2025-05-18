@@ -409,7 +409,6 @@ PART.5에서는 실제 데이터베이스를 추가하여 임시 배열 저장�
   - email
   - password
   - name
-  - address
   - role
   - createdAt
   - updatedAt
