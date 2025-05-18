@@ -9,7 +9,7 @@ class NameHandler:
     def create_name(self, input_name: NameReqDTO):
         try:
             added_name = NameUseCase.create_name(input_name)
-            return {"message": "이름이 추가되었습니다", "name": added_name }
+            return {"message": "이름이 추가되었습니다", "name": added_name}
         except HTTPException as e:
             # HTTP 예외는 그대로 다시 발생시켜 FastAPI가 처리하도록 함
             raise
@@ -56,7 +56,7 @@ class NameHandler:
             raise HTTPException(
                 status_code=500, detail=ERROR_RESPONSES["SERVER_ERROR"]
             ) from e
-    
+
     def change_name(self, used_id: str, new_name: str):
         try:
             updated_name = NameUseCase.change_name(used_id, new_name)
@@ -67,7 +67,7 @@ class NameHandler:
             raise HTTPException(
                 status_code=500, detail=ERROR_RESPONSES["SERVER_ERROR"]
             ) from e
-            
+
     def get_name_by_name(self, name: str):
         try:
             name_by_name = NameUseCase.get_name_by_name(name)
@@ -78,4 +78,3 @@ class NameHandler:
             raise HTTPException(
                 status_code=500, detail=ERROR_RESPONSES["SERVER_ERROR"]
             ) from e
-

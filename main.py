@@ -1,11 +1,15 @@
 import os
 from dotenv import load_dotenv
 from fastapi import FastAPI
+from db.db import init_db
 from routers.name_router import name_router
 from routers.company_router import company_router
 
 # 환경변수 로드
 load_dotenv()
+
+# 데이터베이스 초기화
+init_db()
 
 app = FastAPI()
 
