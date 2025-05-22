@@ -909,7 +909,7 @@
         "kind": 2,
         "importPath": "db.db",
         "description": "db.db",
-        "peekOfCode": "def create_company_index_table(session: Session):\n    \"\"\"필요한 인덱스 테이블을 생성합니다.\"\"\"\n    # 인덱스 테이블 생성\n    session.execute(\n        \"\"\"\n    CREATE INDEX IF NOT EXISTS name_index ON companies (name)\n    \"\"\"\n    )\n    print(\"컴퍼니 인덱스 테이블이 성공적으로 생성되었습니다.\")\n# 금지",
+        "peekOfCode": "def create_company_index_table(session: Session):\n    \"\"\"필요한 인덱스 테이블을 생성합니다.\"\"\"\n    # 인덱스 테이블 생성\n    session.execute(\n        \"\"\"\n    CREATE INDEX IF NOT EXISTS name_index ON companies (company_name)\n    \"\"\"\n    )\n    print(\"컴퍼니 인덱스 테이블이 성공적으로 생성되었습니다.\")\n# 금지",
         "detail": "db.db",
         "documentation": {}
     },

@@ -176,7 +176,7 @@ def create_company_index_table(session: Session):
     # 인덱스 테이블 생성
     session.execute(
         """
-    CREATE INDEX IF NOT EXISTS name_index ON companies (name)
+    CREATE INDEX IF NOT EXISTS name_index ON companies (company_name)
     """
     )
 
