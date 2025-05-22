@@ -169,6 +169,14 @@
         "documentation": {}
     },
     {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "List",
         "importPath": "typing",
         "description": "typing",
@@ -846,7 +854,7 @@
         "kind": 6,
         "importPath": "entities.company_entity",
         "description": "entities.company_entity",
-        "peekOfCode": "class CompanyEntity(BaseModel):\n    id: str\n    name: str\n    company_name: str\n    created_at: datetime\n    def __str__(self):\n        return f\"CompanyEntity(id={self.id}, name={self.name}, company_name={self.company_name}, created_at={self.created_at})\"",
+        "peekOfCode": "class CompanyEntity(BaseModel):\n    id: str  # 회사 고유 ID\n    user_id: str  # 회사 소유자(유저) ID\n    company_name: str  # 회사 이름\n    company_address: Optional[str] = \"\"  # 회사 주소\n    total_staff: Optional[int] = 0  # 총 직원 수\n    created_at: datetime  # 생성일\n    updated_at: Optional[datetime] = None  # 수정일\n    def __str__(self):\n        return f\"CompanyEntity(id={self.id}, user_id={self.user_id}, company_name={self.company_name}, company_address={self.company_address}, total_staff={self.total_staff}, created_at={self.created_at}, updated_at={self.updated_at})\"",
         "detail": "entities.company_entity",
         "documentation": {}
     },
