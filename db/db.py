@@ -92,7 +92,7 @@ def init_db():
 
     # 데이터베이스 초기화
     # 테이블 삭제, 테스트용
-    # delete_all(session)
+    delete_all(session)
 
     # 테이블 생성
     create_user_table(session)
@@ -128,6 +128,8 @@ def create_user_table(session: Session):
         username TEXT,
         email TEXT,
         password TEXT,
+        address TEXT,
+        role TEXT,
         created_at TIMESTAMP,
         updated_at TIMESTAMP
     )

@@ -73,6 +73,30 @@
         "documentation": {}
     },
     {
+        "label": "EmailStr",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
         "label": "Field",
         "importPath": "pydantic",
         "description": "pydantic",
@@ -105,11 +129,83 @@
         "documentation": {}
     },
     {
+        "label": "EmailStr",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
         "label": "BaseModel",
         "importPath": "pydantic",
         "description": "pydantic",
         "isExtraImport": true,
         "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
         "documentation": {}
     },
     {
@@ -426,35 +522,83 @@
         "documentation": {}
     },
     {
-        "label": "List",
-        "importPath": "typing",
-        "description": "typing",
+        "label": "SignUpReqDTO",
+        "importPath": "dtos.request.auth_req_dto",
+        "description": "dtos.request.auth_req_dto",
         "isExtraImport": true,
-        "detail": "typing",
+        "detail": "dtos.request.auth_req_dto",
         "documentation": {}
     },
     {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
+        "label": "LogInReqDTO",
+        "importPath": "dtos.request.auth_req_dto",
+        "description": "dtos.request.auth_req_dto",
         "isExtraImport": true,
-        "detail": "typing",
+        "detail": "dtos.request.auth_req_dto",
         "documentation": {}
     },
     {
-        "label": "List",
-        "importPath": "typing",
-        "description": "typing",
+        "label": "ChangeUserReqDTO",
+        "importPath": "dtos.request.auth_req_dto",
+        "description": "dtos.request.auth_req_dto",
         "isExtraImport": true,
-        "detail": "typing",
+        "detail": "dtos.request.auth_req_dto",
         "documentation": {}
     },
     {
-        "label": "Optional",
-        "importPath": "typing",
-        "description": "typing",
+        "label": "SignUpReqDTO",
+        "importPath": "dtos.request.auth_req_dto",
+        "description": "dtos.request.auth_req_dto",
         "isExtraImport": true,
-        "detail": "typing",
+        "detail": "dtos.request.auth_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "LogInReqDTO",
+        "importPath": "dtos.request.auth_req_dto",
+        "description": "dtos.request.auth_req_dto",
+        "isExtraImport": true,
+        "detail": "dtos.request.auth_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "ChangeUserReqDTO",
+        "importPath": "dtos.request.auth_req_dto",
+        "description": "dtos.request.auth_req_dto",
+        "isExtraImport": true,
+        "detail": "dtos.request.auth_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "AuthResDTO",
+        "importPath": "dtos.response.auth_res_dto",
+        "description": "dtos.response.auth_res_dto",
+        "isExtraImport": true,
+        "detail": "dtos.response.auth_res_dto",
+        "documentation": {}
+    },
+    {
+        "label": "UserResDTO",
+        "importPath": "dtos.response.auth_res_dto",
+        "description": "dtos.response.auth_res_dto",
+        "isExtraImport": true,
+        "detail": "dtos.response.auth_res_dto",
+        "documentation": {}
+    },
+    {
+        "label": "AuthResDTO",
+        "importPath": "dtos.response.auth_res_dto",
+        "description": "dtos.response.auth_res_dto",
+        "isExtraImport": true,
+        "detail": "dtos.response.auth_res_dto",
+        "documentation": {}
+    },
+    {
+        "label": "UserResDTO",
+        "importPath": "dtos.response.auth_res_dto",
+        "description": "dtos.response.auth_res_dto",
+        "isExtraImport": true,
+        "detail": "dtos.response.auth_res_dto",
         "documentation": {}
     },
     {
@@ -576,7 +720,7 @@
         "kind": 2,
         "importPath": "db.db",
         "description": "db.db",
-        "peekOfCode": "def init_db():\n    \"\"\"데이터베이스를 초기화하고 필요한 테이블을 생성합니다.\"\"\"\n    db = ScyllaDB()\n    session = db.get_session()\n    # 데이터베이스 초기화\n    # 테이블 삭제, 테스트용\n    # delete_all(session)\n    # 테이블 생성\n    create_user_table(session)\n    create_user_index_table(session)",
+        "peekOfCode": "def init_db():\n    \"\"\"데이터베이스를 초기화하고 필요한 테이블을 생성합니다.\"\"\"\n    db = ScyllaDB()\n    session = db.get_session()\n    # 데이터베이스 초기화\n    # 테이블 삭제, 테스트용\n    delete_all(session)\n    # 테이블 생성\n    create_user_table(session)\n    create_user_index_table(session)",
         "detail": "db.db",
         "documentation": {}
     },
@@ -635,6 +779,33 @@
         "documentation": {}
     },
     {
+        "label": "SignUpReqDTO",
+        "kind": 6,
+        "importPath": "dtos.request.auth_req_dto",
+        "description": "dtos.request.auth_req_dto",
+        "peekOfCode": "class SignUpReqDTO(BaseModel):\n    name: str  # 사용자 이름\n    email: EmailStr  # 이메일\n    password: str  # 비밀번호\n    address: Optional[str] = \"\"  # 주소(선택)\n    role: Optional[str] = \"worker\"  # 역할(기본값: worker)\n# 로그인 요청 DTO\nclass LogInReqDTO(BaseModel):\n    email: EmailStr  # 이메일\n    password: str  # 비밀번호",
+        "detail": "dtos.request.auth_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "LogInReqDTO",
+        "kind": 6,
+        "importPath": "dtos.request.auth_req_dto",
+        "description": "dtos.request.auth_req_dto",
+        "peekOfCode": "class LogInReqDTO(BaseModel):\n    email: EmailStr  # 이메일\n    password: str  # 비밀번호\n# 유저정보 수정 요청 DTO\nclass ChangeUserReqDTO(BaseModel):\n    user_id: str  # 유저 ID\n    name: Optional[str] = None  # 이름(선택)\n    email: Optional[EmailStr] = None  # 이메일(선택)\n    password: Optional[str] = None  # 비밀번호(선택)\n    address: Optional[str] = None  # 주소(선택)",
+        "detail": "dtos.request.auth_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "ChangeUserReqDTO",
+        "kind": 6,
+        "importPath": "dtos.request.auth_req_dto",
+        "description": "dtos.request.auth_req_dto",
+        "peekOfCode": "class ChangeUserReqDTO(BaseModel):\n    user_id: str  # 유저 ID\n    name: Optional[str] = None  # 이름(선택)\n    email: Optional[EmailStr] = None  # 이메일(선택)\n    password: Optional[str] = None  # 비밀번호(선택)\n    address: Optional[str] = None  # 주소(선택)\n    role: Optional[str] = None  # 역할(선택)",
+        "detail": "dtos.request.auth_req_dto",
+        "documentation": {}
+    },
+    {
         "label": "CompanyReqDTO",
         "kind": 6,
         "importPath": "dtos.request.company_req_dto",
@@ -650,6 +821,24 @@
         "description": "dtos.request.name_req_dto",
         "peekOfCode": "class NameReqDTO(BaseModel):\n    # 여기에서 벨리데이션 처리\n    name: str = Field(\n        ..., description=\"이름을 입력해주세요\", min_length=1, max_length=50\n    )",
         "detail": "dtos.request.name_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "AuthResDTO",
+        "kind": 6,
+        "importPath": "dtos.response.auth_res_dto",
+        "description": "dtos.response.auth_res_dto",
+        "peekOfCode": "class AuthResDTO(BaseModel):\n    message: str  # 결과 메시지\n    user_id: Optional[str] = None  # 유저 ID(선택)\n# 유저 정보 응답 DTO\nclass UserResDTO(BaseModel):\n    user_id: str  # 유저 ID\n    name: str  # 이름\n    email: EmailStr  # 이메일\n    address: Optional[str] = \"\"  # 주소(선택)\n    role: Optional[str] = \"worker\"  # 역할(기본값: worker)",
+        "detail": "dtos.response.auth_res_dto",
+        "documentation": {}
+    },
+    {
+        "label": "UserResDTO",
+        "kind": 6,
+        "importPath": "dtos.response.auth_res_dto",
+        "description": "dtos.response.auth_res_dto",
+        "peekOfCode": "class UserResDTO(BaseModel):\n    user_id: str  # 유저 ID\n    name: str  # 이름\n    email: EmailStr  # 이메일\n    address: Optional[str] = \"\"  # 주소(선택)\n    role: Optional[str] = \"worker\"  # 역할(기본값: worker)\n    created_at: Optional[datetime] = None  # 생성일(선택)\n    updated_at: Optional[datetime] = None  # 수정일(선택)",
+        "detail": "dtos.response.auth_res_dto",
         "documentation": {}
     },
     {
@@ -702,7 +891,7 @@
         "kind": 6,
         "importPath": "repositories.auth_repository",
         "description": "repositories.auth_repository",
-        "peekOfCode": "class AuthRepository:\n    @staticmethod\n    def sign_up(user_req):\n        session = ScyllaDB.get_session()\n        # 이메일 중복 체크\n        query = \"SELECT id FROM users WHERE email = %s ALLOW FILTERING\"\n        rows = session.execute(query, (user_req[\"email\"],))\n        if any(rows):\n            raise Exception(\"이미 존재하는 이메일입니다.\")\n        # 비밀번호 해싱",
+        "peekOfCode": "class AuthRepository:\n    @staticmethod\n    def sign_up(user_req: SignUpReqDTO) -> AuthResDTO:\n        \"\"\"회원가입: 이메일 중복 체크, 비밀번호 해싱, DB 저장\"\"\"\n        session = ScyllaDB.get_session()\n        # 이메일 중복 체크\n        query = \"SELECT id FROM users WHERE email = %s ALLOW FILTERING\"\n        rows = session.execute(query, (user_req.email,))\n        if any(rows):\n            raise Exception(\"이미 존재하는 이메일입니다.\")",
         "detail": "repositories.auth_repository",
         "documentation": {}
     },
@@ -729,7 +918,7 @@
         "kind": 2,
         "importPath": "routers.auth_router",
         "description": "routers.auth_router",
-        "peekOfCode": "def get_auth_handler():\n    return AuthHandler()\n@auth_router.post(\"/sign-up\")\ndef sign_up(user_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.sign_up(user_req)\n@auth_router.post(\"/log-in\")\ndef log_in(login_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.log_in(login_req)\n@auth_router.put(\"/change-user\")\ndef change_user(change_req: dict, handler: AuthHandler = Depends(get_auth_handler)):",
+        "peekOfCode": "def get_auth_handler():\n    return AuthHandler()\n@auth_router.post(\"/sign-up\", response_model=AuthResDTO)\ndef sign_up(user_req: SignUpReqDTO, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.sign_up(user_req)\n@auth_router.post(\"/log-in\", response_model=AuthResDTO)\ndef log_in(login_req: LogInReqDTO, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.log_in(login_req)\n@auth_router.put(\"/change-user\", response_model=AuthResDTO)\ndef change_user(",
         "detail": "routers.auth_router",
         "documentation": {}
     },
@@ -738,7 +927,7 @@
         "kind": 2,
         "importPath": "routers.auth_router",
         "description": "routers.auth_router",
-        "peekOfCode": "def sign_up(user_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.sign_up(user_req)\n@auth_router.post(\"/log-in\")\ndef log_in(login_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.log_in(login_req)\n@auth_router.put(\"/change-user\")\ndef change_user(change_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.change_user(change_req)\n@auth_router.get(\"/get-user/{user_id}\")\ndef get_user(user_id: str, handler: AuthHandler = Depends(get_auth_handler)):",
+        "peekOfCode": "def sign_up(user_req: SignUpReqDTO, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.sign_up(user_req)\n@auth_router.post(\"/log-in\", response_model=AuthResDTO)\ndef log_in(login_req: LogInReqDTO, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.log_in(login_req)\n@auth_router.put(\"/change-user\", response_model=AuthResDTO)\ndef change_user(\n    change_req: ChangeUserReqDTO, handler: AuthHandler = Depends(get_auth_handler)\n):\n    return handler.change_user(change_req)",
         "detail": "routers.auth_router",
         "documentation": {}
     },
@@ -747,7 +936,7 @@
         "kind": 2,
         "importPath": "routers.auth_router",
         "description": "routers.auth_router",
-        "peekOfCode": "def log_in(login_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.log_in(login_req)\n@auth_router.put(\"/change-user\")\ndef change_user(change_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.change_user(change_req)\n@auth_router.get(\"/get-user/{user_id}\")\ndef get_user(user_id: str, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.get_user(user_id)",
+        "peekOfCode": "def log_in(login_req: LogInReqDTO, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.log_in(login_req)\n@auth_router.put(\"/change-user\", response_model=AuthResDTO)\ndef change_user(\n    change_req: ChangeUserReqDTO, handler: AuthHandler = Depends(get_auth_handler)\n):\n    return handler.change_user(change_req)\n@auth_router.get(\"/get-user/{user_id}\", response_model=UserResDTO)\ndef get_user(user_id: str, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.get_user(user_id)",
         "detail": "routers.auth_router",
         "documentation": {}
     },
@@ -756,7 +945,7 @@
         "kind": 2,
         "importPath": "routers.auth_router",
         "description": "routers.auth_router",
-        "peekOfCode": "def change_user(change_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.change_user(change_req)\n@auth_router.get(\"/get-user/{user_id}\")\ndef get_user(user_id: str, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.get_user(user_id)",
+        "peekOfCode": "def change_user(\n    change_req: ChangeUserReqDTO, handler: AuthHandler = Depends(get_auth_handler)\n):\n    return handler.change_user(change_req)\n@auth_router.get(\"/get-user/{user_id}\", response_model=UserResDTO)\ndef get_user(user_id: str, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.get_user(user_id)",
         "detail": "routers.auth_router",
         "documentation": {}
     },
@@ -774,7 +963,7 @@
         "kind": 5,
         "importPath": "routers.auth_router",
         "description": "routers.auth_router",
-        "peekOfCode": "auth_router = APIRouter(prefix=\"/auth\", tags=[\"auth\"])\ndef get_auth_handler():\n    return AuthHandler()\n@auth_router.post(\"/sign-up\")\ndef sign_up(user_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.sign_up(user_req)\n@auth_router.post(\"/log-in\")\ndef log_in(login_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.log_in(login_req)\n@auth_router.put(\"/change-user\")",
+        "peekOfCode": "auth_router = APIRouter(prefix=\"/auth\", tags=[\"auth\"])\ndef get_auth_handler():\n    return AuthHandler()\n@auth_router.post(\"/sign-up\", response_model=AuthResDTO)\ndef sign_up(user_req: SignUpReqDTO, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.sign_up(user_req)\n@auth_router.post(\"/log-in\", response_model=AuthResDTO)\ndef log_in(login_req: LogInReqDTO, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.log_in(login_req)\n@auth_router.put(\"/change-user\", response_model=AuthResDTO)",
         "detail": "routers.auth_router",
         "documentation": {}
     },

@@ -14,6 +14,7 @@ class NameRepository:
         INSERT INTO users (id, username, created_at, updated_at)
         VALUES (%s, %s, %s, %s)
         """
+
         session.execute(
             query,
             (
