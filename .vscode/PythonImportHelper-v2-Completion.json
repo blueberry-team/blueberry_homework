@@ -153,6 +153,22 @@
         "documentation": {}
     },
     {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "Optional",
         "importPath": "typing",
         "description": "typing",
@@ -206,6 +222,30 @@
         "description": "typing",
         "isExtraImport": true,
         "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
         "documentation": {}
     },
     {
@@ -818,7 +858,34 @@
         "kind": 6,
         "importPath": "dtos.request.company_req_dto",
         "description": "dtos.request.company_req_dto",
-        "peekOfCode": "class CompanyReqDTO(BaseModel):\n    # 여기에서 벨리데이션 처리\n    name: str = Field(..., min_length=1, max_length=50)\n    company_name: str = Field(..., min_length=1, max_length=100)",
+        "peekOfCode": "class CompanyReqDTO(BaseModel):\n    # 여기에서 벨리데이션 처리\n    name: str = Field(..., min_length=1, max_length=50)\n    company_name: str = Field(..., min_length=1, max_length=100)\n# 회사 생성 요청 DTO\nclass CreateCompanyReqDTO(BaseModel):\n    user_id: str  # 회사 소유자(유저) ID\n    company_name: str  # 회사 이름\n    company_address: Optional[str] = \"\"  # 회사 주소\n    total_staff: Optional[int] = 0  # 총 직원 수",
+        "detail": "dtos.request.company_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "CreateCompanyReqDTO",
+        "kind": 6,
+        "importPath": "dtos.request.company_req_dto",
+        "description": "dtos.request.company_req_dto",
+        "peekOfCode": "class CreateCompanyReqDTO(BaseModel):\n    user_id: str  # 회사 소유자(유저) ID\n    company_name: str  # 회사 이름\n    company_address: Optional[str] = \"\"  # 회사 주소\n    total_staff: Optional[int] = 0  # 총 직원 수\n# 회사 수정 요청 DTO\nclass ChangeCompanyReqDTO(BaseModel):\n    id: str  # 회사 ID\n    company_name: Optional[str] = None  # 회사 이름(선택)\n    company_address: Optional[str] = None  # 회사 주소(선택)",
+        "detail": "dtos.request.company_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "ChangeCompanyReqDTO",
+        "kind": 6,
+        "importPath": "dtos.request.company_req_dto",
+        "description": "dtos.request.company_req_dto",
+        "peekOfCode": "class ChangeCompanyReqDTO(BaseModel):\n    id: str  # 회사 ID\n    company_name: Optional[str] = None  # 회사 이름(선택)\n    company_address: Optional[str] = None  # 회사 주소(선택)\n    total_staff: Optional[int] = None  # 총 직원 수(선택)\n# 회사 삭제 요청 DTO\nclass DeleteCompanyReqDTO(BaseModel):\n    id: str  # 회사 ID",
+        "detail": "dtos.request.company_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "DeleteCompanyReqDTO",
+        "kind": 6,
+        "importPath": "dtos.request.company_req_dto",
+        "description": "dtos.request.company_req_dto",
+        "peekOfCode": "class DeleteCompanyReqDTO(BaseModel):\n    id: str  # 회사 ID",
         "detail": "dtos.request.company_req_dto",
         "documentation": {}
     },
@@ -847,6 +914,24 @@
         "description": "dtos.response.auth_res_dto",
         "peekOfCode": "class UserResDTO(BaseModel):\n    user_id: str  # 유저 ID\n    name: str  # 이름\n    email: EmailStr  # 이메일\n    address: Optional[str] = \"\"  # 주소(선택)\n    role: Optional[str] = \"worker\"  # 역할(기본값: worker)\n    created_at: Optional[datetime] = None  # 생성일(선택)\n    updated_at: Optional[datetime] = None  # 수정일(선택)",
         "detail": "dtos.response.auth_res_dto",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyResDTO",
+        "kind": 6,
+        "importPath": "dtos.response.company_res_dto",
+        "description": "dtos.response.company_res_dto",
+        "peekOfCode": "class CompanyResDTO(BaseModel):\n    id: str  # 회사 ID\n    user_id: str  # 소유자(유저) ID\n    company_name: str  # 회사 이름\n    company_address: Optional[str] = \"\"  # 회사 주소\n    total_staff: Optional[int] = 0  # 총 직원 수\n    created_at: Optional[datetime] = None  # 생성일\n    updated_at: Optional[datetime] = None  # 수정일\n# 회사 목록 응답 DTO\nclass CompanyListResDTO(BaseModel):",
+        "detail": "dtos.response.company_res_dto",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyListResDTO",
+        "kind": 6,
+        "importPath": "dtos.response.company_res_dto",
+        "description": "dtos.response.company_res_dto",
+        "peekOfCode": "class CompanyListResDTO(BaseModel):\n    companies: List[CompanyResDTO]",
+        "detail": "dtos.response.company_res_dto",
         "documentation": {}
     },
     {
