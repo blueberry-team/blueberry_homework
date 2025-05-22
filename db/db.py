@@ -92,7 +92,7 @@ def init_db():
 
     # 데이터베이스 초기화
     # 테이블 삭제, 테스트용
-    delete_all(session)
+    # delete_all(session)
 
     # 테이블 생성
     create_user_table(session)

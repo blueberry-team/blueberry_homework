@@ -10,12 +10,15 @@ class CompanyRepository:
         session = ScyllaDB.get_session()
         query = "SELECT id, name, company_name, created_at FROM companies"
         rows = session.execute(query)
-        return [CompanyEntity(
-            id=str(row["id"]),
-            name=row["name"],
-            company_name=row.get("company_name", ""),
-            created_at=row["created_at"]
-        ) for row in rows]
+        return [
+            CompanyEntity(
+                id=str(row["id"]),
+                name=row["name"],
+                company_name=row.get("company_name", ""),
+                created_at=row["created_at"],
+            )
+            for row in rows
+        ]
 
     @staticmethod
     def add_company(company: CompanyEntity) -> CompanyEntity:
@@ -24,12 +27,15 @@ class CompanyRepository:
         INSERT INTO companies (id, name, company_name, created_at)
         VALUES (%s, %s, %s, %s)
         """
-        session.execute(query, (
-            uuid.UUID(company.id),
-            company.name,
-            company.company_name,
-            company.created_at
-        ))
+        session.execute(
+            query,
+            (
+                uuid.UUID(company.id),
+                company.name,
+                company.company_name,
+                company.created_at,
+            ),
+        )
         return company
 
     @staticmethod
@@ -42,7 +48,7 @@ class CompanyRepository:
                 id=str(row["id"]),
                 name=row["name"],
                 company_name=row.get("company_name", ""),
-                created_at=row["created_at"]
+                created_at=row["created_at"],
             )
         return None
 
@@ -56,6 +62,6 @@ class CompanyRepository:
                 id=str(row["id"]),
                 name=row["name"],
                 company_name=row.get("company_name", ""),
-                created_at=row["created_at"]
+                created_at=row["created_at"],
             )
         return None

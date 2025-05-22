@@ -2,6 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
+# 사용자 엔티티
 class UserEntity(BaseModel):
     id: str
     name: str

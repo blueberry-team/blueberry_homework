@@ -2,6 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel
 
 
+# 회사 엔티티
 class CompanyEntity(BaseModel):
     id: str
     name: str

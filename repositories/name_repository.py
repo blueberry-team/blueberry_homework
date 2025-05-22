@@ -14,12 +14,15 @@ class NameRepository:
         INSERT INTO users (id, username, created_at, updated_at)
         VALUES (%s, %s, %s, %s)
         """
-        session.execute(query, (
-            uuid.UUID(name_entity.id),
-            name_entity.name,
-            name_entity.created_at,
-            name_entity.updated_at
-        ))
+        session.execute(
+            query,
+            (
+                uuid.UUID(name_entity.id),
+                name_entity.name,
+                name_entity.created_at,
+                name_entity.updated_at,
+            ),
+        )
         return name_entity
 
     # 이름 목록을 가져오는 함수
@@ -28,12 +31,15 @@ class NameRepository:
         session = ScyllaDB.get_session()
         query = "SELECT id, username, created_at, updated_at FROM users"
         rows = session.execute(query)
-        return [UserEntity(
-            id=str(row["id"]),
-            name=row["username"],
-            created_at=row["created_at"],
-            updated_at=row["updated_at"]
-        ) for row in rows]
+        return [
+            UserEntity(
+                id=str(row["id"]),
+                name=row["username"],
+                created_at=row["created_at"],
+                updated_at=row["updated_at"],
+            )
+            for row in rows
+        ]
 
     @staticmethod
     def delete_name_by_index(index: int) -> Optional[UserEntity]:
@@ -61,7 +67,7 @@ class NameRepository:
                 id=str(row["id"]),
                 name=row["username"],
                 created_at=row["created_at"],
-                updated_at=row["updated_at"]
+                updated_at=row["updated_at"],
             )
         return deleted
 
@@ -76,11 +82,9 @@ class NameRepository:
         query = """
         UPDATE users SET username = %s, updated_at = %s WHERE id = %s
         """
-        session.execute(query, (
-            user_entity.name,
-            user_entity.updated_at,
-            uuid.UUID(user.id)
-        ))
+        session.execute(
+            query, (user_entity.name, user_entity.updated_at, uuid.UUID(user.id))
+        )
         return user_entity
 
     @staticmethod
@@ -93,6 +97,6 @@ class NameRepository:
                 id=str(row["id"]),
                 name=row["username"],
                 created_at=row["created_at"],
-                updated_at=row["updated_at"]
+                updated_at=row["updated_at"],
             )
         return None

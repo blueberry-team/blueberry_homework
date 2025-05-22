@@ -4,6 +4,7 @@ from handlers.name_handler import NameHandler
 
 name_router = APIRouter(prefix="/names", tags=["names"])
 
+
 # 의존성 주입을 위한 함수
 def get_name_handler():
     return NameHandler()
