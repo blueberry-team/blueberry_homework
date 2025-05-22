@@ -1,0 +1,943 @@
+[
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "Cluster",
+        "importPath": "cassandra.cluster",
+        "description": "cassandra.cluster",
+        "isExtraImport": true,
+        "detail": "cassandra.cluster",
+        "documentation": {}
+    },
+    {
+        "label": "Session",
+        "importPath": "cassandra.cluster",
+        "description": "cassandra.cluster",
+        "isExtraImport": true,
+        "detail": "cassandra.cluster",
+        "documentation": {}
+    },
+    {
+        "label": "PlainTextAuthProvider",
+        "importPath": "cassandra.auth",
+        "description": "cassandra.auth",
+        "isExtraImport": true,
+        "detail": "cassandra.auth",
+        "documentation": {}
+    },
+    {
+        "label": "dict_factory",
+        "importPath": "cassandra.query",
+        "description": "cassandra.query",
+        "isExtraImport": true,
+        "detail": "cassandra.query",
+        "documentation": {}
+    },
+    {
+        "label": "dict_factory",
+        "importPath": "cassandra.query",
+        "description": "cassandra.query",
+        "isExtraImport": true,
+        "detail": "cassandra.query",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Depends",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Depends",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "APIRouter",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "Depends",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "AuthUseCase",
+        "importPath": "usecases.auth_usecase",
+        "description": "usecases.auth_usecase",
+        "isExtraImport": true,
+        "detail": "usecases.auth_usecase",
+        "documentation": {}
+    },
+    {
+        "label": "ERROR_RESPONSES",
+        "importPath": "constants.error_response",
+        "description": "constants.error_response",
+        "isExtraImport": true,
+        "detail": "constants.error_response",
+        "documentation": {}
+    },
+    {
+        "label": "ERROR_RESPONSES",
+        "importPath": "constants.error_response",
+        "description": "constants.error_response",
+        "isExtraImport": true,
+        "detail": "constants.error_response",
+        "documentation": {}
+    },
+    {
+        "label": "ERROR_RESPONSES",
+        "importPath": "constants.error_response",
+        "description": "constants.error_response",
+        "isExtraImport": true,
+        "detail": "constants.error_response",
+        "documentation": {}
+    },
+    {
+        "label": "ERROR_RESPONSES",
+        "importPath": "constants.error_response",
+        "description": "constants.error_response",
+        "isExtraImport": true,
+        "detail": "constants.error_response",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyReqDTO",
+        "importPath": "dtos.request.company_req_dto",
+        "description": "dtos.request.company_req_dto",
+        "isExtraImport": true,
+        "detail": "dtos.request.company_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyReqDTO",
+        "importPath": "dtos.request.company_req_dto",
+        "description": "dtos.request.company_req_dto",
+        "isExtraImport": true,
+        "detail": "dtos.request.company_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyReqDTO",
+        "importPath": "dtos.request.company_req_dto",
+        "description": "dtos.request.company_req_dto",
+        "isExtraImport": true,
+        "detail": "dtos.request.company_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyUseCase",
+        "importPath": "usecases.company_usecase",
+        "description": "usecases.company_usecase",
+        "isExtraImport": true,
+        "detail": "usecases.company_usecase",
+        "documentation": {}
+    },
+    {
+        "label": "NameReqDTO",
+        "importPath": "dtos.request.name_req_dto",
+        "description": "dtos.request.name_req_dto",
+        "isExtraImport": true,
+        "detail": "dtos.request.name_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "NameReqDTO",
+        "importPath": "dtos.request.name_req_dto",
+        "description": "dtos.request.name_req_dto",
+        "isExtraImport": true,
+        "detail": "dtos.request.name_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "NameReqDTO",
+        "importPath": "dtos.request.name_req_dto",
+        "description": "dtos.request.name_req_dto",
+        "isExtraImport": true,
+        "detail": "dtos.request.name_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "NameUseCase",
+        "importPath": "usecases.name_usecase",
+        "description": "usecases.name_usecase",
+        "isExtraImport": true,
+        "detail": "usecases.name_usecase",
+        "documentation": {}
+    },
+    {
+        "label": "ScyllaDB",
+        "importPath": "db.db",
+        "description": "db.db",
+        "isExtraImport": true,
+        "detail": "db.db",
+        "documentation": {}
+    },
+    {
+        "label": "ScyllaDB",
+        "importPath": "db.db",
+        "description": "db.db",
+        "isExtraImport": true,
+        "detail": "db.db",
+        "documentation": {}
+    },
+    {
+        "label": "ScyllaDB",
+        "importPath": "db.db",
+        "description": "db.db",
+        "isExtraImport": true,
+        "detail": "db.db",
+        "documentation": {}
+    },
+    {
+        "label": "init_db",
+        "importPath": "db.db",
+        "description": "db.db",
+        "isExtraImport": true,
+        "detail": "db.db",
+        "documentation": {}
+    },
+    {
+        "label": "UserEntity",
+        "importPath": "entities.user_entity",
+        "description": "entities.user_entity",
+        "isExtraImport": true,
+        "detail": "entities.user_entity",
+        "documentation": {}
+    },
+    {
+        "label": "UserEntity",
+        "importPath": "entities.user_entity",
+        "description": "entities.user_entity",
+        "isExtraImport": true,
+        "detail": "entities.user_entity",
+        "documentation": {}
+    },
+    {
+        "label": "UserEntity",
+        "importPath": "entities.user_entity",
+        "description": "entities.user_entity",
+        "isExtraImport": true,
+        "detail": "entities.user_entity",
+        "documentation": {}
+    },
+    {
+        "label": "bcrypt",
+        "importPath": "passlib.hash",
+        "description": "passlib.hash",
+        "isExtraImport": true,
+        "detail": "passlib.hash",
+        "documentation": {}
+    },
+    {
+        "label": "uuid",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "uuid",
+        "description": "uuid",
+        "detail": "uuid",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyEntity",
+        "importPath": "entities.company_entity",
+        "description": "entities.company_entity",
+        "isExtraImport": true,
+        "detail": "entities.company_entity",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyEntity",
+        "importPath": "entities.company_entity",
+        "description": "entities.company_entity",
+        "isExtraImport": true,
+        "detail": "entities.company_entity",
+        "documentation": {}
+    },
+    {
+        "label": "AuthHandler",
+        "importPath": "handlers.auth_handler",
+        "description": "handlers.auth_handler",
+        "isExtraImport": true,
+        "detail": "handlers.auth_handler",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyHandler",
+        "importPath": "handlers.company_handler",
+        "description": "handlers.company_handler",
+        "isExtraImport": true,
+        "detail": "handlers.company_handler",
+        "documentation": {}
+    },
+    {
+        "label": "NameHandler",
+        "importPath": "handlers.name_handler",
+        "description": "handlers.name_handler",
+        "isExtraImport": true,
+        "detail": "handlers.name_handler",
+        "documentation": {}
+    },
+    {
+        "label": "AuthRepository",
+        "importPath": "repositories.auth_repository",
+        "description": "repositories.auth_repository",
+        "isExtraImport": true,
+        "detail": "repositories.auth_repository",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyRepository",
+        "importPath": "repositories.company_repository",
+        "description": "repositories.company_repository",
+        "isExtraImport": true,
+        "detail": "repositories.company_repository",
+        "documentation": {}
+    },
+    {
+        "label": "NameRepository",
+        "importPath": "repositories.name_repository",
+        "description": "repositories.name_repository",
+        "isExtraImport": true,
+        "detail": "repositories.name_repository",
+        "documentation": {}
+    },
+    {
+        "label": "NameRepository",
+        "importPath": "repositories.name_repository",
+        "description": "repositories.name_repository",
+        "isExtraImport": true,
+        "detail": "repositories.name_repository",
+        "documentation": {}
+    },
+    {
+        "label": "name_router",
+        "importPath": "routers.name_router",
+        "description": "routers.name_router",
+        "isExtraImport": true,
+        "detail": "routers.name_router",
+        "documentation": {}
+    },
+    {
+        "label": "company_router",
+        "importPath": "routers.company_router",
+        "description": "routers.company_router",
+        "isExtraImport": true,
+        "detail": "routers.company_router",
+        "documentation": {}
+    },
+    {
+        "label": "auth_router",
+        "importPath": "routers.auth_router",
+        "description": "routers.auth_router",
+        "isExtraImport": true,
+        "detail": "routers.auth_router",
+        "documentation": {}
+    },
+    {
+        "label": "ERROR_RESPONSES",
+        "kind": 5,
+        "importPath": "constants.error_response",
+        "description": "constants.error_response",
+        "peekOfCode": "ERROR_RESPONSES = {\n    \"DUPLICATE_NAME\": {\"message\": \"error\", \"error\": \"이미 존재하는 이름입니다\"},\n    \"USER_NOT_FOUND\": {\"message\": \"error\", \"error\": \"존재하지 않는 사용자입니다\"},\n    \"INVALID_INDEX\": {\"message\": \"error\", \"error\": \"유효하지 않은 인덱스입니다\"},\n    \"NAME_VALIDATION_ERROR\": {\n        \"message\": \"error\",\n        \"error\": \"이름은 1~50자 사이여야 합니다\",\n    },\n    \"USER_ALREADY_HAS_COMPANY\": {\"message\": \"error\", \"error\": \"이미 회사가 존재합니다\"},\n    \"SERVER_ERROR\": {",
+        "detail": "constants.error_response",
+        "documentation": {}
+    },
+    {
+        "label": "ScyllaDB",
+        "kind": 6,
+        "importPath": "db.db",
+        "description": "db.db",
+        "peekOfCode": "class ScyllaDB:\n    _instance = None\n    cluster = None\n    session = None\n    keyspace = None\n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super(ScyllaDB, cls).__new__(cls)\n            cls._connect()\n        return cls._instance",
+        "detail": "db.db",
+        "documentation": {}
+    },
+    {
+        "label": "init_db",
+        "kind": 2,
+        "importPath": "db.db",
+        "description": "db.db",
+        "peekOfCode": "def init_db():\n    \"\"\"데이터베이스를 초기화하고 필요한 테이블을 생성합니다.\"\"\"\n    db = ScyllaDB()\n    session = db.get_session()\n    # 데이터베이스 초기화\n    # 테이블 삭제, 테스트용\n    # delete_all(session)\n    # 테이블 생성\n    create_user_table(session)\n    create_user_index_table(session)",
+        "detail": "db.db",
+        "documentation": {}
+    },
+    {
+        "label": "delete_all",
+        "kind": 2,
+        "importPath": "db.db",
+        "description": "db.db",
+        "peekOfCode": "def delete_all(session: Session):\n    session.execute(\n        \"\"\"\n    DROP TABLE IF EXISTS users\n    \"\"\"\n    )\n    session.execute(\n        \"\"\"\n    DROP TABLE IF EXISTS companies\n    \"\"\"",
+        "detail": "db.db",
+        "documentation": {}
+    },
+    {
+        "label": "create_user_table",
+        "kind": 2,
+        "importPath": "db.db",
+        "description": "db.db",
+        "peekOfCode": "def create_user_table(session: Session):\n    \"\"\"필요한 테이블을 생성합니다.\"\"\"\n    # 사용자 테이블 생성\n    session.execute(\n        \"\"\"\n    CREATE TABLE IF NOT EXISTS users (\n        id UUID PRIMARY KEY,\n        username TEXT,\n        email TEXT,\n        password TEXT,",
+        "detail": "db.db",
+        "documentation": {}
+    },
+    {
+        "label": "create_company_table",
+        "kind": 2,
+        "importPath": "db.db",
+        "description": "db.db",
+        "peekOfCode": "def create_company_table(session: Session):\n    \"\"\"필요한 테이블을 생성합니다.\"\"\"\n    # 회사 테이블 생성\n    session.execute(\n        \"\"\"\n    CREATE TABLE IF NOT EXISTS companies (\n        id UUID PRIMARY KEY,\n        name TEXT,\n        company_name TEXT,\n        created_at TIMESTAMP",
+        "detail": "db.db",
+        "documentation": {}
+    },
+    {
+        "label": "create_user_index_table",
+        "kind": 2,
+        "importPath": "db.db",
+        "description": "db.db",
+        "peekOfCode": "def create_user_index_table(session: Session):\n    \"\"\"필요한 인덱스 테이블을 생성합니다.\"\"\"\n    # 인덱스 테이블 생성\n    session.execute(\n        \"\"\"\n    CREATE INDEX IF NOT EXISTS username_index ON users (username)\n    \"\"\"\n    )\n    print(\"유저 인덱스 테이블이 성공적으로 생성되었습니다.\")\ndef create_company_index_table(session: Session):",
+        "detail": "db.db",
+        "documentation": {}
+    },
+    {
+        "label": "create_company_index_table",
+        "kind": 2,
+        "importPath": "db.db",
+        "description": "db.db",
+        "peekOfCode": "def create_company_index_table(session: Session):\n    \"\"\"필요한 인덱스 테이블을 생성합니다.\"\"\"\n    # 인덱스 테이블 생성\n    session.execute(\n        \"\"\"\n    CREATE INDEX IF NOT EXISTS name_index ON companies (name)\n    \"\"\"\n    )\n    print(\"컴퍼니 인덱스 테이블이 성공적으로 생성되었습니다.\")\n# 금지",
+        "detail": "db.db",
+        "documentation": {}
+    },
+    {
+        "label": "get_db",
+        "kind": 2,
+        "importPath": "db.db",
+        "description": "db.db",
+        "peekOfCode": "def get_db():\n    \"\"\"데이터베이스 인스턴스를 반환합니다.\"\"\"\n    return ScyllaDB()",
+        "detail": "db.db",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyReqDTO",
+        "kind": 6,
+        "importPath": "dtos.request.company_req_dto",
+        "description": "dtos.request.company_req_dto",
+        "peekOfCode": "class CompanyReqDTO(BaseModel):\n    # 여기에서 벨리데이션 처리\n    name: str = Field(..., min_length=1, max_length=50)\n    company_name: str = Field(..., min_length=1, max_length=100)",
+        "detail": "dtos.request.company_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "NameReqDTO",
+        "kind": 6,
+        "importPath": "dtos.request.name_req_dto",
+        "description": "dtos.request.name_req_dto",
+        "peekOfCode": "class NameReqDTO(BaseModel):\n    # 여기에서 벨리데이션 처리\n    name: str = Field(\n        ..., description=\"이름을 입력해주세요\", min_length=1, max_length=50\n    )",
+        "detail": "dtos.request.name_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyEntity",
+        "kind": 6,
+        "importPath": "entities.company_entity",
+        "description": "entities.company_entity",
+        "peekOfCode": "class CompanyEntity(BaseModel):\n    id: str\n    name: str\n    company_name: str\n    created_at: datetime\n    def __str__(self):\n        return f\"CompanyEntity(id={self.id}, name={self.name}, company_name={self.company_name}, created_at={self.created_at})\"",
+        "detail": "entities.company_entity",
+        "documentation": {}
+    },
+    {
+        "label": "UserEntity",
+        "kind": 6,
+        "importPath": "entities.user_entity",
+        "description": "entities.user_entity",
+        "peekOfCode": "class UserEntity(BaseModel):\n    id: str\n    name: str\n    email: str\n    password: str\n    address: str\n    role: str\n    updated_at: datetime\n    created_at: datetime\n    def __str__(self):",
+        "detail": "entities.user_entity",
+        "documentation": {}
+    },
+    {
+        "label": "AuthHandler",
+        "kind": 6,
+        "importPath": "handlers.auth_handler",
+        "description": "handlers.auth_handler",
+        "peekOfCode": "class AuthHandler:\n    def sign_up(self, user_req):\n        return AuthUseCase.sign_up(user_req)\n    def log_in(self, login_req):\n        return AuthUseCase.log_in(login_req)\n    def change_user(self, change_req):\n        return AuthUseCase.change_user(change_req)\n    def get_user(self, user_id):\n        return AuthUseCase.get_user(user_id)",
+        "detail": "handlers.auth_handler",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyHandler",
+        "kind": 6,
+        "importPath": "handlers.company_handler",
+        "description": "handlers.company_handler",
+        "peekOfCode": "class CompanyHandler:\n    def create_company(self, company_req: CompanyReqDTO):\n        try:\n            CompanyUseCase.create_company(company_req)\n            return {\"message\": \"회사가 추가되었습니다\"}\n        except HTTPException as e:\n            raise\n        except Exception as e:\n            raise HTTPException(\n                status_code=500, detail=ERROR_RESPONSES[\"SERVER_ERROR\"]",
+        "detail": "handlers.company_handler",
+        "documentation": {}
+    },
+    {
+        "label": "NameHandler",
+        "kind": 6,
+        "importPath": "handlers.name_handler",
+        "description": "handlers.name_handler",
+        "peekOfCode": "class NameHandler:\n    def create_name(self, input_name: NameReqDTO):\n        try:\n            added_name = NameUseCase.create_name(input_name)\n            return {\"message\": \"이름이 추가되었습니다\", \"name\": added_name}\n        except HTTPException as e:\n            # HTTP 예외는 그대로 다시 발생시켜 FastAPI가 처리하도록 함\n            raise\n        except Exception as e:\n            # 예상치 못한 오류가 발생한 경우",
+        "detail": "handlers.name_handler",
+        "documentation": {}
+    },
+    {
+        "label": "AuthRepository",
+        "kind": 6,
+        "importPath": "repositories.auth_repository",
+        "description": "repositories.auth_repository",
+        "peekOfCode": "class AuthRepository:\n    @staticmethod\n    def sign_up(user_req):\n        session = ScyllaDB.get_session()\n        # 이메일 중복 체크\n        query = \"SELECT id FROM users WHERE email = %s ALLOW FILTERING\"\n        rows = session.execute(query, (user_req[\"email\"],))\n        if any(rows):\n            raise Exception(\"이미 존재하는 이메일입니다.\")\n        # 비밀번호 해싱",
+        "detail": "repositories.auth_repository",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyRepository",
+        "kind": 6,
+        "importPath": "repositories.company_repository",
+        "description": "repositories.company_repository",
+        "peekOfCode": "class CompanyRepository:\n    @staticmethod\n    def get_companies() -> List[CompanyEntity]:\n        session = ScyllaDB.get_session()\n        query = \"SELECT id, name, company_name, created_at FROM companies\"\n        rows = session.execute(query)\n        return [\n            CompanyEntity(\n                id=str(row[\"id\"]),\n                name=row[\"name\"],",
+        "detail": "repositories.company_repository",
+        "documentation": {}
+    },
+    {
+        "label": "NameRepository",
+        "kind": 6,
+        "importPath": "repositories.name_repository",
+        "description": "repositories.name_repository",
+        "peekOfCode": "class NameRepository:\n    # 이름을 추가하는 함수\n    @staticmethod\n    def add_name(name_entity: UserEntity) -> UserEntity:\n        session = ScyllaDB.get_session()\n        query = \"\"\"\n        INSERT INTO users (id, username, created_at, updated_at)\n        VALUES (%s, %s, %s, %s)\n        \"\"\"\n        session.execute(",
+        "detail": "repositories.name_repository",
+        "documentation": {}
+    },
+    {
+        "label": "get_auth_handler",
+        "kind": 2,
+        "importPath": "routers.auth_router",
+        "description": "routers.auth_router",
+        "peekOfCode": "def get_auth_handler():\n    return AuthHandler()\n@auth_router.post(\"/sign-up\")\ndef sign_up(user_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.sign_up(user_req)\n@auth_router.post(\"/log-in\")\ndef log_in(login_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.log_in(login_req)\n@auth_router.put(\"/change-user\")\ndef change_user(change_req: dict, handler: AuthHandler = Depends(get_auth_handler)):",
+        "detail": "routers.auth_router",
+        "documentation": {}
+    },
+    {
+        "label": "sign_up",
+        "kind": 2,
+        "importPath": "routers.auth_router",
+        "description": "routers.auth_router",
+        "peekOfCode": "def sign_up(user_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.sign_up(user_req)\n@auth_router.post(\"/log-in\")\ndef log_in(login_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.log_in(login_req)\n@auth_router.put(\"/change-user\")\ndef change_user(change_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.change_user(change_req)\n@auth_router.get(\"/get-user/{user_id}\")\ndef get_user(user_id: str, handler: AuthHandler = Depends(get_auth_handler)):",
+        "detail": "routers.auth_router",
+        "documentation": {}
+    },
+    {
+        "label": "log_in",
+        "kind": 2,
+        "importPath": "routers.auth_router",
+        "description": "routers.auth_router",
+        "peekOfCode": "def log_in(login_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.log_in(login_req)\n@auth_router.put(\"/change-user\")\ndef change_user(change_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.change_user(change_req)\n@auth_router.get(\"/get-user/{user_id}\")\ndef get_user(user_id: str, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.get_user(user_id)",
+        "detail": "routers.auth_router",
+        "documentation": {}
+    },
+    {
+        "label": "change_user",
+        "kind": 2,
+        "importPath": "routers.auth_router",
+        "description": "routers.auth_router",
+        "peekOfCode": "def change_user(change_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.change_user(change_req)\n@auth_router.get(\"/get-user/{user_id}\")\ndef get_user(user_id: str, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.get_user(user_id)",
+        "detail": "routers.auth_router",
+        "documentation": {}
+    },
+    {
+        "label": "get_user",
+        "kind": 2,
+        "importPath": "routers.auth_router",
+        "description": "routers.auth_router",
+        "peekOfCode": "def get_user(user_id: str, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.get_user(user_id)",
+        "detail": "routers.auth_router",
+        "documentation": {}
+    },
+    {
+        "label": "auth_router",
+        "kind": 5,
+        "importPath": "routers.auth_router",
+        "description": "routers.auth_router",
+        "peekOfCode": "auth_router = APIRouter(prefix=\"/auth\", tags=[\"auth\"])\ndef get_auth_handler():\n    return AuthHandler()\n@auth_router.post(\"/sign-up\")\ndef sign_up(user_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.sign_up(user_req)\n@auth_router.post(\"/log-in\")\ndef log_in(login_req: dict, handler: AuthHandler = Depends(get_auth_handler)):\n    return handler.log_in(login_req)\n@auth_router.put(\"/change-user\")",
+        "detail": "routers.auth_router",
+        "documentation": {}
+    },
+    {
+        "label": "get_company_handler",
+        "kind": 2,
+        "importPath": "routers.company_router",
+        "description": "routers.company_router",
+        "peekOfCode": "def get_company_handler():\n    return CompanyHandler()\n@company_router.post(\"/\")\ndef create_company(\n    company_req: CompanyReqDTO, handler: CompanyHandler = Depends(get_company_handler)\n):\n    return handler.create_company(company_req)\n@company_router.get(\"/\")\ndef get_companies(handler: CompanyHandler = Depends(get_company_handler)):\n    return handler.get_companies()",
+        "detail": "routers.company_router",
+        "documentation": {}
+    },
+    {
+        "label": "create_company",
+        "kind": 2,
+        "importPath": "routers.company_router",
+        "description": "routers.company_router",
+        "peekOfCode": "def create_company(\n    company_req: CompanyReqDTO, handler: CompanyHandler = Depends(get_company_handler)\n):\n    return handler.create_company(company_req)\n@company_router.get(\"/\")\ndef get_companies(handler: CompanyHandler = Depends(get_company_handler)):\n    return handler.get_companies()\n@company_router.get(\"/{name}\")\ndef get_company_by_name(\n    name: str, handler: CompanyHandler = Depends(get_company_handler)",
+        "detail": "routers.company_router",
+        "documentation": {}
+    },
+    {
+        "label": "get_companies",
+        "kind": 2,
+        "importPath": "routers.company_router",
+        "description": "routers.company_router",
+        "peekOfCode": "def get_companies(handler: CompanyHandler = Depends(get_company_handler)):\n    return handler.get_companies()\n@company_router.get(\"/{name}\")\ndef get_company_by_name(\n    name: str, handler: CompanyHandler = Depends(get_company_handler)\n):\n    return handler.get_company_by_name(name)",
+        "detail": "routers.company_router",
+        "documentation": {}
+    },
+    {
+        "label": "get_company_by_name",
+        "kind": 2,
+        "importPath": "routers.company_router",
+        "description": "routers.company_router",
+        "peekOfCode": "def get_company_by_name(\n    name: str, handler: CompanyHandler = Depends(get_company_handler)\n):\n    return handler.get_company_by_name(name)",
+        "detail": "routers.company_router",
+        "documentation": {}
+    },
+    {
+        "label": "company_router",
+        "kind": 5,
+        "importPath": "routers.company_router",
+        "description": "routers.company_router",
+        "peekOfCode": "company_router = APIRouter(prefix=\"/companies\", tags=[\"companies\"])\n# 의존성 주입을 위한 함수\ndef get_company_handler():\n    return CompanyHandler()\n@company_router.post(\"/\")\ndef create_company(\n    company_req: CompanyReqDTO, handler: CompanyHandler = Depends(get_company_handler)\n):\n    return handler.create_company(company_req)\n@company_router.get(\"/\")",
+        "detail": "routers.company_router",
+        "documentation": {}
+    },
+    {
+        "label": "get_name_handler",
+        "kind": 2,
+        "importPath": "routers.name_router",
+        "description": "routers.name_router",
+        "peekOfCode": "def get_name_handler():\n    return NameHandler()\n@name_router.post(\"/\")\ndef create_name(\n    input_name: NameReqDTO, handler: NameHandler = Depends(get_name_handler)\n):\n    return handler.create_name(input_name)\n@name_router.get(\"/\")\ndef get_names(handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_names()",
+        "detail": "routers.name_router",
+        "documentation": {}
+    },
+    {
+        "label": "create_name",
+        "kind": 2,
+        "importPath": "routers.name_router",
+        "description": "routers.name_router",
+        "peekOfCode": "def create_name(\n    input_name: NameReqDTO, handler: NameHandler = Depends(get_name_handler)\n):\n    return handler.create_name(input_name)\n@name_router.get(\"/\")\ndef get_names(handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_names()\n@name_router.get(\"/{name}\")\ndef get_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_name_by_name(name)",
+        "detail": "routers.name_router",
+        "documentation": {}
+    },
+    {
+        "label": "get_names",
+        "kind": 2,
+        "importPath": "routers.name_router",
+        "description": "routers.name_router",
+        "peekOfCode": "def get_names(handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_names()\n@name_router.get(\"/{name}\")\ndef get_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_name_by_name(name)\n@name_router.put(\"/{used_id}\")\ndef change_name(\n    used_id: str, new_name: str, handler: NameHandler = Depends(get_name_handler)\n):\n    return handler.change_name(used_id, new_name)",
+        "detail": "routers.name_router",
+        "documentation": {}
+    },
+    {
+        "label": "get_name_by_name",
+        "kind": 2,
+        "importPath": "routers.name_router",
+        "description": "routers.name_router",
+        "peekOfCode": "def get_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_name_by_name(name)\n@name_router.put(\"/{used_id}\")\ndef change_name(\n    used_id: str, new_name: str, handler: NameHandler = Depends(get_name_handler)\n):\n    return handler.change_name(used_id, new_name)\n@name_router.delete(\"/index/{index}\")\ndef delete_name_by_index(index: int, handler: NameHandler = Depends(get_name_handler)):\n    return handler.delete_name_by_index(index)",
+        "detail": "routers.name_router",
+        "documentation": {}
+    },
+    {
+        "label": "change_name",
+        "kind": 2,
+        "importPath": "routers.name_router",
+        "description": "routers.name_router",
+        "peekOfCode": "def change_name(\n    used_id: str, new_name: str, handler: NameHandler = Depends(get_name_handler)\n):\n    return handler.change_name(used_id, new_name)\n@name_router.delete(\"/index/{index}\")\ndef delete_name_by_index(index: int, handler: NameHandler = Depends(get_name_handler)):\n    return handler.delete_name_by_index(index)\n@name_router.delete(\"/name/{name}\")\ndef delete_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.delete_name_by_name(name)",
+        "detail": "routers.name_router",
+        "documentation": {}
+    },
+    {
+        "label": "delete_name_by_index",
+        "kind": 2,
+        "importPath": "routers.name_router",
+        "description": "routers.name_router",
+        "peekOfCode": "def delete_name_by_index(index: int, handler: NameHandler = Depends(get_name_handler)):\n    return handler.delete_name_by_index(index)\n@name_router.delete(\"/name/{name}\")\ndef delete_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.delete_name_by_name(name)",
+        "detail": "routers.name_router",
+        "documentation": {}
+    },
+    {
+        "label": "delete_name_by_name",
+        "kind": 2,
+        "importPath": "routers.name_router",
+        "description": "routers.name_router",
+        "peekOfCode": "def delete_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.delete_name_by_name(name)",
+        "detail": "routers.name_router",
+        "documentation": {}
+    },
+    {
+        "label": "name_router",
+        "kind": 5,
+        "importPath": "routers.name_router",
+        "description": "routers.name_router",
+        "peekOfCode": "name_router = APIRouter(prefix=\"/names\", tags=[\"names\"])\n# 의존성 주입을 위한 함수\ndef get_name_handler():\n    return NameHandler()\n@name_router.post(\"/\")\ndef create_name(\n    input_name: NameReqDTO, handler: NameHandler = Depends(get_name_handler)\n):\n    return handler.create_name(input_name)\n@name_router.get(\"/\")",
+        "detail": "routers.name_router",
+        "documentation": {}
+    },
+    {
+        "label": "AuthUseCase",
+        "kind": 6,
+        "importPath": "usecases.auth_usecase",
+        "description": "usecases.auth_usecase",
+        "peekOfCode": "class AuthUseCase:\n    @staticmethod\n    def sign_up(user_req):\n        return AuthRepository.sign_up(user_req)\n    @staticmethod\n    def log_in(login_req):\n        return AuthRepository.log_in(login_req)\n    @staticmethod\n    def change_user(change_req):\n        return AuthRepository.change_user(change_req)",
+        "detail": "usecases.auth_usecase",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyUseCase",
+        "kind": 6,
+        "importPath": "usecases.company_usecase",
+        "description": "usecases.company_usecase",
+        "peekOfCode": "class CompanyUseCase:\n    @staticmethod\n    def create_company(company_req: CompanyReqDTO):\n        # 해당 이름의 사용자가 존재하는지 확인\n        user = NameRepository.find_by_name(company_req.name)\n        if not user:\n            raise HTTPException(\n                status_code=404, detail=ERROR_RESPONSES[\"USER_NOT_FOUND\"]\n            )\n        # 이미 회사를 가지고 있는지 확인",
+        "detail": "usecases.company_usecase",
+        "documentation": {}
+    },
+    {
+        "label": "NameUseCase",
+        "kind": 6,
+        "importPath": "usecases.name_usecase",
+        "description": "usecases.name_usecase",
+        "peekOfCode": "class NameUseCase:\n    @staticmethod\n    def create_name(input_name: NameReqDTO):\n        name_list = NameRepository.get_names()\n        # 이름이 이미 존재하는 경우\n        if input_name.name in [item.name for item in name_list]:\n            raise HTTPException(\n                status_code=400, detail=ERROR_RESPONSES[\"DUPLICATE_NAME\"]\n            )\n        # Request DTO를 Entity로 변환",
+        "detail": "usecases.name_usecase",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "app = FastAPI()\n# 라우터 등록\napp.include_router(name_router)\napp.include_router(company_router)\napp.include_router(auth_router)\nPORT = int(os.getenv(\"PORT\", 8000))  # 기본값 8000\n# 포트 번호를 .env로부터 가져오는 코드\nif __name__ == \"__main__\":\n    import uvicorn\n    print(f\"서버를 시작합니다. {PORT}번 포트에서 실행중입니다.\")",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "PORT",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "PORT = int(os.getenv(\"PORT\", 8000))  # 기본값 8000\n# 포트 번호를 .env로부터 가져오는 코드\nif __name__ == \"__main__\":\n    import uvicorn\n    print(f\"서버를 시작합니다. {PORT}번 포트에서 실행중입니다.\")\n    print(f\"문서 : http://localhost:{PORT}/docs\")\n    uvicorn.run(app, host=\"0.0.0.0\", port=PORT)",
+        "detail": "main",
+        "documentation": {}
+    }
+]
