@@ -12,7 +12,7 @@ services:
       scylla:
         condition: service_healthy
 
-  scylla:
+  scylla_db:
     image: scylladb/scylla:latest
     container_name: scylla_db
     ports:
