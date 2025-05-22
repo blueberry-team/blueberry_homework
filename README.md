@@ -390,6 +390,10 @@ PART.5에서는 실제 데이터베이스를 추가하여 임시 배열 저장�
 
 # REST API 미니 테스트 PART.6
 
+## 필수 항목 추가
+- 자신이 구성한 아키텍처의 구조를 Excalidraw로 그려주세요
+- 외부 툴을 사용하셔도 좋습니다.
+
 ## 인증(Auth) 시스템 도입
 
 - UserEntity는 변경되어야 합니다.
@@ -405,7 +409,6 @@ PART.5에서는 실제 데이터베이스를 추가하여 임시 배열 저장�
   - email
   - password
   - name
-  - address
   - role
   - createdAt
   - updatedAt
