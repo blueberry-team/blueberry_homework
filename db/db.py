@@ -139,14 +139,14 @@ def create_user_table(session: Session):
 
 def create_company_table(session: Session):
     """필요한 테이블을 생성합니다."""
-    # 사용자 테이블 생성
+    # 회사 테이블 생성
     session.execute(
         """
     CREATE TABLE IF NOT EXISTS companies (
         id UUID PRIMARY KEY,
         name TEXT,
-        created_at TIMESTAMP,
-        updated_at TIMESTAMP
+        company_name TEXT,
+        created_at TIMESTAMP
     )
     """
     )
