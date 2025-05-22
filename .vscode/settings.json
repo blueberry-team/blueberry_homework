@@ -1,8 +1,10 @@
 {
     "cSpell.words": [
+        "cqlsh",
         "dotenv",
         "dtos",
         "fastapi",
+        "keyspaces",
         "pydantic",
         "usecase",
         "usecases",
