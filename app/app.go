@@ -24,14 +24,14 @@ type App struct {
 
 // NewApp은 애플리케이션을 생성하고 모든 의존성을 초기화합니다
 func Init() (*App, error) {
-	// 라우터 설정
-	router := setupRouter()
-
 	// 환경 설정 로드
 	cfg, err := config.NewConfig()
 	if err != nil {
 		return nil, fmt.Errorf("설정 로드 실패: %v", err)
 	}
+
+	// 라우터 설정
+	router := setupRouter()
 
 	// 앱 인스턴스 생성
 	app := &App{
