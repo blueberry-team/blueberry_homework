@@ -241,6 +241,22 @@
         "documentation": {}
     },
     {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
         "label": "datetime",
         "importPath": "datetime",
         "description": "datetime",
@@ -401,39 +417,7 @@
         "documentation": {}
     },
     {
-        "label": "ERROR_RESPONSES",
-        "importPath": "constants.error_response",
-        "description": "constants.error_response",
-        "isExtraImport": true,
-        "detail": "constants.error_response",
-        "documentation": {}
-    },
-    {
-        "label": "ERROR_RESPONSES",
-        "importPath": "constants.error_response",
-        "description": "constants.error_response",
-        "isExtraImport": true,
-        "detail": "constants.error_response",
-        "documentation": {}
-    },
-    {
-        "label": "ERROR_RESPONSES",
-        "importPath": "constants.error_response",
-        "description": "constants.error_response",
-        "isExtraImport": true,
-        "detail": "constants.error_response",
-        "documentation": {}
-    },
-    {
-        "label": "ERROR_RESPONSES",
-        "importPath": "constants.error_response",
-        "description": "constants.error_response",
-        "isExtraImport": true,
-        "detail": "constants.error_response",
-        "documentation": {}
-    },
-    {
-        "label": "CompanyReqDTO",
+        "label": "CreateCompanyReqDTO",
         "importPath": "dtos.request.company_req_dto",
         "description": "dtos.request.company_req_dto",
         "isExtraImport": true,
@@ -441,7 +425,7 @@
         "documentation": {}
     },
     {
-        "label": "CompanyReqDTO",
+        "label": "ChangeCompanyReqDTO",
         "importPath": "dtos.request.company_req_dto",
         "description": "dtos.request.company_req_dto",
         "isExtraImport": true,
@@ -449,11 +433,91 @@
         "documentation": {}
     },
     {
-        "label": "CompanyReqDTO",
+        "label": "CreateCompanyReqDTO",
         "importPath": "dtos.request.company_req_dto",
         "description": "dtos.request.company_req_dto",
         "isExtraImport": true,
         "detail": "dtos.request.company_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "ChangeCompanyReqDTO",
+        "importPath": "dtos.request.company_req_dto",
+        "description": "dtos.request.company_req_dto",
+        "isExtraImport": true,
+        "detail": "dtos.request.company_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "DeleteCompanyReqDTO",
+        "importPath": "dtos.request.company_req_dto",
+        "description": "dtos.request.company_req_dto",
+        "isExtraImport": true,
+        "detail": "dtos.request.company_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "CreateCompanyReqDTO",
+        "importPath": "dtos.request.company_req_dto",
+        "description": "dtos.request.company_req_dto",
+        "isExtraImport": true,
+        "detail": "dtos.request.company_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "ChangeCompanyReqDTO",
+        "importPath": "dtos.request.company_req_dto",
+        "description": "dtos.request.company_req_dto",
+        "isExtraImport": true,
+        "detail": "dtos.request.company_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyResDTO",
+        "importPath": "dtos.response.company_res_dto",
+        "description": "dtos.response.company_res_dto",
+        "isExtraImport": true,
+        "detail": "dtos.response.company_res_dto",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyListResDTO",
+        "importPath": "dtos.response.company_res_dto",
+        "description": "dtos.response.company_res_dto",
+        "isExtraImport": true,
+        "detail": "dtos.response.company_res_dto",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyResDTO",
+        "importPath": "dtos.response.company_res_dto",
+        "description": "dtos.response.company_res_dto",
+        "isExtraImport": true,
+        "detail": "dtos.response.company_res_dto",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyListResDTO",
+        "importPath": "dtos.response.company_res_dto",
+        "description": "dtos.response.company_res_dto",
+        "isExtraImport": true,
+        "detail": "dtos.response.company_res_dto",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyResDTO",
+        "importPath": "dtos.response.company_res_dto",
+        "description": "dtos.response.company_res_dto",
+        "isExtraImport": true,
+        "detail": "dtos.response.company_res_dto",
+        "documentation": {}
+    },
+    {
+        "label": "CompanyListResDTO",
+        "importPath": "dtos.response.company_res_dto",
+        "description": "dtos.response.company_res_dto",
+        "isExtraImport": true,
+        "detail": "dtos.response.company_res_dto",
         "documentation": {}
     },
     {
@@ -462,6 +526,30 @@
         "description": "usecases.company_usecase",
         "isExtraImport": true,
         "detail": "usecases.company_usecase",
+        "documentation": {}
+    },
+    {
+        "label": "ERROR_RESPONSES",
+        "importPath": "constants.error_response",
+        "description": "constants.error_response",
+        "isExtraImport": true,
+        "detail": "constants.error_response",
+        "documentation": {}
+    },
+    {
+        "label": "ERROR_RESPONSES",
+        "importPath": "constants.error_response",
+        "description": "constants.error_response",
+        "isExtraImport": true,
+        "detail": "constants.error_response",
+        "documentation": {}
+    },
+    {
+        "label": "ERROR_RESPONSES",
+        "importPath": "constants.error_response",
+        "description": "constants.error_response",
+        "isExtraImport": true,
+        "detail": "constants.error_response",
         "documentation": {}
     },
     {
@@ -687,6 +775,14 @@
         "description": "handlers.name_handler",
         "isExtraImport": true,
         "detail": "handlers.name_handler",
+        "documentation": {}
+    },
+    {
+        "label": "AuthRepository",
+        "importPath": "repositories.auth_repository",
+        "description": "repositories.auth_repository",
+        "isExtraImport": true,
+        "detail": "repositories.auth_repository",
         "documentation": {}
     },
     {
@@ -966,7 +1062,7 @@
         "kind": 6,
         "importPath": "handlers.company_handler",
         "description": "handlers.company_handler",
-        "peekOfCode": "class CompanyHandler:\n    def create_company(self, company_req: CompanyReqDTO):\n        try:\n            CompanyUseCase.create_company(company_req)\n            return {\"message\": \"회사가 추가되었습니다\"}\n        except HTTPException as e:\n            raise\n        except Exception as e:\n            raise HTTPException(\n                status_code=500, detail=ERROR_RESPONSES[\"SERVER_ERROR\"]",
+        "peekOfCode": "class CompanyHandler:\n    def create_company(self, company_req: CreateCompanyReqDTO) -> CompanyResDTO:\n        \"\"\"회사 생성\"\"\"\n        try:\n            return CompanyUseCase.create_company(company_req)\n        except HTTPException as e:\n            raise\n        except Exception as e:\n            raise HTTPException(status_code=500, detail=str(e))\n    def get_companies(self) -> CompanyListResDTO:",
         "detail": "handlers.company_handler",
         "documentation": {}
     },
@@ -993,7 +1089,7 @@
         "kind": 6,
         "importPath": "repositories.company_repository",
         "description": "repositories.company_repository",
-        "peekOfCode": "class CompanyRepository:\n    @staticmethod\n    def get_companies() -> List[CompanyEntity]:\n        session = ScyllaDB.get_session()\n        query = \"SELECT id, name, company_name, created_at FROM companies\"\n        rows = session.execute(query)\n        return [\n            CompanyEntity(\n                id=str(row[\"id\"]),\n                name=row[\"name\"],",
+        "peekOfCode": "class CompanyRepository:\n    @staticmethod\n    def add_company(company: CompanyEntity) -> CompanyEntity:\n        \"\"\"회사 추가\"\"\"\n        session = ScyllaDB.get_session()\n        query = \"\"\"\n        INSERT INTO companies (id, user_id, company_name, company_address, total_staff, created_at, updated_at)\n        VALUES (%s, %s, %s, %s, %s, %s, %s)\n        \"\"\"\n        session.execute(",
         "detail": "repositories.company_repository",
         "documentation": {}
     },
@@ -1065,7 +1161,7 @@
         "kind": 2,
         "importPath": "routers.company_router",
         "description": "routers.company_router",
-        "peekOfCode": "def get_company_handler():\n    return CompanyHandler()\n@company_router.post(\"/\")\ndef create_company(\n    company_req: CompanyReqDTO, handler: CompanyHandler = Depends(get_company_handler)\n):\n    return handler.create_company(company_req)\n@company_router.get(\"/\")\ndef get_companies(handler: CompanyHandler = Depends(get_company_handler)):\n    return handler.get_companies()",
+        "peekOfCode": "def get_company_handler():\n    return CompanyHandler()\n@company_router.post(\"/\", response_model=CompanyResDTO)\ndef create_company(\n    company_req: CreateCompanyReqDTO,\n    handler: CompanyHandler = Depends(get_company_handler),\n):\n    return handler.create_company(company_req)\n@company_router.get(\"/\", response_model=CompanyListResDTO)\ndef get_companies(handler: CompanyHandler = Depends(get_company_handler)):",
         "detail": "routers.company_router",
         "documentation": {}
     },
@@ -1074,7 +1170,7 @@
         "kind": 2,
         "importPath": "routers.company_router",
         "description": "routers.company_router",
-        "peekOfCode": "def create_company(\n    company_req: CompanyReqDTO, handler: CompanyHandler = Depends(get_company_handler)\n):\n    return handler.create_company(company_req)\n@company_router.get(\"/\")\ndef get_companies(handler: CompanyHandler = Depends(get_company_handler)):\n    return handler.get_companies()\n@company_router.get(\"/{name}\")\ndef get_company_by_name(\n    name: str, handler: CompanyHandler = Depends(get_company_handler)",
+        "peekOfCode": "def create_company(\n    company_req: CreateCompanyReqDTO,\n    handler: CompanyHandler = Depends(get_company_handler),\n):\n    return handler.create_company(company_req)\n@company_router.get(\"/\", response_model=CompanyListResDTO)\ndef get_companies(handler: CompanyHandler = Depends(get_company_handler)):\n    return handler.get_companies()\n@company_router.get(\"/{id}\", response_model=CompanyResDTO)\ndef get_company_by_id(id: str, handler: CompanyHandler = Depends(get_company_handler)):",
         "detail": "routers.company_router",
         "documentation": {}
     },
@@ -1083,16 +1179,34 @@
         "kind": 2,
         "importPath": "routers.company_router",
         "description": "routers.company_router",
-        "peekOfCode": "def get_companies(handler: CompanyHandler = Depends(get_company_handler)):\n    return handler.get_companies()\n@company_router.get(\"/{name}\")\ndef get_company_by_name(\n    name: str, handler: CompanyHandler = Depends(get_company_handler)\n):\n    return handler.get_company_by_name(name)",
+        "peekOfCode": "def get_companies(handler: CompanyHandler = Depends(get_company_handler)):\n    return handler.get_companies()\n@company_router.get(\"/{id}\", response_model=CompanyResDTO)\ndef get_company_by_id(id: str, handler: CompanyHandler = Depends(get_company_handler)):\n    return handler.get_company_by_id(id)\n@company_router.put(\"/{id}\", response_model=CompanyResDTO)\ndef change_company(\n    id: str,\n    change_req: ChangeCompanyReqDTO,\n    handler: CompanyHandler = Depends(get_company_handler),",
         "detail": "routers.company_router",
         "documentation": {}
     },
     {
-        "label": "get_company_by_name",
+        "label": "get_company_by_id",
         "kind": 2,
         "importPath": "routers.company_router",
         "description": "routers.company_router",
-        "peekOfCode": "def get_company_by_name(\n    name: str, handler: CompanyHandler = Depends(get_company_handler)\n):\n    return handler.get_company_by_name(name)",
+        "peekOfCode": "def get_company_by_id(id: str, handler: CompanyHandler = Depends(get_company_handler)):\n    return handler.get_company_by_id(id)\n@company_router.put(\"/{id}\", response_model=CompanyResDTO)\ndef change_company(\n    id: str,\n    change_req: ChangeCompanyReqDTO,\n    handler: CompanyHandler = Depends(get_company_handler),\n):\n    return handler.change_company(id, change_req)\n@company_router.delete(\"/{id}\", response_model=CompanyResDTO)",
+        "detail": "routers.company_router",
+        "documentation": {}
+    },
+    {
+        "label": "change_company",
+        "kind": 2,
+        "importPath": "routers.company_router",
+        "description": "routers.company_router",
+        "peekOfCode": "def change_company(\n    id: str,\n    change_req: ChangeCompanyReqDTO,\n    handler: CompanyHandler = Depends(get_company_handler),\n):\n    return handler.change_company(id, change_req)\n@company_router.delete(\"/{id}\", response_model=CompanyResDTO)\ndef delete_company(id: str, handler: CompanyHandler = Depends(get_company_handler)):\n    return handler.delete_company(id)",
+        "detail": "routers.company_router",
+        "documentation": {}
+    },
+    {
+        "label": "delete_company",
+        "kind": 2,
+        "importPath": "routers.company_router",
+        "description": "routers.company_router",
+        "peekOfCode": "def delete_company(id: str, handler: CompanyHandler = Depends(get_company_handler)):\n    return handler.delete_company(id)",
         "detail": "routers.company_router",
         "documentation": {}
     },
@@ -1101,7 +1215,7 @@
         "kind": 5,
         "importPath": "routers.company_router",
         "description": "routers.company_router",
-        "peekOfCode": "company_router = APIRouter(prefix=\"/companies\", tags=[\"companies\"])\n# 의존성 주입을 위한 함수\ndef get_company_handler():\n    return CompanyHandler()\n@company_router.post(\"/\")\ndef create_company(\n    company_req: CompanyReqDTO, handler: CompanyHandler = Depends(get_company_handler)\n):\n    return handler.create_company(company_req)\n@company_router.get(\"/\")",
+        "peekOfCode": "company_router = APIRouter(prefix=\"/companies\", tags=[\"companies\"])\n# 의존성 주입을 위한 함수\ndef get_company_handler():\n    return CompanyHandler()\n@company_router.post(\"/\", response_model=CompanyResDTO)\ndef create_company(\n    company_req: CreateCompanyReqDTO,\n    handler: CompanyHandler = Depends(get_company_handler),\n):\n    return handler.create_company(company_req)",
         "detail": "routers.company_router",
         "documentation": {}
     },
@@ -1191,7 +1305,7 @@
         "kind": 6,
         "importPath": "usecases.company_usecase",
         "description": "usecases.company_usecase",
-        "peekOfCode": "class CompanyUseCase:\n    @staticmethod\n    def create_company(company_req: CompanyReqDTO):\n        # 해당 이름의 사용자가 존재하는지 확인\n        user = NameRepository.find_by_name(company_req.name)\n        if not user:\n            raise HTTPException(\n                status_code=404, detail=ERROR_RESPONSES[\"USER_NOT_FOUND\"]\n            )\n        # 이미 회사를 가지고 있는지 확인",
+        "peekOfCode": "class CompanyUseCase:\n    @staticmethod\n    def create_company(company_req: CreateCompanyReqDTO) -> CompanyResDTO:\n        \"\"\"회사 생성 (boss만 가능)\"\"\"\n        # 1. 유저 조회 및 권한 체크\n        user = AuthRepository.find_by_id(company_req.user_id)\n        if not user or user.role != \"boss\":\n            raise HTTPException(\n                status_code=403, detail=\"회사 생성은 boss만 가능합니다.\"\n            )",
         "detail": "usecases.company_usecase",
         "documentation": {}
     },

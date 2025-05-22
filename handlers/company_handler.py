@@ -1,42 +1,51 @@
 from fastapi import HTTPException
-
-from constants.error_response import ERROR_RESPONSES
-from dtos.request.company_req_dto import CompanyReqDTO
+from dtos.request.company_req_dto import CreateCompanyReqDTO, ChangeCompanyReqDTO
+from dtos.response.company_res_dto import CompanyResDTO, CompanyListResDTO
 from usecases.company_usecase import CompanyUseCase
 
 
 class CompanyHandler:
-    def create_company(self, company_req: CompanyReqDTO):
+    def create_company(self, company_req: CreateCompanyReqDTO) -> CompanyResDTO:
+        """회사 생성"""
         try:
-            CompanyUseCase.create_company(company_req)
-            return {"message": "회사가 추가되었습니다"}
+            return CompanyUseCase.create_company(company_req)
         except HTTPException as e:
             raise
         except Exception as e:
-            raise HTTPException(
-                status_code=500, detail=ERROR_RESPONSES["SERVER_ERROR"]
-            ) from e
+            raise HTTPException(status_code=500, detail=str(e))
 
-    def get_companies(self):
+    def get_companies(self) -> CompanyListResDTO:
+        """회사 전체 목록 조회"""
         try:
-            companies = CompanyUseCase.get_companies()
-            if not companies:
-                return {"message": "등록된 회사가 없습니다", "data": []}
-            return {"message": "회사 목록을 가져왔습니다", "data": companies}
+            return CompanyUseCase.get_companies()
         except HTTPException as e:
             raise
         except Exception as e:
-            raise HTTPException(
-                status_code=500, detail=ERROR_RESPONSES["SERVER_ERROR"]
-            ) from e
+            raise HTTPException(status_code=500, detail=str(e))
 
-    def get_company_by_name(self, name: str):
+    def get_company_by_id(self, id: str) -> CompanyResDTO:
+        """회사 단일 조회"""
         try:
-            company = CompanyUseCase.get_company_by_name(name)
-            return {"message": "회사가 조회되었습니다", "data": [company]}
+            return CompanyUseCase.get_company_by_id(id)
         except HTTPException as e:
             raise
         except Exception as e:
-            raise HTTPException(
-                status_code=500, detail=ERROR_RESPONSES["SERVER_ERROR"]
-            ) from e
+            raise HTTPException(status_code=500, detail=str(e))
+
+    def change_company(self, id: str, change_req: ChangeCompanyReqDTO) -> CompanyResDTO:
+        """회사 정보 수정"""
+        try:
+            return CompanyUseCase.change_company(id, change_req)
+        except HTTPException as e:
+            raise
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
+
+    def delete_company(self, id: str) -> CompanyResDTO:
+        """회사 삭제"""
+        try:
+            return CompanyUseCase.delete_company(id)
+        except HTTPException as e:
+            raise
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=str(e))
