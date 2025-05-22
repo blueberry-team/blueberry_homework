@@ -137,7 +137,39 @@
         "documentation": {}
     },
     {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
         "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "Field",
         "importPath": "pydantic",
         "description": "pydantic",
         "isExtraImport": true,
@@ -186,6 +218,14 @@
     },
     {
         "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
         "importPath": "typing",
         "description": "typing",
         "isExtraImport": true,
@@ -529,51 +569,35 @@
         "documentation": {}
     },
     {
-        "label": "ERROR_RESPONSES",
-        "importPath": "constants.error_response",
-        "description": "constants.error_response",
+        "label": "NameResDTO",
+        "importPath": "dtos.response.name_res_dto",
+        "description": "dtos.response.name_res_dto",
         "isExtraImport": true,
-        "detail": "constants.error_response",
+        "detail": "dtos.response.name_res_dto",
         "documentation": {}
     },
     {
-        "label": "ERROR_RESPONSES",
-        "importPath": "constants.error_response",
-        "description": "constants.error_response",
+        "label": "NameListResDTO",
+        "importPath": "dtos.response.name_res_dto",
+        "description": "dtos.response.name_res_dto",
         "isExtraImport": true,
-        "detail": "constants.error_response",
+        "detail": "dtos.response.name_res_dto",
         "documentation": {}
     },
     {
-        "label": "ERROR_RESPONSES",
-        "importPath": "constants.error_response",
-        "description": "constants.error_response",
+        "label": "NameResDTO",
+        "importPath": "dtos.response.name_res_dto",
+        "description": "dtos.response.name_res_dto",
         "isExtraImport": true,
-        "detail": "constants.error_response",
+        "detail": "dtos.response.name_res_dto",
         "documentation": {}
     },
     {
-        "label": "NameReqDTO",
-        "importPath": "dtos.request.name_req_dto",
-        "description": "dtos.request.name_req_dto",
+        "label": "NameListResDTO",
+        "importPath": "dtos.response.name_res_dto",
+        "description": "dtos.response.name_res_dto",
         "isExtraImport": true,
-        "detail": "dtos.request.name_req_dto",
-        "documentation": {}
-    },
-    {
-        "label": "NameReqDTO",
-        "importPath": "dtos.request.name_req_dto",
-        "description": "dtos.request.name_req_dto",
-        "isExtraImport": true,
-        "detail": "dtos.request.name_req_dto",
-        "documentation": {}
-    },
-    {
-        "label": "NameReqDTO",
-        "importPath": "dtos.request.name_req_dto",
-        "description": "dtos.request.name_req_dto",
-        "isExtraImport": true,
-        "detail": "dtos.request.name_req_dto",
+        "detail": "dtos.response.name_res_dto",
         "documentation": {}
     },
     {
@@ -582,6 +606,46 @@
         "description": "usecases.name_usecase",
         "isExtraImport": true,
         "detail": "usecases.name_usecase",
+        "documentation": {}
+    },
+    {
+        "label": "ERROR_RESPONSES",
+        "importPath": "constants.error_response",
+        "description": "constants.error_response",
+        "isExtraImport": true,
+        "detail": "constants.error_response",
+        "documentation": {}
+    },
+    {
+        "label": "ERROR_RESPONSES",
+        "importPath": "constants.error_response",
+        "description": "constants.error_response",
+        "isExtraImport": true,
+        "detail": "constants.error_response",
+        "documentation": {}
+    },
+    {
+        "label": "ERROR_RESPONSES",
+        "importPath": "constants.error_response",
+        "description": "constants.error_response",
+        "isExtraImport": true,
+        "detail": "constants.error_response",
+        "documentation": {}
+    },
+    {
+        "label": "NameReqDTO",
+        "importPath": "dtos.request.name_req_dto",
+        "description": "dtos.request.name_req_dto",
+        "isExtraImport": true,
+        "detail": "dtos.request.name_req_dto",
+        "documentation": {}
+    },
+    {
+        "label": "NameReqDTO",
+        "importPath": "dtos.request.name_req_dto",
+        "description": "dtos.request.name_req_dto",
+        "isExtraImport": true,
+        "detail": "dtos.request.name_req_dto",
         "documentation": {}
     },
     {
@@ -810,14 +874,6 @@
         "documentation": {}
     },
     {
-        "label": "NameRepository",
-        "importPath": "repositories.name_repository",
-        "description": "repositories.name_repository",
-        "isExtraImport": true,
-        "detail": "repositories.name_repository",
-        "documentation": {}
-    },
-    {
         "label": "name_router",
         "importPath": "routers.name_router",
         "description": "routers.name_router",
@@ -927,7 +983,7 @@
         "kind": 6,
         "importPath": "dtos.request.auth_req_dto",
         "description": "dtos.request.auth_req_dto",
-        "peekOfCode": "class SignUpReqDTO(BaseModel):\n    name: str  # 사용자 이름\n    email: EmailStr  # 이메일\n    password: str  # 비밀번호\n    address: Optional[str] = \"\"  # 주소(선택)\n    role: Optional[str] = \"worker\"  # 역할(기본값: worker)\n# 로그인 요청 DTO\nclass LogInReqDTO(BaseModel):\n    email: EmailStr  # 이메일\n    password: str  # 비밀번호",
+        "peekOfCode": "class SignUpReqDTO(BaseModel):\n    name: str = Field(..., description=\"사용자 이름\", example=\"홍길동\")\n    email: EmailStr = Field(..., description=\"이메일\", example=\"test@example.com\")\n    password: str = Field(..., description=\"비밀번호\", example=\"1234abcd!\")\n    address: Optional[str] = Field(\"\", description=\"주소\", example=\"서울시 강남구\")\n    role: Optional[str] = Field(\n        \"worker\", description=\"역할(boss/worker)\", example=\"boss\"\n    )\n# 로그인 요청 DTO\nclass LogInReqDTO(BaseModel):",
         "detail": "dtos.request.auth_req_dto",
         "documentation": {}
     },
@@ -936,7 +992,7 @@
         "kind": 6,
         "importPath": "dtos.request.auth_req_dto",
         "description": "dtos.request.auth_req_dto",
-        "peekOfCode": "class LogInReqDTO(BaseModel):\n    email: EmailStr  # 이메일\n    password: str  # 비밀번호\n# 유저정보 수정 요청 DTO\nclass ChangeUserReqDTO(BaseModel):\n    user_id: str  # 유저 ID\n    name: Optional[str] = None  # 이름(선택)\n    email: Optional[EmailStr] = None  # 이메일(선택)\n    password: Optional[str] = None  # 비밀번호(선택)\n    address: Optional[str] = None  # 주소(선택)",
+        "peekOfCode": "class LogInReqDTO(BaseModel):\n    email: EmailStr = Field(..., description=\"이메일\", example=\"test@example.com\")\n    password: str = Field(..., description=\"비밀번호\", example=\"1234abcd!\")\n# 유저정보 수정 요청 DTO\nclass ChangeUserReqDTO(BaseModel):\n    user_id: str = Field(\n        ..., description=\"유저 ID\", example=\"550e8400-e29b-41d4-a716-446655440000\"\n    )\n    name: Optional[str] = Field(None, description=\"이름(선택)\", example=\"홍길동\")\n    email: Optional[EmailStr] = Field(",
         "detail": "dtos.request.auth_req_dto",
         "documentation": {}
     },
@@ -945,7 +1001,7 @@
         "kind": 6,
         "importPath": "dtos.request.auth_req_dto",
         "description": "dtos.request.auth_req_dto",
-        "peekOfCode": "class ChangeUserReqDTO(BaseModel):\n    user_id: str  # 유저 ID\n    name: Optional[str] = None  # 이름(선택)\n    email: Optional[EmailStr] = None  # 이메일(선택)\n    password: Optional[str] = None  # 비밀번호(선택)\n    address: Optional[str] = None  # 주소(선택)\n    role: Optional[str] = None  # 역할(선택)",
+        "peekOfCode": "class ChangeUserReqDTO(BaseModel):\n    user_id: str = Field(\n        ..., description=\"유저 ID\", example=\"550e8400-e29b-41d4-a716-446655440000\"\n    )\n    name: Optional[str] = Field(None, description=\"이름(선택)\", example=\"홍길동\")\n    email: Optional[EmailStr] = Field(\n        None, description=\"이메일(선택)\", example=\"test@example.com\"\n    )\n    password: Optional[str] = Field(\n        None, description=\"비밀번호(선택)\", example=\"1234abcd!\"",
         "detail": "dtos.request.auth_req_dto",
         "documentation": {}
     },
@@ -954,7 +1010,7 @@
         "kind": 6,
         "importPath": "dtos.request.company_req_dto",
         "description": "dtos.request.company_req_dto",
-        "peekOfCode": "class CompanyReqDTO(BaseModel):\n    # 여기에서 벨리데이션 처리\n    name: str = Field(..., min_length=1, max_length=50)\n    company_name: str = Field(..., min_length=1, max_length=100)\n# 회사 생성 요청 DTO\nclass CreateCompanyReqDTO(BaseModel):\n    user_id: str  # 회사 소유자(유저) ID\n    company_name: str  # 회사 이름\n    company_address: Optional[str] = \"\"  # 회사 주소\n    total_staff: Optional[int] = 0  # 총 직원 수",
+        "peekOfCode": "class CompanyReqDTO(BaseModel):\n    # 여기에서 벨리데이션 처리\n    name: str = Field(..., min_length=1, max_length=50)\n    company_name: str = Field(..., min_length=1, max_length=100)\n# 회사 생성 요청 DTO\nclass CreateCompanyReqDTO(BaseModel):\n    user_id: str = Field(\n        ...,\n        description=\"회사 소유자(유저) ID\",\n        example=\"550e8400-e29b-41d4-a716-446655440000\",",
         "detail": "dtos.request.company_req_dto",
         "documentation": {}
     },
@@ -963,7 +1019,7 @@
         "kind": 6,
         "importPath": "dtos.request.company_req_dto",
         "description": "dtos.request.company_req_dto",
-        "peekOfCode": "class CreateCompanyReqDTO(BaseModel):\n    user_id: str  # 회사 소유자(유저) ID\n    company_name: str  # 회사 이름\n    company_address: Optional[str] = \"\"  # 회사 주소\n    total_staff: Optional[int] = 0  # 총 직원 수\n# 회사 수정 요청 DTO\nclass ChangeCompanyReqDTO(BaseModel):\n    id: str  # 회사 ID\n    company_name: Optional[str] = None  # 회사 이름(선택)\n    company_address: Optional[str] = None  # 회사 주소(선택)",
+        "peekOfCode": "class CreateCompanyReqDTO(BaseModel):\n    user_id: str = Field(\n        ...,\n        description=\"회사 소유자(유저) ID\",\n        example=\"550e8400-e29b-41d4-a716-446655440000\",\n    )\n    company_name: str = Field(..., description=\"회사 이름\", example=\"블루베리(주)\")\n    company_address: Optional[str] = Field(\n        \"\", description=\"회사 주소\", example=\"서울시 강남구\"\n    )",
         "detail": "dtos.request.company_req_dto",
         "documentation": {}
     },
@@ -972,7 +1028,7 @@
         "kind": 6,
         "importPath": "dtos.request.company_req_dto",
         "description": "dtos.request.company_req_dto",
-        "peekOfCode": "class ChangeCompanyReqDTO(BaseModel):\n    id: str  # 회사 ID\n    company_name: Optional[str] = None  # 회사 이름(선택)\n    company_address: Optional[str] = None  # 회사 주소(선택)\n    total_staff: Optional[int] = None  # 총 직원 수(선택)\n# 회사 삭제 요청 DTO\nclass DeleteCompanyReqDTO(BaseModel):\n    id: str  # 회사 ID",
+        "peekOfCode": "class ChangeCompanyReqDTO(BaseModel):\n    id: str = Field(\n        ..., description=\"회사 ID\", example=\"c1e2d3f4-5678-1234-9abc-1234567890ab\"\n    )\n    company_name: Optional[str] = Field(\n        None, description=\"회사 이름(선택)\", example=\"블루베리(주)\"\n    )\n    company_address: Optional[str] = Field(\n        None, description=\"회사 주소(선택)\", example=\"서울시 강남구\"\n    )",
         "detail": "dtos.request.company_req_dto",
         "documentation": {}
     },
@@ -981,7 +1037,7 @@
         "kind": 6,
         "importPath": "dtos.request.company_req_dto",
         "description": "dtos.request.company_req_dto",
-        "peekOfCode": "class DeleteCompanyReqDTO(BaseModel):\n    id: str  # 회사 ID",
+        "peekOfCode": "class DeleteCompanyReqDTO(BaseModel):\n    id: str = Field(\n        ..., description=\"회사 ID\", example=\"c1e2d3f4-5678-1234-9abc-1234567890ab\"\n    )",
         "detail": "dtos.request.company_req_dto",
         "documentation": {}
     },
@@ -999,7 +1055,7 @@
         "kind": 6,
         "importPath": "dtos.response.auth_res_dto",
         "description": "dtos.response.auth_res_dto",
-        "peekOfCode": "class AuthResDTO(BaseModel):\n    message: str  # 결과 메시지\n    user_id: Optional[str] = None  # 유저 ID(선택)\n# 유저 정보 응답 DTO\nclass UserResDTO(BaseModel):\n    user_id: str  # 유저 ID\n    name: str  # 이름\n    email: EmailStr  # 이메일\n    address: Optional[str] = \"\"  # 주소(선택)\n    role: Optional[str] = \"worker\"  # 역할(기본값: worker)",
+        "peekOfCode": "class AuthResDTO(BaseModel):\n    message: str = Field(..., description=\"결과 메시지\", example=\"회원가입 성공\")\n    user_id: Optional[str] = Field(\n        None, description=\"유저 ID\", example=\"550e8400-e29b-41d4-a716-446655440000\"\n    )\n# 유저 정보 응답 DTO\nclass UserResDTO(BaseModel):\n    user_id: str = Field(\n        ..., description=\"유저 ID\", example=\"550e8400-e29b-41d4-a716-446655440000\"\n    )",
         "detail": "dtos.response.auth_res_dto",
         "documentation": {}
     },
@@ -1008,7 +1064,7 @@
         "kind": 6,
         "importPath": "dtos.response.auth_res_dto",
         "description": "dtos.response.auth_res_dto",
-        "peekOfCode": "class UserResDTO(BaseModel):\n    user_id: str  # 유저 ID\n    name: str  # 이름\n    email: EmailStr  # 이메일\n    address: Optional[str] = \"\"  # 주소(선택)\n    role: Optional[str] = \"worker\"  # 역할(기본값: worker)\n    created_at: Optional[datetime] = None  # 생성일(선택)\n    updated_at: Optional[datetime] = None  # 수정일(선택)",
+        "peekOfCode": "class UserResDTO(BaseModel):\n    user_id: str = Field(\n        ..., description=\"유저 ID\", example=\"550e8400-e29b-41d4-a716-446655440000\"\n    )\n    name: str = Field(..., description=\"이름\", example=\"홍길동\")\n    email: EmailStr = Field(..., description=\"이메일\", example=\"test@example.com\")\n    address: Optional[str] = Field(\"\", description=\"주소\", example=\"서울시 강남구\")\n    role: Optional[str] = Field(\"worker\", description=\"역할\", example=\"boss\")\n    created_at: Optional[datetime] = Field(\n        None, description=\"생성일\", example=\"2024-05-20T12:00:00Z\"",
         "detail": "dtos.response.auth_res_dto",
         "documentation": {}
     },
@@ -1017,7 +1073,7 @@
         "kind": 6,
         "importPath": "dtos.response.company_res_dto",
         "description": "dtos.response.company_res_dto",
-        "peekOfCode": "class CompanyResDTO(BaseModel):\n    id: str  # 회사 ID\n    user_id: str  # 소유자(유저) ID\n    company_name: str  # 회사 이름\n    company_address: Optional[str] = \"\"  # 회사 주소\n    total_staff: Optional[int] = 0  # 총 직원 수\n    created_at: Optional[datetime] = None  # 생성일\n    updated_at: Optional[datetime] = None  # 수정일\n# 회사 목록 응답 DTO\nclass CompanyListResDTO(BaseModel):",
+        "peekOfCode": "class CompanyResDTO(BaseModel):\n    id: str = Field(\n        ..., description=\"회사 ID\", example=\"c1e2d3f4-5678-1234-9abc-1234567890ab\"\n    )\n    user_id: str = Field(\n        ...,\n        description=\"소유자(유저) ID\",\n        example=\"550e8400-e29b-41d4-a716-446655440000\",\n    )\n    company_name: str = Field(..., description=\"회사 이름\", example=\"블루베리(주)\")",
         "detail": "dtos.response.company_res_dto",
         "documentation": {}
     },
@@ -1026,8 +1082,26 @@
         "kind": 6,
         "importPath": "dtos.response.company_res_dto",
         "description": "dtos.response.company_res_dto",
-        "peekOfCode": "class CompanyListResDTO(BaseModel):\n    companies: List[CompanyResDTO]",
+        "peekOfCode": "class CompanyListResDTO(BaseModel):\n    companies: List[CompanyResDTO] = Field(..., description=\"회사 목록\")",
         "detail": "dtos.response.company_res_dto",
+        "documentation": {}
+    },
+    {
+        "label": "NameResDTO",
+        "kind": 6,
+        "importPath": "dtos.response.name_res_dto",
+        "description": "dtos.response.name_res_dto",
+        "peekOfCode": "class NameResDTO(BaseModel):\n    name: str = Field(..., description=\"이름\", example=\"홍길동\")\n# 이름 목록 응답 DTO\nclass NameListResDTO(BaseModel):\n    names: List[NameResDTO] = Field(..., description=\"이름 목록\")",
+        "detail": "dtos.response.name_res_dto",
+        "documentation": {}
+    },
+    {
+        "label": "NameListResDTO",
+        "kind": 6,
+        "importPath": "dtos.response.name_res_dto",
+        "description": "dtos.response.name_res_dto",
+        "peekOfCode": "class NameListResDTO(BaseModel):\n    names: List[NameResDTO] = Field(..., description=\"이름 목록\")",
+        "detail": "dtos.response.name_res_dto",
         "documentation": {}
     },
     {
@@ -1071,7 +1145,7 @@
         "kind": 6,
         "importPath": "handlers.name_handler",
         "description": "handlers.name_handler",
-        "peekOfCode": "class NameHandler:\n    def create_name(self, input_name: NameReqDTO):\n        try:\n            added_name = NameUseCase.create_name(input_name)\n            return {\"message\": \"이름이 추가되었습니다\", \"name\": added_name}\n        except HTTPException as e:\n            # HTTP 예외는 그대로 다시 발생시켜 FastAPI가 처리하도록 함\n            raise\n        except Exception as e:\n            # 예상치 못한 오류가 발생한 경우",
+        "peekOfCode": "class NameHandler:\n    def get_names(self):\n        try:\n            name_list = NameUseCase.get_names()\n            # 이름 목록을 NameListResDTO로 변환\n            return NameListResDTO(names=[NameResDTO(name=n.name) for n in name_list])\n        except HTTPException as e:\n            raise\n        except Exception as e:\n            # 예상치 못한 오류가 발생한 경우",
         "detail": "handlers.name_handler",
         "documentation": {}
     },
@@ -1098,7 +1172,7 @@
         "kind": 6,
         "importPath": "repositories.name_repository",
         "description": "repositories.name_repository",
-        "peekOfCode": "class NameRepository:\n    # 이름을 추가하는 함수\n    @staticmethod\n    def add_name(name_entity: UserEntity) -> UserEntity:\n        session = ScyllaDB.get_session()\n        query = \"\"\"\n        INSERT INTO users (id, username, created_at, updated_at)\n        VALUES (%s, %s, %s, %s)\n        \"\"\"\n        session.execute(",
+        "peekOfCode": "class NameRepository:\n    # 이름 목록을 가져오는 함수\n    @staticmethod\n    def get_names() -> List[UserEntity]:\n        session = ScyllaDB.get_session()\n        query = \"SELECT id, username, created_at, updated_at FROM users\"\n        rows = session.execute(query)\n        return [\n            UserEntity(\n                id=str(row[\"id\"]),",
         "detail": "repositories.name_repository",
         "documentation": {}
     },
@@ -1224,16 +1298,7 @@
         "kind": 2,
         "importPath": "routers.name_router",
         "description": "routers.name_router",
-        "peekOfCode": "def get_name_handler():\n    return NameHandler()\n@name_router.post(\"/\")\ndef create_name(\n    input_name: NameReqDTO, handler: NameHandler = Depends(get_name_handler)\n):\n    return handler.create_name(input_name)\n@name_router.get(\"/\")\ndef get_names(handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_names()",
-        "detail": "routers.name_router",
-        "documentation": {}
-    },
-    {
-        "label": "create_name",
-        "kind": 2,
-        "importPath": "routers.name_router",
-        "description": "routers.name_router",
-        "peekOfCode": "def create_name(\n    input_name: NameReqDTO, handler: NameHandler = Depends(get_name_handler)\n):\n    return handler.create_name(input_name)\n@name_router.get(\"/\")\ndef get_names(handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_names()\n@name_router.get(\"/{name}\")\ndef get_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_name_by_name(name)",
+        "peekOfCode": "def get_name_handler():\n    return NameHandler()\n@name_router.get(\"/\", response_model=NameListResDTO)\ndef get_names(handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_names()\n@name_router.get(\"/{name}\", response_model=NameResDTO)\ndef get_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_name_by_name(name)\n@name_router.delete(\"/index/{index}\")\ndef delete_name_by_index(index: int, handler: NameHandler = Depends(get_name_handler)):",
         "detail": "routers.name_router",
         "documentation": {}
     },
@@ -1242,7 +1307,7 @@
         "kind": 2,
         "importPath": "routers.name_router",
         "description": "routers.name_router",
-        "peekOfCode": "def get_names(handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_names()\n@name_router.get(\"/{name}\")\ndef get_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_name_by_name(name)\n@name_router.put(\"/{used_id}\")\ndef change_name(\n    used_id: str, new_name: str, handler: NameHandler = Depends(get_name_handler)\n):\n    return handler.change_name(used_id, new_name)",
+        "peekOfCode": "def get_names(handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_names()\n@name_router.get(\"/{name}\", response_model=NameResDTO)\ndef get_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_name_by_name(name)\n@name_router.delete(\"/index/{index}\")\ndef delete_name_by_index(index: int, handler: NameHandler = Depends(get_name_handler)):\n    return handler.delete_name_by_index(index)\n@name_router.delete(\"/name/{name}\")\ndef delete_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):",
         "detail": "routers.name_router",
         "documentation": {}
     },
@@ -1251,16 +1316,7 @@
         "kind": 2,
         "importPath": "routers.name_router",
         "description": "routers.name_router",
-        "peekOfCode": "def get_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_name_by_name(name)\n@name_router.put(\"/{used_id}\")\ndef change_name(\n    used_id: str, new_name: str, handler: NameHandler = Depends(get_name_handler)\n):\n    return handler.change_name(used_id, new_name)\n@name_router.delete(\"/index/{index}\")\ndef delete_name_by_index(index: int, handler: NameHandler = Depends(get_name_handler)):\n    return handler.delete_name_by_index(index)",
-        "detail": "routers.name_router",
-        "documentation": {}
-    },
-    {
-        "label": "change_name",
-        "kind": 2,
-        "importPath": "routers.name_router",
-        "description": "routers.name_router",
-        "peekOfCode": "def change_name(\n    used_id: str, new_name: str, handler: NameHandler = Depends(get_name_handler)\n):\n    return handler.change_name(used_id, new_name)\n@name_router.delete(\"/index/{index}\")\ndef delete_name_by_index(index: int, handler: NameHandler = Depends(get_name_handler)):\n    return handler.delete_name_by_index(index)\n@name_router.delete(\"/name/{name}\")\ndef delete_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.delete_name_by_name(name)",
+        "peekOfCode": "def get_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_name_by_name(name)\n@name_router.delete(\"/index/{index}\")\ndef delete_name_by_index(index: int, handler: NameHandler = Depends(get_name_handler)):\n    return handler.delete_name_by_index(index)\n@name_router.delete(\"/name/{name}\")\ndef delete_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.delete_name_by_name(name)",
         "detail": "routers.name_router",
         "documentation": {}
     },
@@ -1287,7 +1343,7 @@
         "kind": 5,
         "importPath": "routers.name_router",
         "description": "routers.name_router",
-        "peekOfCode": "name_router = APIRouter(prefix=\"/names\", tags=[\"names\"])\n# 의존성 주입을 위한 함수\ndef get_name_handler():\n    return NameHandler()\n@name_router.post(\"/\")\ndef create_name(\n    input_name: NameReqDTO, handler: NameHandler = Depends(get_name_handler)\n):\n    return handler.create_name(input_name)\n@name_router.get(\"/\")",
+        "peekOfCode": "name_router = APIRouter(prefix=\"/names\", tags=[\"names\"])\n# 의존성 주입을 위한 함수\ndef get_name_handler():\n    return NameHandler()\n@name_router.get(\"/\", response_model=NameListResDTO)\ndef get_names(handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_names()\n@name_router.get(\"/{name}\", response_model=NameResDTO)\ndef get_name_by_name(name: str, handler: NameHandler = Depends(get_name_handler)):\n    return handler.get_name_by_name(name)",
         "detail": "routers.name_router",
         "documentation": {}
     },
@@ -1314,7 +1370,7 @@
         "kind": 6,
         "importPath": "usecases.name_usecase",
         "description": "usecases.name_usecase",
-        "peekOfCode": "class NameUseCase:\n    @staticmethod\n    def create_name(input_name: NameReqDTO):\n        name_list = NameRepository.get_names()\n        # 이름이 이미 존재하는 경우\n        if input_name.name in [item.name for item in name_list]:\n            raise HTTPException(\n                status_code=400, detail=ERROR_RESPONSES[\"DUPLICATE_NAME\"]\n            )\n        # Request DTO를 Entity로 변환",
+        "peekOfCode": "class NameUseCase:\n    @staticmethod\n    def get_names():\n        # 이름을 레포지토리를 사용해서 가져오기\n        try:\n            name_list = NameRepository.get_names()\n            return name_list  # 핸들러에서 NameListResDTO로 변환\n        except Exception as e:\n            raise HTTPException(\n                status_code=500, detail=ERROR_RESPONSES[\"SERVER_ERROR\"]",
         "detail": "usecases.name_usecase",
         "documentation": {}
     },

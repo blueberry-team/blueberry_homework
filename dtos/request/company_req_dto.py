@@ -11,20 +11,34 @@ class CompanyReqDTO(BaseModel):
 
 # 회사 생성 요청 DTO
 class CreateCompanyReqDTO(BaseModel):
-    user_id: str  # 회사 소유자(유저) ID
-    company_name: str  # 회사 이름
-    company_address: Optional[str] = ""  # 회사 주소
-    total_staff: Optional[int] = 0  # 총 직원 수
+    user_id: str = Field(
+        ...,
+        description="회사 소유자(유저) ID",
+        example="550e8400-e29b-41d4-a716-446655440000",
+    )
+    company_name: str = Field(..., description="회사 이름", example="블루베리(주)")
+    company_address: Optional[str] = Field(
+        "", description="회사 주소", example="서울시 강남구"
+    )
+    total_staff: Optional[int] = Field(0, description="총 직원 수", example=10)
 
 
 # 회사 수정 요청 DTO
 class ChangeCompanyReqDTO(BaseModel):
-    id: str  # 회사 ID
-    company_name: Optional[str] = None  # 회사 이름(선택)
-    company_address: Optional[str] = None  # 회사 주소(선택)
-    total_staff: Optional[int] = None  # 총 직원 수(선택)
+    id: str = Field(
+        ..., description="회사 ID", example="c1e2d3f4-5678-1234-9abc-1234567890ab"
+    )
+    company_name: Optional[str] = Field(
+        None, description="회사 이름(선택)", example="블루베리(주)"
+    )
+    company_address: Optional[str] = Field(
+        None, description="회사 주소(선택)", example="서울시 강남구"
+    )
+    total_staff: Optional[int] = Field(None, description="총 직원 수(선택)", example=15)
 
 
 # 회사 삭제 요청 DTO
 class DeleteCompanyReqDTO(BaseModel):
-    id: str  # 회사 ID
+    id: str = Field(
+        ..., description="회사 ID", example="c1e2d3f4-5678-1234-9abc-1234567890ab"
+    )

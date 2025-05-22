@@ -7,7 +7,6 @@ from dtos.request.company_req_dto import CreateCompanyReqDTO, ChangeCompanyReqDT
 from dtos.response.company_res_dto import CompanyResDTO, CompanyListResDTO
 from entities.company_entity import CompanyEntity
 from repositories.company_repository import CompanyRepository
-from repositories.name_repository import NameRepository
 from repositories.auth_repository import AuthRepository
 
 

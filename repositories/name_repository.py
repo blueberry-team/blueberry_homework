@@ -6,26 +6,6 @@ import uuid
 
 
 class NameRepository:
-    # 이름을 추가하는 함수
-    @staticmethod
-    def add_name(name_entity: UserEntity) -> UserEntity:
-        session = ScyllaDB.get_session()
-        query = """
-        INSERT INTO users (id, username, created_at, updated_at)
-        VALUES (%s, %s, %s, %s)
-        """
-
-        session.execute(
-            query,
-            (
-                uuid.UUID(name_entity.id),
-                name_entity.name,
-                name_entity.created_at,
-                name_entity.updated_at,
-            ),
-        )
-        return name_entity
-
     # 이름 목록을 가져오는 함수
     @staticmethod
     def get_names() -> List[UserEntity]:
@@ -71,22 +51,6 @@ class NameRepository:
                 updated_at=row["updated_at"],
             )
         return deleted
-
-    @staticmethod
-    def change_name(index: int, user_entity: UserEntity) -> Optional[UserEntity]:
-        # 인덱스 기반 변경은 DB에서는 비효율적이므로, 전체 목록을 가져와 해당 인덱스의 id로 업데이트
-        names = NameRepository.get_names()
-        if index < 0 or index >= len(names):
-            return None
-        user = names[index]
-        session = ScyllaDB.get_session()
-        query = """
-        UPDATE users SET username = %s, updated_at = %s WHERE id = %s
-        """
-        session.execute(
-            query, (user_entity.name, user_entity.updated_at, uuid.UUID(user.id))
-        )
-        return user_entity
 
     @staticmethod
     def find_by_name(name: str) -> Optional[UserEntity]:
