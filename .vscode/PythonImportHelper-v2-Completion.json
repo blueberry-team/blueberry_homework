@@ -755,7 +755,7 @@
         "kind": 2,
         "importPath": "db.db",
         "description": "db.db",
-        "peekOfCode": "def create_company_table(session: Session):\n    \"\"\"필요한 테이블을 생성합니다.\"\"\"\n    # 회사 테이블 생성\n    session.execute(\n        \"\"\"\n    CREATE TABLE IF NOT EXISTS companies (\n        id UUID PRIMARY KEY,\n        name TEXT,\n        company_name TEXT,\n        created_at TIMESTAMP",
+        "peekOfCode": "def create_company_table(session: Session):\n    \"\"\"필요한 테이블을 생성합니다.\"\"\"\n    # 회사 테이블 생성\n    session.execute(\n        \"\"\"\n    CREATE TABLE IF NOT EXISTS companies (\n        id UUID PRIMARY KEY,\n        user_id TEXT,\n        company_name TEXT,\n        company_address TEXT,",
         "detail": "db.db",
         "documentation": {}
     },

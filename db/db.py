@@ -146,9 +146,12 @@ def create_company_table(session: Session):
         """
     CREATE TABLE IF NOT EXISTS companies (
         id UUID PRIMARY KEY,
-        name TEXT,
+        user_id TEXT,
         company_name TEXT,
-        created_at TIMESTAMP
+        company_address TEXT,
+        total_staff INT,
+        created_at TIMESTAMP,
+        updated_at TIMESTAMP
     )
     """
     )
