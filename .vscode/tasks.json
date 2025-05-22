@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "도커 전체 실행 (docker-compose up)",
+      "type": "shell",
+      "command": "docker-compose up --build",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "도커 전체 중지 (docker-compose down)",
+      "type": "shell",
+      "command": "docker-compose down",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "requirements 설치 (pip install)",
+      "type": "shell",
+      "command": "pip install -r requirements.txt",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "로컬 서버 실행 (uvicorn)",
+      "type": "shell",
+      "command": "uvicorn main:app --host 0.0.0.0 --port 8000 --reload",
+      "group": "build",
+      "problemMatcher": []
+    }
+  ]
+} 
