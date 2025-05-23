@@ -47,20 +47,20 @@ func Init() (*App, error) {
 	app.Session = session
 
 	// 레포지토리 초기화
-	nameRepo := repository.NewNameRepository(session)
+	userRepo := repository.NewUserRepository(session)
 	companyRepo := repository.NewCompanyRepository(session)
 
 	// 유스케이스 초기화
-	nameUsecase := usecase.NewNameUsecase(nameRepo)
-	createCompanyUsecase := usecase.NewCreateCompanyUsecase(nameRepo, companyRepo)
+	userUsecase := usecase.NewUserUsecase(userRepo)
+	createCompanyUsecase := usecase.NewCreateCompanyUsecase(userRepo, companyRepo)
 	companyUsecase := usecase.NewCompanyUsecase(companyRepo)
 
 	// 핸들러 초기화
-	nameHandler := handler.NewNameHandler(nameUsecase)
+	userHandler := handler.NewUserHandler(userUsecase)
 	companyHandler := handler.NewCompanyHandler(createCompanyUsecase, companyUsecase)
 
 	// 라우트 설정
-	app.Router.Mount("/names", route.NameRouter(nameHandler))
+	app.Router.Mount("/users", route.UserRouter(userHandler))
 	app.Router.Mount("/companies", route.CompanyRouter(companyHandler))
 
 	fmt.Println("✅ 애플리케이션 초기화 완료!")
