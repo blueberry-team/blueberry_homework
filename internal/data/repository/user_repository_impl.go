@@ -3,10 +3,10 @@ package repository
 import (
 	"blueberry_homework/internal/domain/entities"
 	"blueberry_homework/internal/domain/repo_interface"
+	"blueberry_homework/internal/response"
 	"sync"
 
 	"fmt"
-	"time"
 
 	"github.com/gocql/gocql"
 )
@@ -111,20 +111,28 @@ func (r *userRepo) Login(email string, password string) (bool, error) {
 }
 
 // GetUser는 유저의 정보를 가져옵니다
-// 핸들러에서 UUID 파싱 및 검증을 한다고 가정하고, id 파라미터를 gocql.UUID로 변경
-func (r *userRepo) GetUser(id gocql.UUID) (entities.UserEntity, error) {
+func (r *userRepo) GetUser(id gocql.UUID) (response.UserResponse, error) {
 	var user entities.UserEntity
 	err := r.session.Query(`
-		SELECT id, email, password, name, role, created_at, updated_at FROM users WHERE id = ? LIMIT 1
-	`, id).Scan(&user.Id, &user.Email, &user.Password, &user.Name, &user.Role, &user.CreatedAt, &user.UpdatedAt)
+		SELECT email, name, role, created_at, updated_at FROM users WHERE id = ? LIMIT 1
+	`, id).Scan(&user.Email, &user.Name, &user.Role, &user.CreatedAt, &user.UpdatedAt)
 
 	if err != nil {
 		if err == gocql.ErrNotFound {
-			return entities.UserEntity{}, fmt.Errorf("user not found with id: %s", id.String())
+			return response.UserResponse{}, fmt.Errorf("user not found with id: %s", id.String())
 		}
-		return entities.UserEntity{}, fmt.Errorf("failed to get user: %v", err)
+		return response.UserResponse{}, fmt.Errorf("failed to get user: %v", err)
 	}
-	return user, nil
+
+	userRes := response.UserResponse{
+		Email:     user.Email,
+		Name:      user.Name,
+		Role:      user.Role,
+		CreatedAt: user.CreatedAt,
+		UpdatedAt: user.UpdatedAt,
+	}
+
+	return userRes, nil
 }
 
 // 사용자 정보 변경 함수
@@ -132,13 +140,9 @@ func (r *userRepo) ChangeUser(user entities.UserEntity) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	// 사용자가 존재하면, 모든 필드를 업데이트
-	// updated_at은 현재 시간으로 설정
-	user.UpdatedAt = time.Now()
-
 	return r.session.Query(`
 		UPDATE users
-		SET email = ?, name = ?, role = ?, updated_at = ?
+		SET name = ?, role = ?, updated_at = ?
 		WHERE id = ?
-	`, user.Email, user.Name, user.Role, user.UpdatedAt, user.Id).Exec()
+	`, user.Name, user.Role, user.UpdatedAt, user.Id).Exec()
 }

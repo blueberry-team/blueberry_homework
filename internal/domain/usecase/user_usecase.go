@@ -4,6 +4,7 @@ import (
 	"blueberry_homework/internal/domain/entities"
 	"blueberry_homework/internal/domain/repo_interface"
 	"blueberry_homework/internal/request"
+	"blueberry_homework/internal/response"
 	"errors"
 	"time"
 
@@ -64,19 +65,19 @@ func (u *UserUsecase) Login(email string, password string) (bool, error) {
 }
 
 // GetUser는 ID로 특정 사용자 정보를 가져옵니다.
-func (u *UserUsecase) GetUser(id string) (entities.UserEntity, error) {
+func (u *UserUsecase) GetUser(id string) (response.UserResponse, error) {
 	// 유저 ID UUID 변환
 	parsedId, err := gocql.ParseUUID(id)
 	if err != nil {
-		return entities.UserEntity{}, err
+		return response.UserResponse{}, err
 	}
 
 	userExist, err := u.repo.FindById(parsedId)
 	if err != nil {
-		return entities.UserEntity{}, err
+		return response.UserResponse{}, err
 	}
 	if !userExist {
-		return entities.UserEntity{}, errors.New("user not found")
+		return response.UserResponse{}, errors.New("user not found")
 	}
 
 	return u.repo.GetUser(parsedId)

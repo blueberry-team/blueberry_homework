@@ -2,6 +2,7 @@ package repo_interface
 
 import (
 	"blueberry_homework/internal/domain/entities"
+	"blueberry_homework/internal/response"
 
 	"github.com/gocql/gocql"
 )
@@ -24,7 +25,7 @@ type UserRepository interface {
 	Login(email string, password string) (bool, error)
 
 	// GetUser는 유저의 정보를 가져옵니다
-	GetUser(id gocql.UUID) (entities.UserEntity, error)
+	GetUser(id gocql.UUID) (response.UserResponse, error)
 
 	// 사용자 정보 변경 함수
 	ChangeUser(user entities.UserEntity) error
