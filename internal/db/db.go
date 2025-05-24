@@ -118,21 +118,24 @@ func initCompanyTable(session *gocql.Session) error {
 	err := session.Query(`
 		CREATE TABLE IF NOT EXISTS companies (
 			id UUID PRIMARY KEY,
-			name TEXT,
+			user_id UUID,
 			company_name TEXT,
-			created_at TIMESTAMP
+			company_address TEXT,
+			total_staff INT,
+			created_at TIMESTAMP,
+			updated_at TIMESTAMP
 		);
 	`).Exec()
 	if err != nil {
 		return fmt.Errorf("companies 테이블 생성 실패: %v", err)
 	}
 
-	// company_name 컬럼 인덱스 생성 (FILTER 용도)
+	// user_id 컬럼 인덱스 생성 (FILTER 용도)
 	err = session.Query(`
-		CREATE INDEX IF NOT EXISTS ON companies (company_name);
+		CREATE INDEX IF NOT EXISTS ON companies (user_id);
 	`).Exec()
 	if err != nil {
-		return fmt.Errorf("company_name 인덱스 생성 실패: %v", err)
+		return fmt.Errorf("user_id 인덱스 생성 실패: %v", err)
 	}
 
 	return nil
