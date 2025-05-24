@@ -31,13 +31,13 @@ func (u *NameUseCase) CreateName(name string) error {
 		return errors.New("A name with the same value already exists")
 	}
 
-	// 새 사용자 엔티티 생성
-	user := entity.NewUserEntity(name)
+	// 새 사용자 엔티티 생성 (기존 시스템용)
+	user := entity.NewSimpleUserEntity(name)
 	return u.nameRepo.CreateName(user)
 }
 
 // GetNames 모든 이름 목록을 조회
-func (u *NameUseCase) GetNames() ([]entity.UserEntity, error) {
+func (u *NameUseCase) GetNames() ([]entity.SimpleUserEntity, error) {
 	return u.nameRepo.GetNames()
 }
 
@@ -71,7 +71,7 @@ func (u *NameUseCase) ChangeName(id, newName string) error {
 }
 
 // FindByName 이름으로 사용자 찾기 (내부 로직용)
-func (u *NameUseCase) FindByName(name string) (*entity.UserEntity, error) {
+func (u *NameUseCase) FindByName(name string) (*entity.SimpleUserEntity, error) {
 	return u.nameRepo.FindByName(name)
 }
 

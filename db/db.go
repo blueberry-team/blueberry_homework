@@ -54,17 +54,21 @@ func InitMongoDB(cfg *config.Config) error {
 func initCollections() error {
 	ctx := context.Background()
 
-	// users 컬렉션 생성 (이미 존재하면 무시됨)
+	// users 컬렉션 생성 (기존 사용자 - 호환성 유지)
 	err := Database.CreateCollection(ctx, "users")
 	if err != nil {
-		// 컬렉션이 이미 존재하는 경우는 에러가 아님
 		log.Printf("users 컬렉션: %v", err)
 	}
 
-	// companies 컬렉션 생성 (이미 존재하면 무시됨)
+	// auth_users 컬렉션 생성 (인증 사용자)
+	err = Database.CreateCollection(ctx, "auth_users")
+	if err != nil {
+		log.Printf("auth_users 컬렉션: %v", err)
+	}
+
+	// companies 컬렉션 생성
 	err = Database.CreateCollection(ctx, "companies")
 	if err != nil {
-		// 컬렉션이 이미 존재하는 경우는 에러가 아님
 		log.Printf("companies 컬렉션: %v", err)
 	}
 

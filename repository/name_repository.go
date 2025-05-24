@@ -25,7 +25,7 @@ func NewNameRepository() *NameRepository {
 }
 
 // CreateName 새 사용자 이름을 추가
-func (r *NameRepository) CreateName(user entity.UserEntity) error {
+func (r *NameRepository) CreateName(user entity.SimpleUserEntity) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -34,7 +34,7 @@ func (r *NameRepository) CreateName(user entity.UserEntity) error {
 }
 
 // GetNames 모든 사용자 목록을 반환
-func (r *NameRepository) GetNames() ([]entity.UserEntity, error) {
+func (r *NameRepository) GetNames() ([]entity.SimpleUserEntity, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
@@ -44,25 +44,25 @@ func (r *NameRepository) GetNames() ([]entity.UserEntity, error) {
 	}
 	defer cursor.Close(ctx)
 
-	var users []entity.UserEntity
+	var users []entity.SimpleUserEntity
 	if err = cursor.All(ctx, &users); err != nil {
 		return nil, err
 	}
 
 	// nil 대신 빈 슬라이스 반환
 	if users == nil {
-		users = []entity.UserEntity{}
+		users = []entity.SimpleUserEntity{}
 	}
 
 	return users, nil
 }
 
 // FindByName 이름으로 사용자를 찾음
-func (r *NameRepository) FindByName(name string) (*entity.UserEntity, error) {
+func (r *NameRepository) FindByName(name string) (*entity.SimpleUserEntity, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	var user entity.UserEntity
+	var user entity.SimpleUserEntity
 	filter := bson.D{{Key: "name", Value: name}}
 
 	err := r.collection.FindOne(ctx, filter).Decode(&user)
@@ -77,11 +77,11 @@ func (r *NameRepository) FindByName(name string) (*entity.UserEntity, error) {
 }
 
 // FindByID ID로 사용자를 찾음
-func (r *NameRepository) FindByID(id string) (*entity.UserEntity, error) {
+func (r *NameRepository) FindByID(id string) (*entity.SimpleUserEntity, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	var user entity.UserEntity
+	var user entity.SimpleUserEntity
 	filter := bson.D{{Key: "id", Value: id}}
 
 	err := r.collection.FindOne(ctx, filter).Decode(&user)
