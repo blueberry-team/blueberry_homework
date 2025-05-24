@@ -31,9 +31,8 @@ func InitScylla(cfg *config.Config) (*gocql.Session, error) {
 		return nil, fmt.Errorf("scylla 연결 실패 (blueberry): %v", err)
 	}
 
-	// DROP TABLE 하려면 주석 해제하세요
-	session.Query(`DROP TABLE IF EXISTS users;`).Exec()
-	session.Query(`DROP TABLE IF EXISTS companies;`).Exec()
+	// session.Query(`DROP TABLE IF EXISTS users;`).Exec()
+	// session.Query(`DROP TABLE IF EXISTS companies;`).Exec()
 
 	// users 테이블 초기화
 	if err := initUserTable(session); err != nil {

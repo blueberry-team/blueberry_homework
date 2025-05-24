@@ -82,11 +82,19 @@ func (r *companyRepo) ChangeCompany(entity entities.ChangeCompanyEntity) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
+	var companyId gocql.UUID
+
+	if err := r.session.Query(`
+		SELECT id FROM companies WHERE user_id = ? LIMIT 1
+	`, entity.UserId).Scan(&companyId); err != nil {
+		return err
+	}
+
 	return r.session.Query(`
 		UPDATE companies
 		SET company_name = ?, company_address = ?, total_staff = ?, updated_at = ?
-		WHERE user_id = ?
-	`, entity.CompanyName, entity.CompanyAddress, entity.TotalStaff, entity.UpdatedAt, entity.UserId).Exec()
+		WHERE id = ?
+	`, entity.CompanyName, entity.CompanyAddress, entity.TotalStaff, entity.UpdatedAt, companyId).Exec()
 }
 
 // DeleteCompany: userId로 회사 삭제
@@ -94,7 +102,15 @@ func (r *companyRepo) DeleteCompany(userId gocql.UUID) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
+	var companyId gocql.UUID
+
+	if err := r.session.Query(`
+	SELECT id FROM companies WHERE user_id = ? LIMIT 1
+	`, userId).Scan(&companyId); err != nil {
+		return err
+	}
+
 	return r.session.Query(`
-		DELETE FROM companies WHERE user_id = ?
-	`, userId).Exec()
+		DELETE FROM companies WHERE id = ?
+	`, companyId).Exec()
 }
