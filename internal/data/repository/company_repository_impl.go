@@ -1,11 +1,11 @@
 package repository
 
 import (
+	"blueberry_homework/dto/response"
 	"blueberry_homework/internal/domain/entities"
 	"blueberry_homework/internal/domain/repo_interface"
 	"fmt"
 	"sync"
-	"time"
 
 	"github.com/gocql/gocql"
 )
@@ -16,7 +16,6 @@ type companyRepo struct {
 	session *gocql.Session
 	// Mutex 추가
 	mu sync.Mutex
-
 }
 
 // NewCompanyRepository 새로운 CompanyRepository 인스턴스를 생성합니다.
@@ -26,54 +25,76 @@ func NewCompanyRepository(session *gocql.Session) repo_interface.CompanyReposito
 	}
 }
 
+// CheckCompanyWithUserId: userId로 회사 존재 여부 확인
+func (r *companyRepo) CheckCompanyWithUserId(userId gocql.UUID) (bool, error) {
+	var dummy gocql.UUID
+	err := r.session.Query(`
+		SELECT id FROM companies WHERE user_id = ? LIMIT 1
+	`, userId).Scan(&dummy)
+	if err != nil {
+		if err == gocql.ErrNotFound {
+			return false, nil
+		}
+		return false, err
+	}
+	return true, nil
+}
+
 // Company entity 를 저장소에 추가하는 함수
 func (r *companyRepo) CreateCompany(entity entities.CompanyEntity) error {
-	// Mutex로 락을 걸어 동시 접근을 방지합니다.
 	r.mu.Lock()
 	defer r.mu.Unlock()
 
-	// 컴패니 중복 확인
-	var existingCompany string
-	err := r.session.Query(`
-		SELECT company_name FROM companies WHERE company_name = ? LIMIT 1
-	`, entity.CompanyName).Scan(&existingCompany)
-	if err == nil {
-		return fmt.Errorf("company already exists: %s", existingCompany)
-	}
-	if err != gocql.ErrNotFound {
-		return err
-	}
-
-	// INSERT
 	return r.session.Query(`
-		INSERT INTO companies (id, name, company_name, created_at)
-		VALUES (?, ?, ?, ?)
-	`, entity.Id, entity.Name, entity.CompanyName, entity.CreatedAt).Exec()
+		INSERT INTO companies (id, user_id, company_name, company_address, total_staff, created_at, updated_at)
+		VALUES (?, ?, ?, ?, ?, ?, ?)
+	`, entity.Id, entity.UserId, entity.CompanyName, entity.CompanyAddress, entity.TotalStaff, entity.CreatedAt, entity.UpdatedAt).Exec()
 }
 
-// GetCompanies는 저장된 모든 company 정보를 반환합니다.
-func (r *companyRepo) GetCompanies() ([]entities.CompanyEntity, error) {
-	iter := r.session.Query(`
-		SELECT id, name, company_name, created_at FROM companies
-	`).Iter()
-
-	var results []entities.CompanyEntity
-	var id gocql.UUID
-	var name, companyName string
-	var createdAt time.Time
-
-	for iter.Scan(&id, &name, &companyName, &createdAt) {
-		results = append(results, entities.CompanyEntity{
-			Id:          id,
-			Name:        name,
-			CompanyName: companyName,
-			CreatedAt:   createdAt,
-		})
+// GetUserCompany: userId로 회사 정보 반환
+func (r *companyRepo) GetUserCompany(userId gocql.UUID) (response.CompanyResponse, error) {
+	var entity entities.CompanyEntity
+	err := r.session.Query(`
+		SELECT id, user_id, company_name, company_address, total_staff, created_at, updated_at FROM companies WHERE user_id = ? LIMIT 1
+	`, userId).Scan(
+		&entity.Id, &entity.UserId, &entity.CompanyName, &entity.CompanyAddress, &entity.TotalStaff, &entity.CreatedAt, &entity.UpdatedAt,
+	)
+	if err != nil {
+		if err == gocql.ErrNotFound {
+			return response.CompanyResponse{}, fmt.Errorf("company not found for userId: %s", userId.String())
+		}
+		return response.CompanyResponse{}, err
 	}
 
-	if err := iter.Close(); err != nil {
-		return nil, fmt.Errorf("GetNames() query failed: %v", err)
-	}
+	return response.CompanyResponse{
+		Id:             entity.Id,
+		UserId:         entity.UserId,
+		CompanyName:    entity.CompanyName,
+		CompanyAddress: entity.CompanyAddress,
+		TotalStaff:     entity.TotalStaff,
+		CreatedAt:      entity.CreatedAt,
+		UpdatedAt:      entity.UpdatedAt,
+	}, nil
+}
 
-	return results, nil
+// UpdateCompany는 회사 정보를 수정합니다.
+func (r *companyRepo) ChangeCompany(entity entities.CompanyEntity) error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	return r.session.Query(`
+		UPDATE companies
+		SET company_name = ?, company_address = ?, total_staff = ?, updated_at = ?
+		WHERE user_id = ?
+	`, entity.CompanyName, entity.CompanyAddress, entity.TotalStaff, entity.UpdatedAt, entity.UserId).Exec()
+}
+
+// DeleteCompany: userId로 회사 삭제
+func (r *companyRepo) DeleteCompany(userId gocql.UUID) error {
+	r.mu.Lock()
+	defer r.mu.Unlock()
+
+	return r.session.Query(`
+		DELETE FROM companies WHERE user_id = ?
+	`, userId).Exec()
 }

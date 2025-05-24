@@ -3,8 +3,8 @@ package usecase
 import (
 	"blueberry_homework/internal/domain/entities"
 	"blueberry_homework/internal/domain/repo_interface"
-	"blueberry_homework/internal/request"
-	"blueberry_homework/internal/response"
+	"blueberry_homework/dto/request"
+	"blueberry_homework/dto/response"
 	"errors"
 	"time"
 

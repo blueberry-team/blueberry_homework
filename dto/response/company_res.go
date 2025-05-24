@@ -1,4 +1,4 @@
-package entities
+package response
 
 import (
 	"time"
@@ -6,7 +6,7 @@ import (
 	"github.com/gocql/gocql"
 )
 
-type CompanyEntity struct {
+type CompanyResponse struct {
 	Id             gocql.UUID `json:"id"`
 	UserId         gocql.UUID `json:"userId"`
 	CompanyName    string     `json:"companyName"`
@@ -14,4 +14,10 @@ type CompanyEntity struct {
 	TotalStaff     int        `json:"totalStaff"`
 	CreatedAt      time.Time  `json:"createdAt"`
 	UpdatedAt      time.Time  `json:"updatedAt"`
+}
+
+// GetCompanies response structure
+type GetCompaniesResponse struct {
+	Message string                   `json:"message"`
+	Data    []CompanyResponse `json:"data"`
 }

@@ -2,7 +2,7 @@ package repo_interface
 
 import (
 	"blueberry_homework/internal/domain/entities"
-	"blueberry_homework/internal/response"
+	"blueberry_homework/dto/response"
 
 	"github.com/gocql/gocql"
 )

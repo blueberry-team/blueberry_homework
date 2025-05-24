@@ -2,8 +2,8 @@ package handler
 
 import (
 	"blueberry_homework/internal/domain/usecase"
-	"blueberry_homework/internal/request"
-	"blueberry_homework/internal/response"
+	"blueberry_homework/dto/request"
+	"blueberry_homework/dto/response"
 
 	"encoding/json"
 	"net/http"

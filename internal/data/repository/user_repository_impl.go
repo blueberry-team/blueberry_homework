@@ -3,7 +3,7 @@ package repository
 import (
 	"blueberry_homework/internal/domain/entities"
 	"blueberry_homework/internal/domain/repo_interface"
-	"blueberry_homework/internal/response"
+	"blueberry_homework/dto/response"
 	"sync"
 
 	"fmt"
@@ -124,15 +124,13 @@ func (r *userRepo) GetUser(id gocql.UUID) (response.UserResponse, error) {
 		return response.UserResponse{}, fmt.Errorf("failed to get user: %v", err)
 	}
 
-	userRes := response.UserResponse{
+	return response.UserResponse{
 		Email:     user.Email,
 		Name:      user.Name,
 		Role:      user.Role,
 		CreatedAt: user.CreatedAt,
 		UpdatedAt: user.UpdatedAt,
-	}
-
-	return userRes, nil
+	}, nil
 }
 
 // 사용자 정보 변경 함수
