@@ -23,6 +23,12 @@ type CreateNameRequest struct {
 	Name string `json:"name" binding:"required"`
 }
 
+// ChangeNameRequest 이름 변경 요청 구조체
+type ChangeNameRequest struct {
+	ID   string `json:"id" binding:"required"`
+	Name string `json:"name" binding:"required"`
+}
+
 // DeleteNameRequest 이름으로 삭제하는 요청 구조체
 type DeleteNameRequest struct {
 	Name string `json:"name" binding:"required"`
@@ -41,8 +47,33 @@ func (h *NameHandler) CreateName(c *gin.Context) {
 		return
 	}
 
-	h.useCase.CreateName(req.Name)
-	c.JSON(http.StatusOK, gin.H{"message": "success", "data": h.useCase.GetNames()})
+	if err := h.useCase.CreateName(req.Name); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "error", "error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success"})
+}
+
+// ChangeName 이름을 변경하는 핸들러
+func (h *NameHandler) ChangeName(c *gin.Context) {
+	var req ChangeNameRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "error", "error": "invalid request format"})
+		return
+	}
+
+	if len(req.Name) < 1 || len(req.Name) > 6 {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "error", "error": "name must be between 1 and 6 characters"})
+		return
+	}
+
+	if err := h.useCase.ChangeName(req.ID, req.Name); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "error", "error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }
 
 // GetNames 모든 이름을 조회하는 핸들러
@@ -66,7 +97,7 @@ func (h *NameHandler) DeleteByIndex(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "success", "data": h.useCase.GetNames()})
+	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }
 
 // DeleteByName 이름으로 항목을 삭제하는 핸들러
@@ -83,5 +114,5 @@ func (h *NameHandler) DeleteByName(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"message": "success", "data": h.useCase.GetNames()})
+	c.JSON(http.StatusOK, gin.H{"message": "success"})
 }

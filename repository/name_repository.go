@@ -2,6 +2,7 @@ package repository
 
 import (
 	"blueberry_homework_go_gin/entity"
+	"time"
 )
 
 // NameRepository 이름을 저장하고 관리하는 저장소
@@ -24,6 +25,38 @@ func (r *NameRepository) CreateName(user entity.UserEntity) {
 // GetNames 모든 사용자 목록을 반환
 func (r *NameRepository) GetNames() []entity.UserEntity {
 	return r.users
+}
+
+// FindByName 이름으로 사용자를 찾음
+func (r *NameRepository) FindByName(name string) *entity.UserEntity {
+	for i, user := range r.users {
+		if user.Name == name {
+			return &r.users[i]
+		}
+	}
+	return nil
+}
+
+// FindByID ID로 사용자를 찾음
+func (r *NameRepository) FindByID(id string) *entity.UserEntity {
+	for i, user := range r.users {
+		if user.ID == id {
+			return &r.users[i]
+		}
+	}
+	return nil
+}
+
+// ChangeName 사용자 이름을 변경
+func (r *NameRepository) ChangeName(id, newName string) bool {
+	for i, user := range r.users {
+		if user.ID == id {
+			r.users[i].Name = newName
+			r.users[i].UpdatedAt = time.Now()
+			return true
+		}
+	}
+	return false
 }
 
 // DeleteByIndex 특정 인덱스의 사용자를 삭제
