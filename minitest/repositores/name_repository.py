@@ -16,6 +16,13 @@ class NameRepository(BaseRepository):
             return [exist_all_users[idx]]
         return list(self.model.objects.all())
     
+    def get_user_by_uuid(self, uuid):
+        exist_all_users = list(self.model.objects.all())
+        for user in exist_all_users:
+            if str(user.id) == uuid:
+                return user
+        raise ValidationError('해당 UUID의 사용자가 존재하지 않습니다')
+    
     def create_name(self, user):    
         if self.find_by_name(user.name):
             raise ValidationError('A name with the same value already exists')
@@ -25,6 +32,9 @@ class NameRepository(BaseRepository):
         user = self.model(
             id=user.id,
             name=user.name,
+            email=user.email,
+            password=user.password,
+            role=user.role,
             created_at=user.created_at,
             updated_at=user.updated_at
         )

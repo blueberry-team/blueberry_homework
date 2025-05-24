@@ -1,23 +1,14 @@
-from ..domain.user import User
-from ..repositores.name_repository import NameRepository
+from ...repositores.name_repository import NameRepository
 from datetime import datetime
-from django.core.validators import ValidationError # type: ignore
-import uuid
-
 name_repo = NameRepository()
 
 def get_user(idx=None):
     users = name_repo.get_name(idx)
     return users
 
-def create_user(name):
-    user = User(name=name, id=uuid.uuid4(), created_at=datetime.now(), updated_at=None)
-    try:
-        user.validate() 
-    except ValueError as e:
-        raise ValidationError(str(e))
-    users = name_repo.create_name(user)
-    return users
+def get_user_by_uuid(uuid):
+    user = name_repo.get_user_by_uuid(uuid)
+    return user
 
 def change_user(uuid, name):
     user = name_repo.change_name(uuid, name)
