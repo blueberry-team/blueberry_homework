@@ -11,6 +11,7 @@ namespace BerryNameApi.Entities
 
         public string Email { get; set; } = string.Empty;
         public string PasswordHashed { get; set; } = string.Empty;
+        public string PasswordSalt { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;
 

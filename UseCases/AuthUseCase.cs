@@ -23,12 +23,14 @@ namespace blueberry_homework_dotnet.UseCases
             }
 
             var currentTime = DateTime.UtcNow;
+            var (hashedPassword, salt) = HashMaker.Hash(request.Password);
 
             var user = new UserEntity
             {
                 Id = Guid.NewGuid(),
                 Email = request.Email,
-                PasswordHashed = HashMaker.Hash(request.Password),
+                PasswordHashed = hashedPassword,
+                PasswordSalt = salt,
                 Name = request.Name,
                 Address = request.Address,
                 Role = request.Role.ToLower() == "boss" ? Role.Boss : Role.Worker,
@@ -50,7 +52,7 @@ namespace blueberry_homework_dotnet.UseCases
                 return Result.Fail(Constants.UserNotFound);
             }
 
-            if (!HashMaker.Verify(request.Password, user.PasswordHashed))
+            if (!HashMaker.Verify(request.Password, user.PasswordHashed, user.PasswordSalt))
             {
                 return Result.Fail(Constants.IncorrectPassword);
             }
@@ -65,8 +67,11 @@ namespace blueberry_homework_dotnet.UseCases
 
             if (!string.IsNullOrEmpty(request.Password))
             {
-                user.PasswordHashed = HashMaker.Hash(request.Password);
+                var (hashed, salt) = HashMaker.Hash(request.Password);
+                user.PasswordHashed = hashed;
+                user.PasswordSalt = salt;
             }
+
             if (!string.IsNullOrEmpty(request.Address))
             {
                 user.Address = request.Address;
