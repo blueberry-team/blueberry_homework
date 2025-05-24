@@ -13,7 +13,7 @@ func UserRouter(h *handler.UserHandler) chi.Router {
 	r.Post("/sign-up", h.SignUp)
 	r.Post("/log-in", h.Login)
 	r.Get("/get-user", h.GetUser)
-	r.Post("/change-user", h.ChangeUser)
+	r.Put("/change-user", h.ChangeUser)
 
 	return r
 }
