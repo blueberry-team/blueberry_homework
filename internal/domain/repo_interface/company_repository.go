@@ -11,6 +11,6 @@ type CompanyRepository interface {
 	CheckCompanyWithUserId(userId gocql.UUID) (bool, error)
 	CreateCompany(company entities.CompanyEntity) error
 	GetUserCompany(userId gocql.UUID) (response.CompanyResponse, error)
-	ChangeCompany(changeCompany entities.CompanyEntity) error
+	ChangeCompany(changeCompany entities.ChangeCompanyEntity) error
 	DeleteCompany(userId gocql.UUID) error
 }

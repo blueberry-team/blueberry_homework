@@ -78,7 +78,7 @@ func (r *companyRepo) GetUserCompany(userId gocql.UUID) (response.CompanyRespons
 }
 
 // UpdateCompany는 회사 정보를 수정합니다.
-func (r *companyRepo) ChangeCompany(entity entities.CompanyEntity) error {
+func (r *companyRepo) ChangeCompany(entity entities.ChangeCompanyEntity) error {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 

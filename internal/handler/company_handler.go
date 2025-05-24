@@ -1,9 +1,10 @@
 package handler
 
 import (
+	"blueberry_homework/dto/request"
+	"blueberry_homework/dto/response"
+	"blueberry_homework/internal/domain/entities"
 	"blueberry_homework/internal/domain/usecase"
-	"blueberry_homework/internal/request"
-	"blueberry_homework/internal/response"
 	"encoding/json"
 	"net/http"
 )
@@ -29,13 +30,13 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 	if err != nil || req.CompanyName == "" || req.Name == "" {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
-		if err:= json.NewEncoder(w).Encode(response.ErrorResponse{
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   "Invalid request format",
 		}); err != nil {
-            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
-            return
-        }
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+			return
+		}
 		return
 	}
 
@@ -48,9 +49,9 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 			Message: "error",
 			Error:   err.Error(),
 		}); err != nil {
-            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
-            return
-        }
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+			return
+		}
 		return
 	}
 
@@ -72,13 +73,13 @@ func (h *CompanyHandler) GetCompanies(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
-		if err:= json.NewEncoder(w).Encode(response.ErrorResponse{
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "Error",
-			Error: err.Error(),
+			Error:   err.Error(),
 		}); err != nil {
-            http.Error(w, "Failed to encode response", http.StatusInternalServerError)
-            return
-        }
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+			return
+		}
 		return
 	}
 
@@ -91,4 +92,14 @@ func (h *CompanyHandler) GetCompanies(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 		return
 	}
+}
+
+type CompanyWithUserUsecase struct {
+	companyRepo CompanyRepository
+	userRepo    UserRepository
+}
+
+func (u *CompanyWithUserUsecase) ChangeCompanyWithUser(company entities.CompanyEntity) error {
+	// companyRepo, userRepo 둘 다 사용 가능
+	return nil
 }

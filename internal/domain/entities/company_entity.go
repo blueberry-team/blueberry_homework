@@ -15,3 +15,11 @@ type CompanyEntity struct {
 	CreatedAt      time.Time  `json:"createdAt"`
 	UpdatedAt      time.Time  `json:"updatedAt"`
 }
+
+type ChangeCompanyEntity struct {
+	UserId         gocql.UUID `json:"userId"`
+	CompanyName    string     `json:"companyName"`
+	CompanyAddress string     `json:"companyAddress"`
+	TotalStaff     int        `json:"totalStaff"`
+	UpdatedAt      time.Time  `json:"updatedAt"`
+}

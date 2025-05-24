@@ -4,7 +4,8 @@ import (
 	"blueberry_homework/config"
 	"blueberry_homework/internal/data/repository"
 	"blueberry_homework/internal/db"
-	"blueberry_homework/internal/domain/usecase"
+	"blueberry_homework/internal/domain/usecase/company_usecase"
+	"blueberry_homework/internal/domain/usecase/user_usecase"
 	"blueberry_homework/internal/handler"
 	"blueberry_homework/route"
 	"fmt"
@@ -51,13 +52,13 @@ func Init() (*App, error) {
 	companyRepo := repository.NewCompanyRepository(session)
 
 	// 유스케이스 초기화
-	userUsecase := usecase.NewUserUsecase(userRepo)
-	createCompanyUsecase := usecase.NewCreateCompanyUsecase(userRepo, companyRepo)
-	companyUsecase := usecase.NewCompanyUsecase(companyRepo)
+	userUsecase := user_usecase.NewUserUsecase(userRepo)
+	companyUsecase := company_usecase.NewCompanyUsecase(companyRepo)
+	userCompanyUsecase := company_usecase.NewUserCompanyUsecase(companyRepo, userRepo)
 
 	// 핸들러 초기화
 	userHandler := handler.NewUserHandler(userUsecase)
-	companyHandler := handler.NewCompanyHandler(createCompanyUsecase, companyUsecase)
+	companyHandler := handler.NewCompanyHandler(userCompanyUsecase, companyUsecase)
 
 	// 라우트 설정
 	app.Router.Mount("/users", route.UserRouter(userHandler))

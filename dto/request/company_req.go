@@ -1,6 +1,15 @@
 package request
 
 type CreateCompanyRequest struct {
-	Name string
-	CompanyName string
+	UserID      	string
+	CompanyName 	string
+	CompanyAddress 	string
+	TotalStaff 		int
+}
+
+type ChangeCompanyRequest struct {
+	UserId         string
+	CompanyName    string
+	CompanyAddress string
+	TotalStaff 	   int
 }
