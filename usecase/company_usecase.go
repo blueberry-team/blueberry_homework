@@ -2,50 +2,56 @@ package usecase
 
 import (
 	"errors"
+
 	"blueberry_homework_go_gin/entity"
 	"blueberry_homework_go_gin/repository"
 )
 
 // CompanyUseCase 회사 관련 비즈니스 로직을 담당하는 유스케이스
 type CompanyUseCase struct {
-	repo     *repository.CompanyRepository
-	nameRepo *repository.NameRepository
+	companyRepo *repository.CompanyRepository
+	nameRepo    *repository.NameRepository
 }
 
 // NewCompanyUseCase 새로운 CompanyUseCase 인스턴스를 생성
-func NewCompanyUseCase(repo *repository.CompanyRepository, nameRepo *repository.NameRepository) *CompanyUseCase {
+func NewCompanyUseCase(companyRepo *repository.CompanyRepository, nameRepo *repository.NameRepository) *CompanyUseCase {
 	return &CompanyUseCase{
-		repo:     repo,
-		nameRepo: nameRepo,
+		companyRepo: companyRepo,
+		nameRepo:    nameRepo,
 	}
 }
 
 // CreateCompany 새로운 회사를 생성하고 저장
-func (u *CompanyUseCase) CreateCompany(name, companyName string) error {
-	// 사용자 존재 여부 확인
-	user := u.nameRepo.FindByName(name)
+func (u *CompanyUseCase) CreateCompany(userName, companyName string) error {
+	// 1. 사용자 존재 여부 확인
+	user, err := u.nameRepo.FindByName(userName)
+	if err != nil {
+		return err
+	}
 	if user == nil {
 		return errors.New("user not found")
 	}
 
-	// 이미 회사를 가지고 있는지 확인
-	existingCompany := u.repo.FindCompanyByName(name)
+	// 2. 이미 회사를 가지고 있는지 확인
+	existingCompany, err := u.companyRepo.FindCompanyByUserName(userName)
+	if err != nil {
+		return err
+	}
 	if existingCompany != nil {
 		return errors.New("user already has a company")
 	}
 
-	// 새 회사 생성
-	company := entity.NewCompanyEntity(name, companyName)
-	u.repo.CreateCompany(company)
-	return nil
+	// 3. 새 회사 생성
+	company := entity.NewCompanyEntity(userName, companyName)
+	return u.companyRepo.CreateCompany(company)
 }
 
-// GetCompanies 모든 회사 목록을 조회
-func (u *CompanyUseCase) GetCompanies() []entity.CompanyEntity {
-	return u.repo.GetCompanies()
+// GetAllCompanies 모든 회사 목록을 조회
+func (u *CompanyUseCase) GetAllCompanies() ([]entity.CompanyEntity, error) {
+	return u.companyRepo.GetAllCompanies()
 }
 
-// FindCompanyByName 이름으로 회사 찾기
-func (u *CompanyUseCase) FindCompanyByName(name string) *entity.CompanyEntity {
-	return u.repo.FindCompanyByName(name)
+// FindCompanyByUserName 사용자 이름으로 회사 찾기 (내부 로직용)
+func (u *CompanyUseCase) FindCompanyByUserName(userName string) (*entity.CompanyEntity, error) {
+	return u.companyRepo.FindCompanyByUserName(userName)
 }

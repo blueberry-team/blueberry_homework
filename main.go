@@ -1,40 +1,36 @@
 package main
 
 import (
-	"blueberry_homework_go_gin/handler"
-	"blueberry_homework_go_gin/repository"
-	"blueberry_homework_go_gin/usecase"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
 
-	"github.com/gin-gonic/gin"
+	"blueberry_homework_go_gin/app"
 )
 
 func main() {
-	// 레포지토리 계층 초기화
-	nameRepo := repository.NewNameRepository()
-	companyRepo := repository.NewCompanyRepository()
+	// 애플리케이션 초기화 (한 줄로 모든 의존성 초기화)
+	application, err := app.Init()
+	if err != nil {
+		log.Fatalf("❌ 애플리케이션 초기화 실패: %v", err)
+	}
 
-	// 유스케이스 계층 초기화
-	nameUseCase := usecase.NewNameUseCase(nameRepo)
-	companyUseCase := usecase.NewCompanyUseCase(companyRepo, nameRepo)
+	// Graceful shutdown을 위한 시그널 핸들링
+	go func() {
+		quit := make(chan os.Signal, 1)
+		signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+		<-quit
 
-	// 핸들러 계층 초기화
-	nameHandler := handler.NewNameHandler(nameUseCase)
-	companyHandler := handler.NewCompanyHandler(companyUseCase)
-
-	// Gin 라우터 생성
-	r := gin.Default()
-
-	// User 관련 라우트 정의
-	r.POST("/create-name", nameHandler.CreateName)
-	r.GET("/get-names", nameHandler.GetNames)
-	r.PUT("/change-name", nameHandler.ChangeName)  // 이름 변경 (신규)
-	r.DELETE("/delete-index", nameHandler.DeleteByIndex)  // 인덱스로 삭제
-	r.DELETE("/delete-name", nameHandler.DeleteByName)    // 이름으로 삭제
-
-	// Company 관련 라우트 정의
-	r.POST("/create-company", companyHandler.CreateCompany)
-	r.GET("/get-companies", companyHandler.GetCompanies)
+		log.Println("🛑 애플리케이션 종료 신호 받음")
+		if err := application.Shutdown(); err != nil {
+			log.Printf("❌ 애플리케이션 종료 중 오류: %v", err)
+		}
+		os.Exit(0)
+	}()
 
 	// 서버 시작
-	r.Run(":8080")
+	if err := application.Run(); err != nil {
+		log.Fatalf("❌ 서버 시작 실패: %v", err)
+	}
 }
