@@ -53,12 +53,11 @@ func Init() (*App, error) {
 
 	// 유스케이스 초기화
 	userUsecase := user_usecase.NewUserUsecase(userRepo)
-	companyUsecase := company_usecase.NewCompanyUsecase(companyRepo)
-	userCompanyUsecase := company_usecase.NewUserCompanyUsecase(companyRepo, userRepo)
+	companyUsecase := company_usecase.NewCompanyUsecase(companyRepo, userRepo)
 
 	// 핸들러 초기화
 	userHandler := handler.NewUserHandler(userUsecase)
-	companyHandler := handler.NewCompanyHandler(userCompanyUsecase, companyUsecase)
+	companyHandler := handler.NewCompanyHandler(companyUsecase)
 
 	// 라우트 설정
 	app.Router.Mount("/users", route.UserRouter(userHandler))

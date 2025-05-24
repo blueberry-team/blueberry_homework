@@ -9,7 +9,7 @@ import (
 	"github.com/gocql/gocql"
 )
 
-func (u *UserCompanyUsecase) CreateCompany(createCompanyRequest request.CreateCompanyRequest) error {
+func (u *CompanyUsecase) CreateCompany(createCompanyRequest request.CreateCompanyRequest) error {
 	userId, err := gocql.ParseUUID(createCompanyRequest.UserID)
 	if err != nil {
 		return err

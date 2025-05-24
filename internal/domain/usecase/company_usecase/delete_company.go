@@ -6,7 +6,7 @@ import (
 	"github.com/gocql/gocql"
 )
 
-func (u *UserCompanyUsecase) DeleteCompany(userId string) error {
+func (u *CompanyUsecase) DeleteCompany(userId string) error {
 	parsedUserId, err := gocql.ParseUUID(userId)
 	if err != nil {
 		return err
@@ -27,6 +27,6 @@ func (u *UserCompanyUsecase) DeleteCompany(userId string) error {
 	if !companyExist {
 		return errors.New("company not found")
 	}
-	
+
 	return u.companyRepo.DeleteCompany(parsedUserId)
 }

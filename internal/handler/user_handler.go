@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"blueberry_homework/internal/domain/usecase"
 	"blueberry_homework/dto/request"
 	"blueberry_homework/dto/response"
+	"blueberry_homework/internal/domain/usecase/user_usecase"
 
 	"encoding/json"
 	"net/http"
@@ -12,12 +12,12 @@ import (
 
 // UserHandler는 사용자 관련 HTTP 요청을 처리하는 핸들러입니다.
 type UserHandler struct {
-	usecase *usecase.UserUsecase
+	usecase *user_usecase.UserUsecase
 }
 
 // NewUserHandler는 새로운 UserHandler 인스턴스를 생성합니다.
 // usecase.UserUsecase를 의존성으로 주입받습니다.
-func NewUserHandler(u *usecase.UserUsecase) *UserHandler {
+func NewUserHandler(u *user_usecase.UserUsecase) *UserHandler {
 	return &UserHandler{usecase: u}
 }
 

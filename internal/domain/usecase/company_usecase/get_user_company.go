@@ -7,7 +7,7 @@ import (
 	"github.com/gocql/gocql"
 )
 
-func (u *UserCompanyUsecase) GetUserCompany(userId string) (response.CompanyResponse, error) {
+func (u *CompanyUsecase) GetUserCompany(userId string) (response.CompanyResponse, error) {
 	parsedUserId, err := gocql.ParseUUID(userId)
 	if err != nil {
 		return response.CompanyResponse{}, err

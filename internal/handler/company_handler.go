@@ -3,22 +3,20 @@ package handler
 import (
 	"blueberry_homework/dto/request"
 	"blueberry_homework/dto/response"
-	"blueberry_homework/internal/domain/entities"
-	"blueberry_homework/internal/domain/usecase"
+	"blueberry_homework/internal/domain/usecase/company_usecase"
 	"encoding/json"
 	"net/http"
 )
 
 // CompanyHandler는 회사 관련 HTTP 요청을 처리하는 핸들러입니다.
 type CompanyHandler struct {
-	createUsecase  *usecase.CreateCompanyUsecase
-	companyUsecase *usecase.CompanyUsecase
+	CompanyUsecase *company_usecase.CompanyUsecase
 }
 
 // NewCompanyHandler는 새로운 CompanyHandler 인스턴스를 생성합니다.
 // createUsecase와 companyUsecase를 의존성으로 주입받습니다.
-func NewCompanyHandler(cu *usecase.CreateCompanyUsecase, u *usecase.CompanyUsecase) *CompanyHandler {
-	return &CompanyHandler{createUsecase: cu, companyUsecase: u}
+func NewCompanyHandler(u *company_usecase.CompanyUsecase) *CompanyHandler {
+	return &CompanyHandler{CompanyUsecase: u}
 }
 
 // CreateCompany는 새로운 회사를 생성합니다.
@@ -27,7 +25,7 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 
 	// null check validation
 	err := json.NewDecoder(r.Body).Decode(&req)
-	if err != nil || req.CompanyName == "" || req.Name == "" {
+	if err != nil || req.CompanyName == "" || req.UserID == "" || req.CompanyAddress == "" {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
@@ -40,8 +38,7 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 중복 에러 봔환 확인
-	err = h.createUsecase.CreateCompany(req)
+	err = h.CompanyUsecase.CreateCompany(req)
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
@@ -58,23 +55,37 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(response.SuccessResponse{
-		Message: "success",
+		Message: "company created successfully",
 	}); err != nil {
 		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 		return
 	}
 }
 
-// GetCompanies는 모든 회사 목록을 조회하는 HTTP 엔드포인트를 처리합니다.
-// 성공 시 200 OK 상태 코드와 함께 회사 목록을 반환합니다.
-func (h *CompanyHandler) GetCompanies(w http.ResponseWriter, r *http.Request) {
-	companies, err := h.companyUsecase.GetCompanies()
+// GetUserCompany는 특정 유저의 회사 정보를 조회합니다.
+func (h *CompanyHandler) GetUserCompany(w http.ResponseWriter, r *http.Request) {
+	var req request.GetCompanyRequest
 
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil || req.UserId == "" {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
+			Message: "error",
+			Error:   "userId is required",
+		}); err != nil {
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+			return
+		}
+		return
+	}
+
+	company, err := h.CompanyUsecase.GetUserCompany(req.UserId)
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
-			Message: "Error",
+			Message: "error",
 			Error:   err.Error(),
 		}); err != nil {
 			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
@@ -85,21 +96,92 @@ func (h *CompanyHandler) GetCompanies(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(response.GetCompaniesResponse{
-		Message: "success",
-		Data:    companies,
+	if err := json.NewEncoder(w).Encode(company); err != nil {
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return
+	}
+}
+
+// ChangeCompany는 회사 정보를 수정합니다.
+func (h *CompanyHandler) ChangeCompany(w http.ResponseWriter, r *http.Request) {
+	var req request.ChangeCompanyRequest
+
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil || req.UserId == "" || req.CompanyName == "" || req.CompanyAddress == "" {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
+			Message: "error",
+			Error:   "Invalid request format",
+		}); err != nil {
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+			return
+		}
+		return
+	}
+
+	err = h.CompanyUsecase.ChangeCompany(req)
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
+			Message: "error",
+			Error:   err.Error(),
+		}); err != nil {
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+			return
+		}
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(response.SuccessResponse{
+		Message: "company changed successfully",
 	}); err != nil {
 		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 		return
 	}
 }
 
-type CompanyWithUserUsecase struct {
-	companyRepo CompanyRepository
-	userRepo    UserRepository
-}
+// DeleteCompany는 회사를 삭제합니다.
+func (h *CompanyHandler) DeleteCompany(w http.ResponseWriter, r *http.Request) {
+	var req request.DeleteCompanyRequest
 
-func (u *CompanyWithUserUsecase) ChangeCompanyWithUser(company entities.CompanyEntity) error {
-	// companyRepo, userRepo 둘 다 사용 가능
-	return nil
+	err := json.NewDecoder(r.Body).Decode(&req)
+	if err != nil || req.UserId == "" {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
+			Message: "error",
+			Error:   "userId is required",
+		}); err != nil {
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+			return
+		}
+		return
+	}
+
+	err = h.CompanyUsecase.DeleteCompany(req.UserId)
+	if err != nil {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
+			Message: "error",
+			Error:   err.Error(),
+		}); err != nil {
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+			return
+		}
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	if err := json.NewEncoder(w).Encode(response.SuccessResponse{
+		Message: "success",
+	}); err != nil {
+		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		return
+	}
 }

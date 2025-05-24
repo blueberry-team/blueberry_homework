@@ -12,6 +12,10 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
+type GetUserRequest struct {
+	Id string `json:"id"`
+}
+
 type ChangeUserRequest struct {
 	Id   string `json:"id"`
 	Name string `json:"name"`
