@@ -19,5 +19,5 @@ type CompanyResponse struct {
 // GetCompanies response structure
 type GetCompaniesResponse struct {
 	Message string                   `json:"message"`
-	Data    []CompanyResponse `json:"data"`
+	Data    CompanyResponse `json:"data"`
 }
