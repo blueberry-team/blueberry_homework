@@ -3,8 +3,6 @@ use validator::Validate;
 
 #[derive(Debug, Serialize, Deserialize, Clone, Validate)]
 pub struct CreateCompanyReq {
-    #[validate(length(min = 1))]
-    pub user_id: String,
     #[validate(length(min = 1, max = 50))]
     pub company_name: String,
     #[validate(length(min = 1, max = 50))]
@@ -14,21 +12,7 @@ pub struct CreateCompanyReq {
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Validate)]
-pub struct GetCompanyReq {
-    #[validate(length(min = 1))]
-    pub user_id: String,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone, Validate)]
-pub struct DeleteCompanyReq {
-    #[validate(length(min = 1))]
-    pub user_id: String,
-}
-
-#[derive(Debug, Serialize, Deserialize, Clone, Validate)]
 pub struct ChangeCompanyReq {
-    #[validate(length(min = 1))]
-    pub user_id: String,
     #[validate(length(min = 1, max = 50))]
     pub company_name: String,
     #[validate(length(min = 1, max = 50))]

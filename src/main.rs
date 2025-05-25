@@ -21,7 +21,7 @@ async fn main() {
     tracing::info!("App loaded: {}", app.config.server_port.clone());
 
     // initialize app state dependency injection
-    let app_state = AppDI::new(app.session.clone());
+    let app_state = AppDI::new(app.session.clone(), app.config.jwt_secret_key.clone());
 
     // initialize app router
     let app_router = router::create_app_router(app_state);

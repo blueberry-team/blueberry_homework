@@ -7,7 +7,7 @@ use crate::{
     internal::domain::repository_interface::user_repository::UserRepository
 };
 
-pub struct  GetUserUsecase {
+pub struct GetUserUsecase {
     user_repo: Arc<dyn UserRepository + Send + Sync>,
 }
 

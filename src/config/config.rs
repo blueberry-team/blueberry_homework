@@ -2,7 +2,7 @@ use serde::Deserialize;
 use dotenv::dotenv;
 use std::env;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Clone)]
 pub struct Config {
     pub server_port: u16,
     pub scylla_db_port: u16,
@@ -10,6 +10,7 @@ pub struct Config {
     pub scylla_db_user: String,
     pub scylla_db_password: String,
     pub scylla_db_keyspace: String,
+    pub jwt_secret_key: String,
 }
 
 impl Config {
@@ -38,6 +39,9 @@ impl Config {
         let scylla_db_keyspace = env::var("SCYLLA_DB_KEYSPACE")
             .unwrap_or_else(|_| "test".to_string());
 
+        let jwt_secret_key = env::var("JWT_SECRET_KEY")
+            .unwrap_or_else(|_| "secret".to_string());
+
         Config {
             server_port,
             scylla_db_port,
@@ -45,6 +49,7 @@ impl Config {
             scylla_db_user,
             scylla_db_password,
             scylla_db_keyspace,
+            jwt_secret_key,
         }
     }
 }

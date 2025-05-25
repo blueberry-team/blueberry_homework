@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use axum::{
     body::Body,
-    http::{Response, StatusCode},
+    http::{HeaderMap, Response, StatusCode},
     response::IntoResponse,
     Extension,
     Json,
@@ -14,12 +14,15 @@ use crate::{
         req::company_req::CreateCompanyReq,
         res::basic_response::BasicResponse,
     },
-    internal::domain::{
-        repository_interface::{
-            company_repository::CompanyRepository,
-            user_repository::UserRepository
-        },
+    internal::{
+        domain::{
+            repository_interface::{
+                company_repository::CompanyRepository,
+                user_repository::UserRepository
+            },
         usecases::company_usecases::create_company_usecase::CreateCompanyUsecase,
+    },
+        utils::jwt::verify_token::verify_token
     },
 };
 
@@ -30,6 +33,8 @@ impl CreateCompanyHandler {
     pub async fn create_company_handler(
         Extension(company_repo): Extension<Arc<dyn CompanyRepository + Send + Sync>>,
         Extension(user_repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
+        Extension(jwt_secret_key): Extension<String>,
+        headers: HeaderMap,
         Json(company_req): Json<CreateCompanyReq>,
     ) -> Response<Body> {
         // validation for company_dto
@@ -47,9 +52,18 @@ impl CreateCompanyHandler {
             return (StatusCode::BAD_REQUEST, Json(response)).into_response();
         }
 
+        // verify token
+        let token_data = match verify_token(jwt_secret_key, &headers).await {
+            Ok(token_data) => token_data,
+            Err(e) => {
+                let response = BasicResponse::bad_request("error".to_string(), e);
+                return (StatusCode::BAD_REQUEST, Json(response)).into_response();
+            }
+        };
+
         let usecase = CreateCompanyUsecase::new(user_repo, company_repo);
 
-        match usecase.create_company_usecase(company_req).await {
+        match usecase.create_company_usecase(company_req, token_data.sub).await {
             Ok(_) => {
                 let response = BasicResponse::ok("Success".to_string());
                 (StatusCode::OK, Json(response)).into_response()

@@ -19,9 +19,9 @@ impl ChangeUserUsecase {
         Self { user_repo }
     }
 
-    pub async fn change_user_usecase(&self, user_req: ChangeUserReq) -> Result<(), String> {
+    pub async fn change_user_usecase(&self, user_id: String, user_req: ChangeUserReq) -> Result<(), String> {
         let parsed_user_id =
-            Uuid::parse_str(&user_req.id)
+            Uuid::parse_str(&user_id)
                 .map_err(|e| format!("Invalid user id: {}", e))?;
 
         let check_user = self.user_repo.find_by_id(parsed_user_id.clone()).await?;

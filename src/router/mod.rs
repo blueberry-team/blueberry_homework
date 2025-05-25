@@ -15,6 +15,7 @@ pub fn create_app_router(app_state: AppDI) -> Router {
         .merge(company_router::create_router())
         .layer(Extension(app_state.user_repo.clone()))
         .layer(Extension(app_state.company_repo.clone()))
+        .layer(Extension(app_state.jwt_secret_key.clone()))
         .layer(
             TraceLayer::new_for_http()
                 .make_span_with(trace::DefaultMakeSpan::new().level(Level::INFO))

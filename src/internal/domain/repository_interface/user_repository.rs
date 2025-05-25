@@ -3,7 +3,7 @@ use uuid::Uuid;
 use crate::{
     dto::{
         res::{
-            token_user_response::TokenUserResponse,
+            token::token_user_response::TokenUserResponse,
             user_response::UserResponse,
         },
     },

@@ -4,7 +4,7 @@ use std::sync::Arc;
 
 use scylla::client::session::Session;
 
-use crate::internal::{
+use crate::{config::config::Config, internal::{
     data::repository::{
         CompanyRepositoryImpl,
         UserRepositoryImpl
@@ -13,7 +13,7 @@ use crate::internal::{
         company_repository::CompanyRepository,
         user_repository::UserRepository
     }
-};
+}};
 
 // dependency injection for the app
 pub struct AppDI {
@@ -22,16 +22,22 @@ pub struct AppDI {
 
     // company repository
     pub company_repo: Arc<dyn CompanyRepository + Send + Sync>,
+
+    // config
+    pub jwt_secret_key: String,
 }
 
 impl AppDI {
-    pub fn new(session: Arc<Session>) -> Self {
+    pub fn new(session: Arc<Session>, jwt_secret_key: String) -> Self {
         Self {
             // user repository
             user_repo: Arc::new(UserRepositoryImpl::new(session.clone())) as Arc<dyn UserRepository + Send + Sync>,
 
             // company repository
             company_repo: Arc::new(CompanyRepositoryImpl::new(session.clone())) as Arc<dyn CompanyRepository + Send + Sync>,
+
+            // config
+            jwt_secret_key: jwt_secret_key,
         }
     }
 }

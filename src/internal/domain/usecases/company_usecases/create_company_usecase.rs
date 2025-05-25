@@ -23,10 +23,10 @@ impl CreateCompanyUsecase {
         Self { user_repo, company_repo }
     }
 
-    pub async fn create_company_usecase(&self, company_req: CreateCompanyReq) -> Result<(), String> {
+    pub async fn create_company_usecase(&self, company_req: CreateCompanyReq, user_id: String) -> Result<(), String> {
         let id = Uuid::new_v4();
         let parsed_user_id =
-            Uuid::parse_str(&company_req.user_id)
+            Uuid::parse_str(&user_id)
                 .map_err(|e| format!("Invalid user id: {}", e))?;
 
         let parsed_total_staff =

@@ -24,9 +24,9 @@ impl ChangeCompanyUsecase {
         Self { user_repo, company_repo }
     }
 
-    pub async fn change_company_usecase(&self, change_company_req: ChangeCompanyReq) -> Result<(), String> {
+    pub async fn change_company_usecase(&self, change_company_req: ChangeCompanyReq, user_id: String) -> Result<(), String> {
         let parsed_user_id =
-            Uuid::parse_str(&change_company_req.user_id)
+            Uuid::parse_str(&user_id)
                 .map_err(|e| format!("Invalid user id: {}", e))?;
 
         let check_user = self.user_repo.find_by_id(parsed_user_id).await?;

@@ -55,3 +55,6 @@ futures = "0.3.31"
 # password hash
 argon2 = "0.5.3"
 rand_core = { version = "0.6.4", features = ["getrandom"] }
+
+# Json Web Token
+jsonwebtoken = "9.3.1"

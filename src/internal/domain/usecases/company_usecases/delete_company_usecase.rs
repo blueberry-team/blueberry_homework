@@ -3,7 +3,6 @@ use std::sync::Arc;
 use uuid::Uuid;
 
 use crate::{
-    dto::req::company_req::DeleteCompanyReq,
     internal::domain::repository_interface::{
         company_repository::CompanyRepository,
         user_repository::UserRepository
@@ -21,9 +20,9 @@ impl DeleteCompanyUsecase {
         Self { user_repo, company_repo }
     }
 
-    pub async fn delete_company_usecase(&self, delete_company_req: DeleteCompanyReq) -> Result<(), String> {
+    pub async fn delete_company_usecase(&self, user_id: String) -> Result<(), String> {
         let parsed_user_id =
-            Uuid::parse_str(&delete_company_req.user_id)
+            Uuid::parse_str(&user_id)
                 .map_err(|e| format!("Invalid user id: {}", e))?;
 
         let check_user = self.user_repo.find_by_id(parsed_user_id).await?;

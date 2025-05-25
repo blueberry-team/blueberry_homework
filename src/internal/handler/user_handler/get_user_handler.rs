@@ -2,21 +2,20 @@ use std::sync::Arc;
 
 use axum::{
     body::Body,
-    http::{Response, StatusCode},
+    http::{HeaderMap, Response, StatusCode},
     response::IntoResponse,
     Extension,
     Json,
 };
-use validator::Validate;
 
 use crate::{
-    dto::{
-        req::user_req::GetUserReq,
-        res::basic_response::BasicResponse,
+    dto::res::basic_response::BasicResponse,
+    internal::{
+        domain::{
+            repository_interface::user_repository::UserRepository,
+            usecases::user_usecases::get_user_usecase::GetUserUsecase,
     },
-    internal::domain::{
-        repository_interface::user_repository::UserRepository,
-        usecases::user_usecases::get_user_usecase::GetUserUsecase,
+    utils::jwt::verify_token::verify_token,
     },
 };
 
@@ -26,17 +25,21 @@ impl GetUserHandler {
 
     pub async fn get_user_handler(
         Extension(repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
-        Json(user_req): Json<GetUserReq>,
+        Extension(jwt_secret_key): Extension<String>,
+        headers: HeaderMap,
     ) -> Response<Body> {
-        // validation for get_user_dto
-        if let Err(errors) = user_req.validate() {
-            let response = BasicResponse::bad_request("error".to_string(), "name must be 1 and 50 characters".to_string());
-            println!("{}", errors);
-            return (StatusCode::BAD_REQUEST, Json(response)).into_response();
-        }
+        // verify token
+        let token_data = match verify_token(jwt_secret_key, &headers).await {
+            Ok(token_data) => token_data,
+            Err(e) => {
+                let response = BasicResponse::bad_request("error".to_string(), e);
+                return (StatusCode::BAD_REQUEST, Json(response)).into_response();
+            }
+        };
 
         let usecase = GetUserUsecase::new(repo);
-        match usecase.get_user_usecase(user_req.id).await {
+
+        match usecase.get_user_usecase(token_data.sub).await {
             Ok(user) => {
                 let response = serde_json::json!({
                     "message": "Success",

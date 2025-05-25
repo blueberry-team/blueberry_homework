@@ -46,15 +46,7 @@ pub struct LogInReq {
 }
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
-pub struct GetUserReq {
-    #[validate(length(min =1))]
-    pub id: String,
-}
-
-#[derive(Debug, Serialize, Deserialize, Validate)]
 pub struct ChangeUserReq {
-    #[validate(length(min =1))]
-    pub id: String,
     #[validate(length(min = 1, max = 50))]
     pub name: String,
     #[validate(length(min = 1, max = 50))]

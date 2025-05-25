@@ -7,9 +7,6 @@ pub struct TokenUserResponse {
     pub id: Uuid,
     pub email: String,
     pub name: String,
-    pub role: String,
-    pub created_at: i64,
-    pub updated_at: i64,
 }
 
 // uuid -> string

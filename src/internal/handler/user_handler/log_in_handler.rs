@@ -22,6 +22,7 @@ impl LogInHandler {
 
     pub async fn log_in_handler(
         Extension(repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
+        Extension(jwt_secret_key): Extension<String>,
         Json(log_in_req): Json<LogInReq>,
     ) -> impl IntoResponse {
         // validation for change_name_dto
@@ -30,10 +31,16 @@ impl LogInHandler {
             println!("{}", errors);
             return (StatusCode::BAD_REQUEST, Json(response)).into_response();
         }
-        let usecase = LogInUsecase::new(repo);
+
+        let usecase = LogInUsecase::new(repo, jwt_secret_key);
+
         match usecase.log_in_usecase(log_in_req).await {
-            Ok(_) => {
-                let response = BasicResponse::ok("Success".to_string());
+            Ok(token) => {
+                let response = serde_json::json!({
+                    "message": "Success",
+                    "status_code": StatusCode::OK.as_u16(),
+                    "data": token,
+                });
                 (StatusCode::OK, Json(response)).into_response()
             },
             Err(error) => {
@@ -42,5 +49,4 @@ impl LogInHandler {
             }
         }
     }
-
 }

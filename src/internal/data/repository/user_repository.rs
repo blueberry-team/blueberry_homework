@@ -3,7 +3,7 @@ use async_trait::async_trait;
 use chrono::{DateTime, Utc};
 use scylla::client::session::Session;
 use uuid::Uuid;
-use crate::dto::res::token_user_response::TokenUserResponse;
+use crate::dto::res::token::token_user_response::TokenUserResponse;
 use crate::dto::res::user_response::UserResponse;
 use crate::internal::domain::entities::user_entity::{ChangeUserEntity, UserEntity};
 use crate::internal::domain::repository_interface::user_repository::UserRepository;
@@ -123,26 +123,23 @@ impl UserRepository for UserRepositoryImpl {
     }
 
     async fn log_in(&self, email: String, password: Vec<u8>) -> Result<TokenUserResponse, String> {
-        let query = "SELECT id, email, name, password, role FROM user WHERE email = ?";
+        let query = "SELECT id, email, name, password FROM user WHERE email = ?";
 
         let mut rows = self.session
             .query_iter(query, (email.clone(),))
             .await
             .map_err(|e| format!("Error querying user: {}", e))?
-            .rows_stream::<(Uuid, String, String, Vec<u8>, String)>()
+            .rows_stream::<(Uuid, String, String, Vec<u8>,)>()
             .map_err(|e| format!("Error getting row: {}", e))?;
 
         let result = rows.try_next().await.map_err(|e| format!("Error getting row: {}", e))?;
-        if let Some((id, email, name, stored_password, role)) = result {
+        if let Some((id, email, name, stored_password)) = result {
             if stored_password == password {
                 Ok(
                     TokenUserResponse {
                     id,
                     email,
                     name,
-                    role,
-                    created_at: 0,
-                    updated_at: 0,
                 }
             )
             } else {
