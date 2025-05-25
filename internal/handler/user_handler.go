@@ -70,7 +70,7 @@ func (h *UserHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 유즈케이스 호출
-	err = h.usecase.SignUp(req.Email, req.Password, userName, req.Role)
+	err = h.usecase.SignUp(req)
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
@@ -113,7 +113,7 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	success, err := h.usecase.Login(req.Email, req.Password)
+	success, err := h.usecase.Login(req)
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
 		if strings.Contains(err.Error(), "not found") || strings.Contains(err.Error(), "invalid password") {

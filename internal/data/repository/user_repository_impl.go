@@ -88,8 +88,10 @@ func (r *userRepo) SignUp(entity entities.UserEntity) error {
 	`, entity.Id, entity.Email, entity.Password, entity.Name, entity.Role, entity.CreatedAt, entity.UpdatedAt).Exec()
 }
 
-// 로그인
-func (r *userRepo) Login(email string, password string) (bool, error) {
+// 로그인 함수 -> GetHashedPassword 함수로 변경
+// 로그인이라는 기능에 있어서 repo 가 해야할 일은 기존의 hashed password 를 가져오는 것뿐이기 때문에
+// 따라서 로그인 함수가 아닌 GetHashedPassword 함수가 됩니다.
+func (r *userRepo) GetHashedPassword(email string) (string, error) {
 	var hashed_password string
 	err := r.session.Query(`
 		SELECT password FROM users WHERE email = ? LIMIT 1
@@ -97,17 +99,12 @@ func (r *userRepo) Login(email string, password string) (bool, error) {
 
 	if err != nil {
 		if err == gocql.ErrNotFound {
-			return false, nil // 사용자 없음
+			return "", nil // 사용자 없음
 		}
-		return false, fmt.Errorf("login query error: %v", err)
+		return "", fmt.Errorf("login query error: %v", err)
 	}
 
-	// 비밀번호 검증 (실제로는 해시 비교 필요)
-	if hashed_password != password {
-		return false, nil // 비밀번호 불일치
-	}
-
-	return true, nil
+	return hashed_password, nil
 }
 
 // GetUser는 유저의 정보를 가져옵니다

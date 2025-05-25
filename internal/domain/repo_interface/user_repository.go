@@ -21,8 +21,8 @@ type UserRepository interface {
 	// 회원가입 함수
 	SignUp(entity entities.UserEntity) error
 
-	// 로그인 처리 함수
-	Login(email string, password string) (bool, error)
+	// 해싱된 비밀번호 가져오는 함수
+	GetHashedPassword(email string) (string, error)
 
 	// GetUser는 유저의 정보를 가져옵니다
 	GetUser(id gocql.UUID) (response.UserResponse, error)
