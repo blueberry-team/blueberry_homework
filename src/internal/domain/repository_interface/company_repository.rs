@@ -11,7 +11,6 @@ use crate::{
 
 #[async_trait]
 pub trait CompanyRepository {
-    fn new() -> Self where Self: Sized;
     async fn check_company_with_user_id(&self, user_id: Uuid) -> Result<bool, String>;
     async fn get_company_with_user_id(&self, user_id: Uuid) -> Result<Uuid, String>;
     async fn create_company(&self, company: CompanyEntity) -> Result<(), String>;

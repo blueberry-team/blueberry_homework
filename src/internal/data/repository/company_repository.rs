@@ -23,9 +23,6 @@ impl CompanyRepositoryImpl {
 
 #[async_trait]
 impl CompanyRepository for CompanyRepositoryImpl {
-    fn new() -> Self {
-        panic!("Use ScyllaCompanyImpl::new(session) instead")
-    }
 
     async fn check_company_with_user_id(&self, user_id: Uuid) -> Result<bool, String> {
         let query = "SELECT user_id FROM company WHERE user_id = ?";
@@ -70,7 +67,7 @@ impl CompanyRepository for CompanyRepositoryImpl {
             company.user_id,
             company.company_name,
             company.company_address,
-            company.total_staff,
+            company.total_staff as i16,
             created_timestamp,
             created_timestamp,
         );
@@ -110,7 +107,7 @@ impl CompanyRepository for CompanyRepositoryImpl {
         let updated_at = Utc::now().timestamp();
 
         self.session
-            .query_iter(query, (company.company_name, company.company_address, company.total_staff, updated_at, company_id))
+            .query_iter(query, (company.company_name, company.company_address, company.total_staff as i16, updated_at, company_id))
             .await
             .map_err(|e| format!("Error changing company: {}", e))?;
 

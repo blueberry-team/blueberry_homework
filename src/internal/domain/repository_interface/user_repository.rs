@@ -12,7 +12,6 @@ use crate::{
 
 #[async_trait]
 pub trait UserRepository {
-    fn new() -> Self where Self: Sized;
     async fn find_by_email(&self, email: String) -> Result<bool, String>;
     async fn find_by_id(&self, id: Uuid) -> Result<bool, String>;
     async fn check_user_role(&self, id: Uuid) -> Result<String, String>;

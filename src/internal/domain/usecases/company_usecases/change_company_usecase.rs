@@ -41,7 +41,7 @@ impl ChangeCompanyUsecase {
 
         let company_id = self.company_repo.get_company_with_user_id(parsed_user_id).await?;
 
-        let change_company_entity = ChangeCompanyEntity::new(parsed_user_id, change_company_req.company_name, change_company_req.company_address, change_company_req.total_staff);
+        let change_company_entity = ChangeCompanyEntity::new(parsed_user_id, change_company_req.company_name, change_company_req.company_address, change_company_req.total_staff as u16);
 
         self.company_repo.change_company(change_company_entity, company_id).await?;
 

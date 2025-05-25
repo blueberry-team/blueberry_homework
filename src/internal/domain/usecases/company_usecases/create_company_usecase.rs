@@ -51,7 +51,7 @@ impl CreateCompanyUsecase {
             return Err(format!("Company already exist"));
         }
 
-        let company = CompanyEntity::new(id, parsed_user_id, company_req.company_name, company_req.company_address, parsed_total_staff);
+        let company = CompanyEntity::new(id, parsed_user_id, company_req.company_name, company_req.company_address, parsed_total_staff as u16);
         self.company_repo.create_company(company).await?;
 
         Ok(())

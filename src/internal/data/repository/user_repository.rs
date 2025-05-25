@@ -25,9 +25,6 @@ impl UserRepositoryImpl {
 
 #[async_trait]
 impl UserRepository for UserRepositoryImpl {
-    fn new() -> Self {
-        panic!("Use ScyllaUserImpl::new(session) instead")
-    }
 
     async fn find_by_id(&self, id: Uuid) -> Result<bool, String> {
         let query = "SELECT id FROM user WHERE id = ?";
