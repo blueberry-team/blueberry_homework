@@ -39,9 +39,11 @@ impl ChangeCompanyUsecase {
             return Err(format!("Company not found"));
         }
 
-        let change_company_entity = ChangeCompanyEntity::new(parsed_user_id, change_company_req.company_name, change_company_req.company_address, change_company_req.company_phone, change_company_req.total_staff);
+        let company_id = self.company_repo.get_company_with_user_id(parsed_user_id).await?;
 
-        self.company_repo.change_company(change_company_entity).await?;
+        let change_company_entity = ChangeCompanyEntity::new(parsed_user_id, change_company_req.company_name, change_company_req.company_address, change_company_req.total_staff);
+
+        self.company_repo.change_company(change_company_entity, company_id).await?;
 
         Ok(())
     }

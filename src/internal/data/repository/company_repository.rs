@@ -42,6 +42,24 @@ impl CompanyRepository for CompanyRepositoryImpl {
         Ok(result.is_some())
     }
 
+    async fn get_company_with_user_id(&self, user_id: Uuid) -> Result<Uuid, String> {
+        let query = "SELECT id FROM company WHERE user_id = ?";
+
+        let mut rows = self.session
+            .query_iter(query, (user_id,))
+            .await
+            .map_err(|e| format!("Error querying company: {}", e))?
+            .rows_stream::<(Uuid,)>()
+            .map_err(|e| format!("Error getting row: {}", e))?;
+
+        let result = rows.try_next().await.map_err(|e| format!("Error getting row: {}", e))?;
+        if let Some((id,)) = result {
+            Ok(id)
+        } else {
+            Err(format!("Company not found"))
+        }
+    }
+
     async fn create_company(&self, company: CompanyEntity) -> Result<(), String> {
         let query = "INSERT INTO company (id, user_id, company_name, company_address, total_staff, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -65,11 +83,11 @@ impl CompanyRepository for CompanyRepositoryImpl {
         Ok(())
     }
 
-    async fn get_user_company(&self, user_id: Uuid) -> Result<CompanyResponse, String> {
-        let query = "SELECT id, user_id, company_name, company_address, total_staff, created_at, updated_at FROM company WHERE user_id = ?";
+    async fn get_user_company(&self, company_id: Uuid) -> Result<CompanyResponse, String> {
+        let query = "SELECT id, user_id, company_name, company_address, total_staff, created_at, updated_at FROM company WHERE id = ?";
 
         let mut rows = self.session
-            .query_iter(query, (user_id,))
+            .query_iter(query, (company_id,))
             .await
             .map_err(|e| format!("Error querying company: {}", e))?
             .rows_stream::<(Uuid, Uuid, String, String, i16, i64, i64)>()
@@ -86,13 +104,13 @@ impl CompanyRepository for CompanyRepositoryImpl {
         }
     }
 
-    async fn change_company(&self, company: ChangeCompanyEntity) -> Result<(), String> {
-        let query = "UPDATE company SET company_name = ?, company_address = ?, company_phone = ?, total_staff = ?, updated_at = ? WHERE user_id = ?";
+    async fn change_company(&self, company: ChangeCompanyEntity, company_id: Uuid) -> Result<(), String> {
+        let query = "UPDATE company SET company_name = ?, company_address = ?, total_staff = ?, updated_at = ? WHERE id = ?";
 
         let updated_at = Utc::now().timestamp();
 
         self.session
-            .query_iter(query, (company.company_name, company.company_address, company.company_phone, company.total_staff, updated_at, company.user_id))
+            .query_iter(query, (company.company_name, company.company_address, company.total_staff, updated_at, company_id))
             .await
             .map_err(|e| format!("Error changing company: {}", e))?;
 

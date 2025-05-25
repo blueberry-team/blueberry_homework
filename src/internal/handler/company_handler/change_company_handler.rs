@@ -34,10 +34,19 @@ impl ChangeCompanyHandler {
     ) -> Response<Body> {
         // validation for change_company_dto
         if let Err(errors) = change_company_req.validate() {
-            let response = BasicResponse::bad_request(format!("error"), format!("name must be 1 and 50 characters"));
-            println!("{}", errors);
+            let error_messages = errors.field_errors().iter()
+                .flat_map(|(field, errors)| {
+                    errors.iter().map(move |err| {
+                        format!("{}: {}", field, err.message.clone().unwrap_or_default())
+                    })
+                })
+                .collect::<Vec<String>>()
+                .join(", ");
+
+            let response = BasicResponse::bad_request(format!("error"), error_messages);
             return (StatusCode::BAD_REQUEST, Json(response)).into_response();
         }
+
         let usecase = ChangeCompanyUsecase::new(user_repo, company_repo);
         match usecase.change_company_usecase(change_company_req).await {
             Ok(_) => {
@@ -45,8 +54,7 @@ impl ChangeCompanyHandler {
                 (StatusCode::OK, Json(response)).into_response()
             }
             Err(error) => {
-                let response = BasicResponse::bad_request(format!("error"), format!("name must be 1 and 50 characters"));
-                println!("{}", error);
+                let response = BasicResponse::bad_request(format!("error"), format!("{}", error));
                 return (StatusCode::BAD_REQUEST, Json(response)).into_response();
             }
         }

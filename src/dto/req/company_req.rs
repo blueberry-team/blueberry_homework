@@ -33,8 +33,6 @@ pub struct ChangeCompanyReq {
     pub company_name: String,
     #[validate(length(min = 1, max = 50))]
     pub company_address: String,
-    #[validate(length(min = 1, max = 50))]
-    pub company_phone: String,
     #[validate(range(min = 1, max = 10000))]
     pub total_staff: i16,
 }
