@@ -22,13 +22,13 @@ func (u *CompanyUsecase) ChangeCompany(req request.ChangeCompanyRequest) error {
 		return errors.New("company not found")
 	}
 
-	time := time.Now()
+	now := time.Now()
 	company := entities.ChangeCompanyEntity{
 		UserId:         parsedUserId,
 		CompanyName:    req.CompanyName,
 		CompanyAddress: req.CompanyAddress,
 		TotalStaff:     req.TotalStaff,
-		UpdatedAt:      time,
+		UpdatedAt:      now,
 	}
 	return u.companyRepo.ChangeCompany(company)
 }
