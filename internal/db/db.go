@@ -60,13 +60,13 @@ func createKeyspace(cluster *gocql.ClusterConfig, cfg *config.Config) error {
 	defer session.Close()
 
 	// blueberry 키스페이스 생성 (존재 시 무시)
-	err = session.Query(`
-			CREATE KEYSPACE IF NOT EXISTS ` + cfg.ScyllaKeyspace + `
-			WITH replication = {
-				'class': 'SimpleStrategy',
-				'replication_factor': 1
-		};
-	`).Exec()
+	query := fmt.Sprintf(`
+		CREATE KEYSPACE IF NOT EXISTS %s
+		WITH replication = {
+			'class': 'SimpleStrategy',
+			'replication_factor': 1
+		};`, cfg.ScyllaKeyspace)
+	err = session.Query(query).Exec()
 	if err != nil {
 		return fmt.Errorf("키스페이스 생성 실패: %v", err)
 	}
