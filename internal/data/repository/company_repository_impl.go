@@ -5,7 +5,6 @@ import (
 	"blueberry_homework/internal/domain/entities"
 	"blueberry_homework/internal/domain/repo_interface"
 	"fmt"
-	"sync"
 
 	"github.com/gocql/gocql"
 )
@@ -14,8 +13,6 @@ import (
 type companyRepo struct {
 	// 저장소
 	session *gocql.Session
-	// Mutex 추가
-	mu sync.Mutex
 }
 
 // NewCompanyRepository 새로운 CompanyRepository 인스턴스를 생성합니다.
@@ -42,9 +39,6 @@ func (r *companyRepo) CheckCompanyWithUserId(userId gocql.UUID) (bool, error) {
 
 // Company entity 를 저장소에 추가하는 함수
 func (r *companyRepo) CreateCompany(entity entities.CompanyEntity) error {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-
 	return r.session.Query(`
 		INSERT INTO companies (id, user_id, company_name, company_address, total_staff, created_at, updated_at)
 		VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -79,9 +73,6 @@ func (r *companyRepo) GetUserCompany(userId gocql.UUID) (response.CompanyRespons
 
 // UpdateCompany는 회사 정보를 수정합니다.
 func (r *companyRepo) ChangeCompany(entity entities.ChangeCompanyEntity) error {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-
 	var companyId gocql.UUID
 
 	if err := r.session.Query(`
@@ -99,9 +90,6 @@ func (r *companyRepo) ChangeCompany(entity entities.ChangeCompanyEntity) error {
 
 // DeleteCompany: userId로 회사 삭제
 func (r *companyRepo) DeleteCompany(userId gocql.UUID) error {
-	r.mu.Lock()
-	defer r.mu.Unlock()
-
 	var companyId gocql.UUID
 
 	if err := r.session.Query(`
