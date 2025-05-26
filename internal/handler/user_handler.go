@@ -5,6 +5,7 @@ import (
 	"blueberry_homework/dto/response"
 	"blueberry_homework/internal/domain/enum"
 	"blueberry_homework/internal/domain/usecase/user_usecase"
+	"regexp"
 
 	"encoding/json"
 	"net/http"
@@ -34,6 +35,34 @@ func (h *UserHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
 			Error:   "Invalid request format or missing fields (Email, Password, Name, Role are required)",
+		}); err != nil {
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+			return
+		}
+		return
+	}
+
+	// 이메일 유효성 검사
+	if !isValidEmail(req.Email) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
+			Message: "error",
+			Error:   "Invalid email format",
+		}); err != nil {
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+			return
+		}
+		return
+	}
+
+	// 비밀번호 유효성 검사
+	if !isValidPassword(req.Password) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
+			Message: "error",
+			Error:   "Invalid password format",
 		}); err != nil {
 			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 			return
@@ -100,6 +129,7 @@ func (h *UserHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	var req request.LoginRequest
 
+	// null check validation
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || req.Email == "" || req.Password == "" {
 		w.Header().Set("Content-Type", "application/json")
@@ -114,6 +144,35 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// 이메일 유효성 검사
+	if !isValidEmail(req.Email) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
+			Message: "error",
+			Error:   "Invalid email format",
+		}); err != nil {
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+			return
+		}
+		return
+	}
+
+	// 비밀번호 유효성 검사
+	if !isValidPassword(req.Password) {
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusBadRequest)
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
+			Message: "error",
+			Error:   "Invalid password format",
+		}); err != nil {
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+			return
+		}
+		return
+	}
+
+	// 유즈케이스 호출
 	success, err := h.usecase.Login(req)
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
@@ -132,6 +191,7 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// 로그인 실패 시 에러 응답
 	if !success {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusUnauthorized) // 로그인 실패 (자격 증명 불일치 등)
@@ -279,4 +339,16 @@ func (h *UserHandler) ChangeUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 		return
 	}
+}
+
+func isValidEmail(email string) bool {
+    emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+    return emailRegex.MatchString(email)
+}
+
+// 비밀번호 강도 검증 (최소 8자, 숫자, 특수문자 포함)
+func isValidPassword(password string) bool {
+    return len(password) >= 4 &&
+    regexp.MustCompile(`[0-9]`).MatchString(password) &&
+    regexp.MustCompile(`[!@#$%^&*]`).MatchString(password)
 }
