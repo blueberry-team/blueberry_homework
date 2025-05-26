@@ -18,22 +18,22 @@ func (u *UserUsecase) SignUp(req request.SignUpRequest) error {
 		return err
 	}
 	if exists {
-		return errors.New("email already exists")
+		return errors.New("registration failed: email already exists")
 	}
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}
 
-	time := time.Now()
+	now := time.Now()
 	user := entities.UserEntity{
-		Id:        gocql.UUIDFromTime(time),
+		Id:        gocql.UUIDFromTime(now),
 		Email:     req.Email,
 		Password:  string(hashedPassword),
 		Name:      req.Name,
 		Role:      req.Role,
-		CreatedAt: time,
-		UpdatedAt: time,
+		CreatedAt: now,
+		UpdatedAt: now,
 	}
 	return u.repo.SignUp(user)
 }

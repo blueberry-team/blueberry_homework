@@ -24,15 +24,15 @@ func (u *CompanyUsecase) CreateCompany(createCompanyRequest request.CreateCompan
         return errors.New("user not found")
     }
 
-	time := time.Now()
+	now := time.Now()
 	entity := entities.CompanyEntity{
-		Id:             gocql.UUIDFromTime(time),
+		Id:             gocql.UUIDFromTime(now),
 		UserId:         userId,
 		CompanyName:    createCompanyRequest.CompanyName,
 		CompanyAddress: createCompanyRequest.CompanyAddress,
 		TotalStaff:     createCompanyRequest.TotalStaff,
-		CreatedAt:      time,
-		UpdatedAt:      time,
+		CreatedAt:      now,
+		UpdatedAt:      now,
 	}
 	return u.companyRepo.CreateCompany(entity)
 }
