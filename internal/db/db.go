@@ -20,7 +20,7 @@ func InitScylla(cfg *config.Config) (*gocql.Session, error) {
 	cluster.ConnectTimeout = 10 * time.Second
 
 	// 지정 키스페이스 생성 (블루베리 키스페이스 생성)
-	if err := createKeyspace(cluster); err != nil {
+	if err := createKeyspace(cluster, cfg); err != nil {
 		return nil, err
 	}
 
@@ -51,7 +51,7 @@ func InitScylla(cfg *config.Config) (*gocql.Session, error) {
 }
 
 // createKeyspace blueberry 키스페이스 생성
-func createKeyspace(cluster *gocql.ClusterConfig) error {
+func createKeyspace(cluster *gocql.ClusterConfig, cfg *config.Config) error {
 	// keyspace 생성용 세션
 	session, err := cluster.CreateSession()
 	if err != nil {
@@ -61,10 +61,10 @@ func createKeyspace(cluster *gocql.ClusterConfig) error {
 
 	// blueberry 키스페이스 생성 (존재 시 무시)
 	err = session.Query(`
-		CREATE KEYSPACE IF NOT EXISTS blueberry
-		WITH replication = {
-			'class': 'SimpleStrategy',
-			'replication_factor': 1
+			CREATE KEYSPACE IF NOT EXISTS ` + cfg.ScyllaKeyspace + `
+			WITH replication = {
+				'class': 'SimpleStrategy',
+				'replication_factor': 1
 		};
 	`).Exec()
 	if err != nil {
