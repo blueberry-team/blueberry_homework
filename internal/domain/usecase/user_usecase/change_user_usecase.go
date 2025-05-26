@@ -22,7 +22,7 @@ func (u *UserUsecase) ChangeUser(req request.ChangeUserRequest) error {
 	if !userExist {
 		return errors.New("user not found")
 	}
-	entity := entities.UserEntity{
+	entity := entities.ChangeUserEntity{
 		Id:        parsedId,
 		Name:      req.Name,
 		Role:      req.Role,

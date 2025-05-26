@@ -28,5 +28,5 @@ type UserRepository interface {
 	GetUser(id gocql.UUID) (response.UserResponse, error)
 
 	// 사용자 정보 변경 함수
-	ChangeUser(user entities.UserEntity) error
+	ChangeUser(user entities.ChangeUserEntity) error
 }

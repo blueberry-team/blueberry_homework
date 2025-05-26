@@ -131,7 +131,7 @@ func (r *userRepo) GetUser(id gocql.UUID) (response.UserResponse, error) {
 }
 
 // 사용자 정보 변경 함수
-func (r *userRepo) ChangeUser(user entities.UserEntity) error {
+func (r *userRepo) ChangeUser(user entities.ChangeUserEntity) error {
 	return r.session.Query(`
 		UPDATE users
 		SET name = ?, role = ?, updated_at = ?

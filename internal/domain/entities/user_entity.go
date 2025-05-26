@@ -16,3 +16,10 @@ type UserEntity struct {
 	CreatedAt time.Time  `json:"createdAt"`
 	UpdatedAt time.Time  `json:"updatedAt"`
 }
+
+type ChangeUserEntity struct {
+	Id        gocql.UUID `json:"id"`
+	Name      string     `json:"name"`
+	Role      enum.UserRole     `json:"role"`
+	UpdatedAt time.Time  `json:"updatedAt"`
+}
