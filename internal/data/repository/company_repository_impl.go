@@ -30,7 +30,7 @@ func (r *companyRepo) CheckCompanyWithUserId(userId gocql.UUID) (bool, error) {
 	`, userId).Scan(&dummy)
 	if err != nil {
 		if err == gocql.ErrNotFound {
-			return false, nil
+			return false, fmt.Errorf("company not found for userId: %s", userId.String())
 		}
 		return false, err
 	}
