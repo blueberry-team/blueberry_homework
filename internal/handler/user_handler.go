@@ -3,6 +3,7 @@ package handler
 import (
 	"blueberry_homework/dto/request"
 	"blueberry_homework/dto/response"
+	"blueberry_homework/internal/domain/enum"
 	"blueberry_homework/internal/domain/usecase/user_usecase"
 
 	"encoding/json"
@@ -41,7 +42,7 @@ func (h *UserHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Role 유효성 검사 (boss 또는 worker)
-	if req.Role != "boss" && req.Role != "worker" {
+	if !enum.IsUserRoleValid(req.Role) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
@@ -238,7 +239,7 @@ func (h *UserHandler) ChangeUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Role 유효성 검사 (boss 또는 worker)
-	if req.Role != "boss" && req.Role != "worker" {
+	if !enum.IsUserRoleValid(req.Role) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
