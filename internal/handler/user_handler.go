@@ -346,9 +346,11 @@ func isValidEmail(email string) bool {
     return emailRegex.MatchString(email)
 }
 
-// 비밀번호 강도 검증 (최소 8자, 숫자, 특수문자 포함)
+// 비밀번호 강도 검증 (최소 4자, 숫자, 특수문자 포함)
 func isValidPassword(password string) bool {
     return len(password) >= 4 &&
+	regexp.MustCompile(`[a-z]`).MatchString(password) &&
+    regexp.MustCompile(`[A-Z]`).MatchString(password) &&
     regexp.MustCompile(`[0-9]`).MatchString(password) &&
     regexp.MustCompile(`[!@#$%^&*]`).MatchString(password)
 }
