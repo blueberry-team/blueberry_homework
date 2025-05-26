@@ -24,6 +24,15 @@ func (u *CompanyUsecase) CreateCompany(createCompanyRequest request.CreateCompan
         return errors.New("user not found")
     }
 
+	// 회사 존재 확인
+	companyExist, err := u.companyRepo.CheckCompanyWithUserId(userId)
+	if err != nil {
+		return err
+	}
+	if companyExist {
+		return errors.New("company already exists")
+	}
+
 	now := time.Now()
 	entity := entities.CompanyEntity{
 		Id:             gocql.UUIDFromTime(now),
