@@ -24,22 +24,14 @@ func NewConfig() (*Config, error) {
 	}
 
 	// ScyllaDB 호스트 설정
-	hostsEnv := os.Getenv("SCYLLA_HOSTS")
-	if hostsEnv == "" {
-		return nil, fmt.Errorf("SCYLLA_HOSTS 환경변수가 설정되지 않았습니다")
-	}
+	hostsEnv := getEnvOrDefault("SCYLLA_HOSTS", "localhost")
 
 	// 키스페이스 설정
-	keyspace := os.Getenv("SCYLLA_KEYSPACE")
-	if keyspace == "" {
-		return nil, fmt.Errorf("SCYLLA_KEYSPACE 환경변수가 설정되지 않았습니다")
-	}
+	keyspace := getEnvOrDefault("SCYLLA_KEYSPACE", "blueberry")
 
 	// 서버 포트 설정
-	serverPort := os.Getenv("SERVER_PORT")
-	if serverPort == "" {
-		return nil, fmt.Errorf("SERVER_PORT 환경변수가 설정되지 않았습니다")
-	}
+	serverPort := getEnvOrDefault("SERVER_PORT", "8080")
+
 	fmt.Println("✅ Config 설정 완료!")
 
 	return &Config{
@@ -47,4 +39,12 @@ func NewConfig() (*Config, error) {
 		ScyllaKeyspace: keyspace,
 		ServerPort:     serverPort,
 	}, nil
+}
+
+func getEnvOrDefault(key string, defaultValue string) string {
+	env := os.Getenv(key)
+	if env == "" {
+		return defaultValue
+	}
+	return env
 }
