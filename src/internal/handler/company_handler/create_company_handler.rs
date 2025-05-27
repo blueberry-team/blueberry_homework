@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use axum::{
     body::Body,
-    http::{HeaderMap, Response, StatusCode},
+    http::{Response, StatusCode},
     response::IntoResponse,
     Extension,
     Json,
@@ -12,7 +12,7 @@ use validator::Validate;
 use crate::{
     dto::{
         req::company_req::CreateCompanyReq,
-        res::basic_response::BasicResponse,
+        res::{basic_response::BasicResponse, token::token_claim::TokenClaim},
     },
     internal::{
         domain::{
@@ -20,9 +20,8 @@ use crate::{
                 company_repository::CompanyRepository,
                 user_repository::UserRepository
             },
-        usecases::company_usecases::create_company_usecase::CreateCompanyUsecase,
-    },
-        utils::jwt::verify_token::verify_token
+            usecases::company_usecases::create_company_usecase::CreateCompanyUsecase,
+        },
     },
 };
 
@@ -33,8 +32,7 @@ impl CreateCompanyHandler {
     pub async fn create_company_handler(
         Extension(company_repo): Extension<Arc<dyn CompanyRepository + Send + Sync>>,
         Extension(user_repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
-        Extension(jwt_secret_key): Extension<String>,
-        headers: HeaderMap,
+        Extension(token_data): Extension<TokenClaim>,
         Json(company_req): Json<CreateCompanyReq>,
     ) -> Response<Body> {
         // validation for company_dto
@@ -52,14 +50,6 @@ impl CreateCompanyHandler {
             return (StatusCode::BAD_REQUEST, Json(response)).into_response();
         }
 
-        // verify token
-        let token_data = match verify_token(jwt_secret_key, &headers).await {
-            Ok(token_data) => token_data,
-            Err(e) => {
-                let response = BasicResponse::bad_request("error".to_string(), e);
-                return (StatusCode::BAD_REQUEST, Json(response)).into_response();
-            }
-        };
 
         let usecase = CreateCompanyUsecase::new(user_repo, company_repo);
 

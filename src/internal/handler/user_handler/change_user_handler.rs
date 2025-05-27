@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use axum::{
     body::Body,
-    http::{HeaderMap, Response, StatusCode},
+    http::{Response, StatusCode},
     response::IntoResponse,
     Extension,
     Json,
@@ -12,14 +12,16 @@ use validator::Validate;
 use crate::{
     dto::{
         req::user_req::ChangeUserReq,
-        res::basic_response::BasicResponse,
+        res::{
+            basic_response::BasicResponse,
+            token::token_claim::TokenClaim
+        },
     },
     internal::{
         domain::{
         repository_interface::user_repository::UserRepository,
         usecases::user_usecases::change_user_usecase::ChangeUserUsecase,
-    },
-    utils::jwt::verify_token::verify_token
+        },
     },
 };
 
@@ -29,8 +31,7 @@ impl ChangeUserHandler {
 
     pub async fn change_user_handler(
         Extension(repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
-        Extension(jwt_secret_key): Extension<String>,
-        headers: HeaderMap,
+        Extension(token_data): Extension<TokenClaim>,
         Json(change_user_req): Json<ChangeUserReq>,
     ) -> Response<Body> {
         // validation for change_user_dto
@@ -48,16 +49,8 @@ impl ChangeUserHandler {
             return (StatusCode::BAD_REQUEST, Json(response)).into_response();
         }
 
-        // verify token
-        let token_data = match verify_token(jwt_secret_key, &headers).await {
-            Ok(token_data) => token_data,
-            Err(e) => {
-                let response = BasicResponse::bad_request("error".to_string(), e);
-                return (StatusCode::BAD_REQUEST, Json(response)).into_response();
-            }
-        };
-
         let usecase = ChangeUserUsecase::new(repo);
+
         match usecase.change_user_usecase(token_data.sub, change_user_req).await {
             Ok(_) => {
                 let response = BasicResponse::ok("Success".to_string());

@@ -1,10 +1,7 @@
 use std::sync::Arc;
 
 use axum::{
-    http::StatusCode,
-    response::IntoResponse,
-    Extension,
-    Json,
+    extract::State, http::StatusCode, response::IntoResponse, Extension, Json
 };
 use validator::Validate;
 
@@ -22,7 +19,7 @@ impl LogInHandler {
 
     pub async fn log_in_handler(
         Extension(repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
-        Extension(jwt_secret_key): Extension<String>,
+        State(jwt_secret_key): State<String>,
         Json(log_in_req): Json<LogInReq>,
     ) -> impl IntoResponse {
         // validation for change_name_dto

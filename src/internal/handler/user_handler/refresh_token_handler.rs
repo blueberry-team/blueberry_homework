@@ -1,11 +1,7 @@
 use std::sync::Arc;
 
 use axum::{
-    body::Body,
-    http::{Response, StatusCode},
-    response::IntoResponse,
-    Extension,
-    Json,
+    body::Body, extract::State, http::{Response, StatusCode}, response::IntoResponse, Extension, Json
 };
 
 use crate::{
@@ -13,28 +9,27 @@ use crate::{
     internal::{
         domain::{
             repository_interface::user_repository::UserRepository,
-            usecases::user_usecases::get_user_usecase::GetUserUsecase,
+            usecases::user_usecases::refresh_token_usecase::RefreshTokenUsecase,
         },
     },
 };
 
-pub struct GetUserHandler;
+pub struct RefreshTokenHandler;
 
-impl GetUserHandler {
-
-    pub async fn get_user_handler(
+impl RefreshTokenHandler {
+    pub async fn refresh_token_handler(
         Extension(repo): Extension<Arc<dyn UserRepository + Send + Sync>>,
         Extension(token_data): Extension<TokenClaim>,
+        State(jwt_secret_key): State<String>,
     ) -> Response<Body> {
+        let usecase = RefreshTokenUsecase::new(repo, jwt_secret_key);
 
-        let usecase = GetUserUsecase::new(repo);
-
-        match usecase.get_user_usecase(token_data.sub).await {
-            Ok(user) => {
+        match usecase.refresh_token_usecase(token_data.sub).await {
+            Ok(token) => {
                 let response = serde_json::json!({
                     "message": "Success",
                     "status_code": StatusCode::OK.as_u16(),
-                    "data": user,
+                    "data": token,
                 });
                 (StatusCode::OK, Json(response)).into_response()
             },
@@ -44,5 +39,4 @@ impl GetUserHandler {
             }
         }
     }
-
 }

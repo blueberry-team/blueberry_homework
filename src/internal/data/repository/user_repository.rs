@@ -148,21 +148,21 @@ impl UserRepository for UserRepositoryImpl {
     }
 
     async fn get_user(&self, id: Uuid) -> Result<UserResponse, String> {
-        let query = "SELECT email, name, role, created_at, updated_at FROM user WHERE id = ?";
+        let query = "SELECT id,email, name, role, created_at, updated_at FROM user WHERE id = ?";
 
         let mut rows = self.session
             .query_iter(query, (id,))
             .await
             .map_err(|e| format!("Error querying user: {}", e))?
-            .rows_stream::<(String, String, String, i64, i64)>()
+            .rows_stream::<(Uuid, String, String, String, i64, i64)>()
             .map_err(|e| format!("Error getting row: {}", e))?;
 
         let result = rows.try_next().await.map_err(|e| format!("Error getting row: {}", e))?;
-        if let Some((email, name, role, created_at, updated_at)) = result {
+        if let Some((id, email, name, role, created_at, updated_at)) = result {
             let dt_created_at: DateTime<Utc> = DateTime::from_timestamp(created_at, 0).unwrap();
             let dt_updated_at: DateTime<Utc> = DateTime::from_timestamp(updated_at, 0).unwrap();
 
-            Ok(UserResponse { email, name, role, created_at: dt_created_at, updated_at: dt_updated_at })
+            Ok(UserResponse { id, email, name, role, created_at: dt_created_at, updated_at: dt_updated_at })
         } else {
             Err(format!("User not found"))
         }

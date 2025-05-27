@@ -16,14 +16,14 @@ pub struct CompanyResponse {
 }
 
 // uuid -> string
-fn serialize_uuid<S>(uuid: &Uuid, serializer: S) -> Result<S::Ok, S::Error>
+pub fn serialize_uuid<S>(uuid: &Uuid, serializer: S) -> Result<S::Ok, S::Error>
 where
     S: serde::Serializer,
 {
     serializer.serialize_str(&uuid.to_string())
 }
 
-fn deserialize_uuid<'de, D>(deserializer: D) -> Result<Uuid, D::Error>
+pub fn deserialize_uuid<'de, D>(deserializer: D) -> Result<Uuid, D::Error>
 where
     D: serde::Deserializer<'de>,
 {
