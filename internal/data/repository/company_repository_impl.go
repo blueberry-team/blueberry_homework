@@ -71,13 +71,22 @@ func (r *companyRepo) GetUserCompany(userId gocql.UUID) (response.CompanyRespons
 	}, nil
 }
 
+// getCompanyId: userId로 회사 id 반환
+// 당장은 쓸 일이 없어서 private 으로 생성되어있음
+func (r *companyRepo) getCompanyId(userId gocql.UUID) (gocql.UUID, error) {
+	var companyId gocql.UUID
+	err := r.session.Query(`
+		SELECT id FROM companies WHERE user_id = ? LIMIT 1
+	`, userId).Scan(&companyId)
+	return companyId, err
+}
+
 // UpdateCompany는 회사 정보를 수정합니다.
 func (r *companyRepo) ChangeCompany(entity entities.ChangeCompanyEntity) error {
 	var companyId gocql.UUID
 
-	if err := r.session.Query(`
-		SELECT id FROM companies WHERE user_id = ? LIMIT 1
-	`, entity.UserId).Scan(&companyId); err != nil {
+	companyId, err := r.getCompanyId(entity.UserId)
+	if err != nil {
 		return err
 	}
 
@@ -92,9 +101,8 @@ func (r *companyRepo) ChangeCompany(entity entities.ChangeCompanyEntity) error {
 func (r *companyRepo) DeleteCompany(userId gocql.UUID) error {
 	var companyId gocql.UUID
 
-	if err := r.session.Query(`
-	SELECT id FROM companies WHERE user_id = ? LIMIT 1
-	`, userId).Scan(&companyId); err != nil {
+	companyId, err := r.getCompanyId(userId)
+	if err != nil {
 		return err
 	}
 
