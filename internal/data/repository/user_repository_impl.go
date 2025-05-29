@@ -29,27 +29,27 @@ func NewUserRepository(session *gocql.Session) repo_interface.UserRepository {
 }
 
 // 이메일로 사용자 찾기
-func (r *userRepo) FindByEmail(email string) (bool, error) {
-	var dummy gocql.UUID
+func (r *userRepo) FindByEmail(email string) (gocql.UUID, error) {
+	var userID gocql.UUID
 	err := r.session.Query(`
 		SELECT id FROM users WHERE email = ? LIMIT 1
-	`, email).Scan(&dummy)
+	`, email).Scan(&userID)
 
 	if err != nil {
 		if err == gocql.ErrNotFound {
-			return false, nil // 사용자 없음 (에러가 아닌 정상 케이스로 처리)
+			return gocql.UUID{}, nil // 사용자 없음 (에러가 아닌 정상 케이스로 처리)
 		}
-		return false, fmt.Errorf("FindByEmail query error: %v", err) // 그 외 쿼리 오류
+		return gocql.UUID{}, fmt.Errorf("FindByEmail query error: %v", err) // 그 외 쿼리 오류
 	}
-	return true, nil // 사용자 있음
+	return userID, nil // 사용자 있음
 }
 
 // id로 사용자 찾기 함수
-func (r *userRepo) FindById(id gocql.UUID) (bool, error) {
+func (r *userRepo) FindById(userId gocql.UUID) (bool, error) {
 	var dummy gocql.UUID
 	err := r.session.Query(`
 		SELECT id FROM users WHERE id = ? LIMIT 1
-	`, id).Scan(&dummy)
+	`, userId).Scan(&dummy)
 
 	if err != nil {
 		if err == gocql.ErrNotFound {
@@ -61,15 +61,15 @@ func (r *userRepo) FindById(id gocql.UUID) (bool, error) {
 }
 
 // 유저의 역할을 확인하는 함수
-func (r *userRepo) CheckRole(id gocql.UUID) (string, error) {
+func (r *userRepo) CheckRole(userId gocql.UUID) (string, error) {
 	var role string
 	err := r.session.Query(`
 		SELECT role FROM users WHERE id = ? LIMIT 1
-	`, id).Scan(&role)
+	`, userId).Scan(&role)
 
 	if err != nil {
 		if err == gocql.ErrNotFound {
-			return "", fmt.Errorf("user not found with id: %s", id.String())
+			return "", fmt.Errorf("user not found with id: %s", userId.String())
 		}
 		return "", fmt.Errorf("failed to check role: %v", err)
 	}
@@ -108,13 +108,13 @@ func (r *userRepo) GetHashedPassword(email string) (string, error) {
 }
 
 // 토큰 정보 가져오는 함수
-func (r *userRepo) GetTokenInfo(email string) (string, string, error) {
-	var userId string
+func (r *userRepo) GetTokenInfo(userID gocql.UUID) (string, string, error) {
+	var email string
 	var name string
 
 	err := r.session.Query(`
-		SELECT id, name FROM users WHERE email = ? LIMIT 1
-	`, email).Scan(&userId, &name)
+		SELECT email, name FROM users WHERE id = ? LIMIT 1
+	`, userID).Scan(&email, &name)
 
 	if err != nil {
 		if err == gocql.ErrNotFound {
@@ -123,7 +123,7 @@ func (r *userRepo) GetTokenInfo(email string) (string, string, error) {
 		return "", "", err
 	}
 
-	return userId, name, nil
+	return email, name, nil
 }
 
 // GetUser는 유저의 정보를 가져옵니다

@@ -12,12 +12,9 @@ import (
 // Login은 사용자 로그인을 처리합니다.
 // false - 로그인 실패, true - 로그인 성공
 func (u *UserUsecase) Login(req request.LoginRequest) (response.TokenResponse, error) {
-	userExist, err := u.repo.FindByEmail(req.Email)
+	userId, err := u.repo.FindByEmail(req.Email)
 	if err != nil {
 		return response.TokenResponse{}, err
-	}
-	if !userExist {
-		return response.TokenResponse{}, errors.New("user not found")
 	}
 
 	hashedPassword, err := u.repo.GetHashedPassword(req.Email)
@@ -25,17 +22,18 @@ func (u *UserUsecase) Login(req request.LoginRequest) (response.TokenResponse, e
 		return response.TokenResponse{}, err
 	}
 
+	// 비번 검증
 	err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(req.Password))
 	if err != nil {
 		return response.TokenResponse{}, errors.New("invalid password")
 	}
 
-	userId, name, err := u.repo.GetTokenInfo(req.Email)
+	email, name, err := u.repo.GetTokenInfo(userId)
 	if err != nil {
 		return response.TokenResponse{}, err
 	}
 
-	token, err := jwt.GenerateToken(userId, req.Email, name)
+	token, err := jwt.GenerateToken(userId.String(), email, name)
 	if err != nil {
 		return response.TokenResponse{}, err
 	}

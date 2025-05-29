@@ -13,11 +13,11 @@ import (
 // SignUp은 사용자 생성을 처리합니다.
 func (u *UserUsecase) SignUp(req request.SignUpRequest) error {
 	// 이메일 중복 체크
-	exists, err := u.repo.FindByEmail(req.Email)
+	userId, err := u.repo.FindByEmail(req.Email)
 	if err != nil {
 		return err
 	}
-	if exists {
+	if userId != (gocql.UUID{}) {
 		return errors.New("registration failed: email already exists")
 	}
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
