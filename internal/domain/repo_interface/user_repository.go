@@ -1,8 +1,8 @@
 package repo_interface
 
 import (
-	"blueberry_homework/internal/domain/entities"
 	"blueberry_homework/dto/response"
+	"blueberry_homework/internal/domain/entities"
 
 	"github.com/gocql/gocql"
 )
@@ -23,6 +23,9 @@ type UserRepository interface {
 
 	// 해싱된 비밀번호 가져오는 함수
 	GetHashedPassword(email string) (string, error)
+
+	// 토큰 정보 가져오는 함수
+	GetTokenInfo(email string) (string, string, error)
 
 	// GetUser는 유저의 정보를 가져옵니다
 	GetUser(id gocql.UUID) (response.UserResponse, error)

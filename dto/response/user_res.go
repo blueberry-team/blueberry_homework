@@ -17,3 +17,13 @@ type GetUserResponse struct {
 	Message string       `json:"message"`
 	Data    UserResponse `json:"data"`
 }
+
+type TokenResponse struct {
+	Token string `json:"token"`
+}
+
+type LoginResponse struct {
+	Message string `json:"message"`
+	Data    TokenResponse `json:"data"`
+}
+

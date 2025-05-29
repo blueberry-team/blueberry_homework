@@ -3,7 +3,7 @@ package app
 import (
 	"blueberry_homework/config"
 	"blueberry_homework/internal/data/repository"
-	"blueberry_homework/internal/db"
+	"blueberry_homework/db"
 	"blueberry_homework/internal/domain/usecase/company_usecase"
 	"blueberry_homework/internal/domain/usecase/user_usecase"
 	"blueberry_homework/internal/handler"

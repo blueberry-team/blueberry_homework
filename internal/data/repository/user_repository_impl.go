@@ -107,6 +107,25 @@ func (r *userRepo) GetHashedPassword(email string) (string, error) {
 	return hashed_password, nil
 }
 
+// 토큰 정보 가져오는 함수
+func (r *userRepo) GetTokenInfo(email string) (string, string, error) {
+	var userId string
+	var name string
+
+	err := r.session.Query(`
+		SELECT id, name FROM users WHERE email = ? LIMIT 1
+	`, email).Scan(&userId, &name)
+
+	if err != nil {
+		if err == gocql.ErrNotFound {
+			return "", "", err
+		}
+		return "", "", err
+	}
+
+	return userId, name, nil
+}
+
 // GetUser는 유저의 정보를 가져옵니다
 func (r *userRepo) GetUser(id gocql.UUID) (response.UserResponse, error) {
 	var user entities.UserEntity

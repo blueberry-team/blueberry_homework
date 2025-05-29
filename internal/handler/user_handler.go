@@ -173,7 +173,7 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 유즈케이스 호출
-	success, err := h.usecase.Login(req)
+	token, err := h.usecase.Login(req)
 	if err != nil {
 		w.Header().Set("Content-Type", "application/json")
 		if strings.Contains(err.Error(), "not found") || strings.Contains(err.Error(), "invalid password") {
@@ -192,7 +192,7 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 로그인 실패 시 에러 응답
-	if !success {
+	if token.Token == "" {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusUnauthorized) // 로그인 실패 (자격 증명 불일치 등)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
@@ -205,12 +205,12 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 로그인 성공 (향후 JWT 토큰 등을 발급할 수 있습니다)
+	// 로그인 성공
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(response.SuccessResponse{
+	if err := json.NewEncoder(w).Encode(response.LoginResponse{
 		Message: "login successful",
-		// Data: map[string]string{"token": "generated_jwt_token_here"}, // 예시: 토큰 반환
+		Data:   token,
 	}); err != nil {
 		http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 		return
@@ -342,15 +342,15 @@ func (h *UserHandler) ChangeUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func isValidEmail(email string) bool {
-    emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
-    return emailRegex.MatchString(email)
+	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+	return emailRegex.MatchString(email)
 }
 
 // 비밀번호 강도 검증 (최소 4자, 숫자, 특수문자 포함)
 func isValidPassword(password string) bool {
-    return len(password) >= 4 &&
-	regexp.MustCompile(`[a-z]`).MatchString(password) &&
-    regexp.MustCompile(`[A-Z]`).MatchString(password) &&
-    regexp.MustCompile(`[0-9]`).MatchString(password) &&
-    regexp.MustCompile(`[!@#$%^&*]`).MatchString(password)
+	return len(password) >= 4 &&
+		regexp.MustCompile(`[a-z]`).MatchString(password) &&
+		regexp.MustCompile(`[A-Z]`).MatchString(password) &&
+		regexp.MustCompile(`[0-9]`).MatchString(password) &&
+		regexp.MustCompile(`[!@#$%^&*]`).MatchString(password)
 }
