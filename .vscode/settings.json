@@ -1,0 +1,15 @@
+{
+    "cSpell.words": [
+        "cqlsh",
+        "dotenv",
+        "dtos",
+        "fastapi",
+        "keyspaces",
+        "pydantic",
+        "usecase",
+        "usecases",
+        "uvicorn"
+    ],
+    "editor.formatOnSave": true,
+    "python.formatting.provider": "black"
+}
