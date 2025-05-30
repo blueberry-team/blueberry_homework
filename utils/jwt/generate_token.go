@@ -19,9 +19,9 @@ func GenerateToken(userId, email, name string) (string, error) {
 		"iat":   jwt.NewNumericDate(now),
 	}
 
-	tokenString := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	tokenString := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
 
-	secretKey := []byte(os.Getenv("JWT_SECRET"))
+	secretKey := []byte(os.Getenv("JWT_SECRET_KEY"))
 	// 비밀키로 토큰 서명
 	tokenSealed, err := tokenString.SignedString(secretKey)
 	if err != nil {
