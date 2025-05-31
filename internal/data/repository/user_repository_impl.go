@@ -78,10 +78,6 @@ func (r *userRepo) CheckRole(userId gocql.UUID) (string, error) {
 
 // SignUp은 새로운 사용자를 저장소에 추가합니다.
 func (r *userRepo) SignUp(entity entities.UserEntity) error {
-	// Mutex로 락을 걸어 동시 접근을 방지합니다.
-	r.mu.Lock()
-	defer r.mu.Unlock()
-
 	return r.session.Query(`
 		INSERT INTO users (id, email, password, name, role, created_at, updated_at)
 		VALUES (?, ?, ?, ?, ?, ?, ?)
