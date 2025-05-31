@@ -1,7 +1,6 @@
 package jwt
 
 import (
-	"fmt"
 	"os"
 	"time"
 
@@ -16,15 +15,8 @@ func GenerateToken(userId, email, name string) (string, error) {
 		"sub":   userId,
 		"email": email,
 		"name":  name,
-		"exp":   jwt.NewNumericDate(now.Add(time.Minute * 5)),
+		"exp":   jwt.NewNumericDate(now.Add(time.Hour * 5)),
 		"iat":   jwt.NewNumericDate(now),
-	}
-
-	if iat, ok := claims["iat"].(*jwt.NumericDate); ok {
-		fmt.Println("발급 시간:", iat.Time.Format("2006-01-02 15:04:05"))
-	}
-	if exp, ok := claims["exp"].(*jwt.NumericDate); ok {
-		fmt.Println("만료 시간:", exp.Time.Format("2006-01-02 15:04:05"))
 	}
 
 	tokenString := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
