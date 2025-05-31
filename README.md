@@ -493,7 +493,7 @@ JWT 토큰에는 다음 정보가 포함되어야 합니다:
 
 2. **middleware/verify_token**
    - JWT 토큰 검증 기능을 구현합니다.
-   - handler에서 middleware를 호출해서 사용해야 합니다.
+   - 각자 프레임워크 별로 middleware 사용법이 있습니다.
 
 ## 토큰 갱신 시스템
 
