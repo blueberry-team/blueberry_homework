@@ -4,10 +4,12 @@ import (
 	"blueberry_homework/config"
 	"blueberry_homework/db"
 	"blueberry_homework/internal/data/repository"
+	"blueberry_homework/internal/domain/usecase/auth_usecase"
 	"blueberry_homework/internal/domain/usecase/company_usecase"
 	"blueberry_homework/internal/domain/usecase/user_usecase"
-	"blueberry_homework/internal/handler/user_handler"
+	"blueberry_homework/internal/handler/auth_handler"
 	"blueberry_homework/internal/handler/company_handler"
+	"blueberry_homework/internal/handler/user_handler"
 	"blueberry_homework/route"
 	"fmt"
 	"time"
@@ -55,14 +57,17 @@ func Init() (*App, error) {
 	// 유스케이스 초기화
 	userUsecase := user_usecase.NewUserUsecase(userRepo)
 	companyUsecase := company_usecase.NewCompanyUsecase(companyRepo, userRepo)
+	authUsecase := auth_usecase.NewAuthUsecase(userRepo)
 
 	// 핸들러 초기화
 	userHandler := user_handler.NewUserHandler(userUsecase)
 	companyHandler := company_handler.NewCompanyHandler(companyUsecase)
+	authHandler := auth_handler.NewAuthHandler(authUsecase)
 
 	// 라우트 설정
 	app.Router.Mount("/users", route.UserRouter(userHandler))
 	app.Router.Mount("/companies", route.CompanyRouter(companyHandler))
+	app.Router.Mount("/auth", route.AuthRouter(authHandler))
 
 	fmt.Println("✅ 애플리케이션 초기화 완료!")
 	return app, nil

@@ -85,7 +85,7 @@ func (h *UserHandler) Login(w http.ResponseWriter, r *http.Request) {
 
 	// 로그인 성공
 	w.WriteHeader(http.StatusOK)
-	if err := json.NewEncoder(w).Encode(response.LoginResponse{
+	if err := json.NewEncoder(w).Encode(response.GetTokenResponse{
 		Message: "login successful",
 		Data:    token,
 	}); err != nil {
