@@ -19,7 +19,7 @@ func (h *UserHandler) ChangeUser(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
-			Error:   "invalid request format (Id, Name and Role are required)",
+			Error:   "invalid request format (Name and Role are required)",
 		}); err != nil {
 			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 			return

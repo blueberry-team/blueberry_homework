@@ -34,6 +34,12 @@ func (h *AuthHandler) RefreshToken(w http.ResponseWriter, r *http.Request) {
 	token, err := h.AuthUsecase.RefreshToken(userId)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
+			Message: "error",
+			Error:   err.Error(),
+		}); err != nil {
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		}
 		return
 	}
 
