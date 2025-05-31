@@ -4,7 +4,12 @@ package user_handler
 
 import (
 	"blueberry_homework/internal/domain/usecase/user_usecase"
+	"blueberry_homework/middleware"
+	"errors"
+	"net/http"
 	"regexp"
+
+	"github.com/golang-jwt/jwt/v5"
 )
 
 // UserHandler는 사용자 관련 HTTP 요청을 처리하는 핸들러입니다.
@@ -30,4 +35,21 @@ func isValidPassword(password string) bool {
 	// regexp.MustCompile(`[A-Z]`).MatchString(password) &&
 	// regexp.MustCompile(`[0-9]`).MatchString(password) &&
 	// regexp.MustCompile(`[!@#$%^&*]`).MatchString(password)
+}
+
+// 미들웨어에서 저장한 context 에서 userId 추출하는 함수
+func getUserIdFromContext(r *http.Request) (string, error) {
+    claimsValue := r.Context().Value(middleware.ClaimsContextKey)
+    if claimsValue == nil {
+        return "", errors.New("JWT claims not found in context")
+    }
+    claims, ok := claimsValue.(jwt.MapClaims)
+    if !ok {
+        return "", errors.New("failed to parse JWT claims from context")
+    }
+    userId, ok := claims["sub"].(string)
+    if !ok {
+        return "", errors.New("invalid user ID in token")
+    }
+    return userId, nil
 }
