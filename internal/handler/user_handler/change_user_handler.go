@@ -10,12 +10,11 @@ import (
 )
 
 func (h *UserHandler) ChangeUser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	var req request.ChangeUserRequest
 
 	err := json.NewDecoder(r.Body).Decode(&req)
-	// ChangeUserRequest DTO의 필드 (Id, Name, Role 등)에 따라 유효성 검사 필요
-	if err != nil || req.Id == "" || req.Name == "" || req.Role == "" {
-		w.Header().Set("Content-Type", "application/json")
+	if err != nil || req.Name == "" || req.Role == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -30,7 +29,6 @@ func (h *UserHandler) ChangeUser(w http.ResponseWriter, r *http.Request) {
 	// Name 필드에 대한 글자 수 제한 validation (필요하다면)
 	name := strings.TrimSpace(req.Name)
 	if len(name) < 1 || len(name) > 50 {
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -44,7 +42,6 @@ func (h *UserHandler) ChangeUser(w http.ResponseWriter, r *http.Request) {
 
 	// Role 유효성 검사 (boss 또는 worker)
 	if !enum.IsUserRoleValid(req.Role) {
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -56,14 +53,26 @@ func (h *UserHandler) ChangeUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = h.usecase.ChangeUser(req)
+	// get user id from context
+	userId, err := getUserIdFromContext(r)
 	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusInternalServerError)
+		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
+			Message: "error",
+			Error:   err.Error(),
+		}); err != nil {
+			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
+		}
+		return
+	}
+
+	err = h.usecase.ChangeUser(userId, req)
+	if err != nil {
 		// 에러 종류에 따라 상태 코드 변경 (예: 사용자를 찾지 못하면 http.StatusNotFound)
 		if strings.Contains(err.Error(), "not found") {
 			w.WriteHeader(http.StatusNotFound)
 		} else {
-			w.WriteHeader(http.StatusBadRequest) // 혹은 다른 적절한 에러 코드
+			w.WriteHeader(http.StatusBadRequest) 
 		}
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -75,7 +84,6 @@ func (h *UserHandler) ChangeUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	if err := json.NewEncoder(w).Encode(response.SuccessResponse{
 		Message: "user changed successfully",

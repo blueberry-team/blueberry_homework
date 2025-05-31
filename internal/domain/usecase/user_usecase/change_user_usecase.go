@@ -10,8 +10,8 @@ import (
 )
 
 // ChangeUser는 사용자 정보를 변경합니다.
-func (u *UserUsecase) ChangeUser(req request.ChangeUserRequest) error {
-	parsedId, err := gocql.ParseUUID(req.Id)
+func (u *UserUsecase) ChangeUser(userId string, req request.ChangeUserRequest) error {
+	parsedId, err := gocql.ParseUUID(userId)
 	if err != nil {
 		return err
 	}
