@@ -1,5 +1,3 @@
-// 파일 이동 작업이므로 실제 코드 변경은 없고, 파일만 이동합니다.
-
 package user_handler
 
 import (
@@ -18,6 +16,13 @@ func NewUserHandler(u *user_usecase.UserUsecase) *UserHandler {
 	return &UserHandler{usecase: u}
 }
 
+var (
+	lowercaseRegex = regexp.MustCompile(`[a-z]`)
+	uppercaseRegex = regexp.MustCompile(`[A-Z]`)
+	digitRegex     = regexp.MustCompile(`[0-9]`)
+	specialRegex   = regexp.MustCompile(`[!@#$%^&*]`)
+)
+
 func isValidEmail(email string) bool {
 	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
 	return emailRegex.MatchString(email)
@@ -26,8 +31,8 @@ func isValidEmail(email string) bool {
 // 비밀번호 강도 검증 (최소 8자, 소문자, 대문자, 숫자, 특수문자 포함)
 func isValidPassword(password string) bool {
 	return len(password) >= 8 &&
-	regexp.MustCompile(`[a-z]`).MatchString(password) &&
-	regexp.MustCompile(`[A-Z]`).MatchString(password) &&
-	regexp.MustCompile(`[0-9]`).MatchString(password) &&
-	regexp.MustCompile(`[!@#$%^&*]`).MatchString(password)
+		lowercaseRegex.MatchString(password) &&
+		uppercaseRegex.MatchString(password) &&
+		digitRegex.MatchString(password) &&
+		specialRegex.MatchString(password)
 }

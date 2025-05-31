@@ -14,7 +14,7 @@ func (h *CompanyHandler) CreateCompany(w http.ResponseWriter, r *http.Request) {
 
 	// null check validation
 	err := json.NewDecoder(r.Body).Decode(&req)
-	if err != nil || req.CompanyName == "" || req.CompanyAddress == "" {
+	if err != nil || req.CompanyName == "" || req.CompanyAddress == "" || req.TotalStaff < 0 {
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",

@@ -1,4 +1,3 @@
-// 파일 이동 작업이므로 실제 코드 변경은 없고, 파일만 이동합니다.
 package company_handler
 
 import (
