@@ -61,8 +61,6 @@ func (r *companyRepo) GetUserCompany(userId gocql.UUID) (response.CompanyRespons
 	}
 
 	return response.CompanyResponse{
-		Id:             entity.Id,
-		UserId:         entity.UserId,
 		CompanyName:    entity.CompanyName,
 		CompanyAddress: entity.CompanyAddress,
 		TotalStaff:     entity.TotalStaff,

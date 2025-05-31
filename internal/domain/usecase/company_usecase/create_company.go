@@ -9,14 +9,14 @@ import (
 	"github.com/gocql/gocql"
 )
 
-func (u *CompanyUsecase) CreateCompany(createCompanyRequest request.CreateCompanyRequest) error {
-	userId, err := gocql.ParseUUID(createCompanyRequest.UserID)
+func (u *CompanyUsecase) CreateCompany(userId string, createCompanyRequest request.CreateCompanyRequest) error {
+	parsedId, err := gocql.ParseUUID(userId)
 	if err != nil {
 		return err
 	}
 
 	// 유저 존재 확인
-    userExist, err := u.userRepo.FindById(userId)
+    userExist, err := u.userRepo.FindById(parsedId)
     if err != nil {
         return err
     }
@@ -25,7 +25,7 @@ func (u *CompanyUsecase) CreateCompany(createCompanyRequest request.CreateCompan
     }
 
 	// 회사 존재 확인
-	companyExist, err := u.companyRepo.CheckCompanyWithUserId(userId)
+	companyExist, err := u.companyRepo.CheckCompanyWithUserId(parsedId)
 	if err != nil {
 		return err
 	}
@@ -36,7 +36,7 @@ func (u *CompanyUsecase) CreateCompany(createCompanyRequest request.CreateCompan
 	now := time.Now()
 	entity := entities.CompanyEntity{
 		Id:             gocql.UUIDFromTime(now),
-		UserId:         userId,
+		UserId:         parsedId,
 		CompanyName:    createCompanyRequest.CompanyName,
 		CompanyAddress: createCompanyRequest.CompanyAddress,
 		TotalStaff:     createCompanyRequest.TotalStaff,

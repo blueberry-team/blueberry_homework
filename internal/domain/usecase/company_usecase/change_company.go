@@ -9,8 +9,8 @@ import (
 	"github.com/gocql/gocql"
 )
 
-func (u *CompanyUsecase) ChangeCompany(req request.ChangeCompanyRequest) error {
-	parsedUserId, err := gocql.ParseUUID(req.UserId)
+func (u *CompanyUsecase) ChangeCompany(userId string, req request.ChangeCompanyRequest) error {
+	parsedUserId, err := gocql.ParseUUID(userId)
 	if err != nil {
 		return err
 	}
