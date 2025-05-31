@@ -2,6 +2,7 @@ package company_handler
 
 import (
 	"blueberry_homework/dto/response"
+	"blueberry_homework/utils/ctxutil"
 	"encoding/json"
 	"net/http"
 )
@@ -9,7 +10,7 @@ import (
 func (h *CompanyHandler) DeleteCompany(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
-	userId, err := getUserIdFromContext(r)
+	userId, err := ctxutil.GetUserIdFromContext(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{

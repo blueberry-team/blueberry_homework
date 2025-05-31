@@ -3,6 +3,7 @@ package company_handler
 import (
 	"blueberry_homework/dto/request"
 	"blueberry_homework/dto/response"
+	"blueberry_homework/utils/ctxutil"
 	"encoding/json"
 	"net/http"
 )
@@ -24,7 +25,7 @@ func (h *CompanyHandler) ChangeCompany(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userId, err := getUserIdFromContext(r)
+	userId, err := ctxutil.GetUserIdFromContext(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
@@ -34,7 +35,7 @@ func (h *CompanyHandler) ChangeCompany(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Failed to encode response", http.StatusInternalServerError)
 		}
 		return
-	}	
+	}
 
 	err = h.CompanyUsecase.ChangeCompany(userId, req)
 	if err != nil {

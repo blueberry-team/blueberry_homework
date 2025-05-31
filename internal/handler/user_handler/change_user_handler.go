@@ -4,6 +4,7 @@ import (
 	"blueberry_homework/dto/request"
 	"blueberry_homework/dto/response"
 	"blueberry_homework/internal/domain/enum"
+	"blueberry_homework/utils/ctxutil"
 	"encoding/json"
 	"net/http"
 	"strings"
@@ -54,7 +55,7 @@ func (h *UserHandler) ChangeUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// get user id from context
-	userId, err := getUserIdFromContext(r)
+	userId, err := ctxutil.GetUserIdFromContext(r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
@@ -72,7 +73,7 @@ func (h *UserHandler) ChangeUser(w http.ResponseWriter, r *http.Request) {
 		if strings.Contains(err.Error(), "not found") {
 			w.WriteHeader(http.StatusNotFound)
 		} else {
-			w.WriteHeader(http.StatusBadRequest) 
+			w.WriteHeader(http.StatusBadRequest)
 		}
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
