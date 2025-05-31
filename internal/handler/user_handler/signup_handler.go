@@ -10,12 +10,12 @@ import (
 )
 
 func (h *UserHandler) SignUp(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	var req request.SignUpRequest
 
 	// null check validation
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil || req.Email == "" || req.Password == "" || req.Name == "" || req.Role == "" {
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -29,7 +29,6 @@ func (h *UserHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 
 	// 이메일 유효성 검사
 	if !isValidEmail(req.Email) {
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -43,7 +42,6 @@ func (h *UserHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 
 	// 비밀번호 유효성 검사
 	if !isValidPassword(req.Password) {
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -57,7 +55,6 @@ func (h *UserHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 
 	// Role 유효성 검사 (boss 또는 worker)
 	if !enum.IsUserRoleValid(req.Role) {
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -72,7 +69,6 @@ func (h *UserHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 	// 글자수 제한 validation (사용자 이름)
 	userName := strings.TrimSpace(req.Name)
 	if len(userName) < 1 || len(userName) > 50 {
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -87,7 +83,6 @@ func (h *UserHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 	// 유즈케이스 호출
 	err = h.usecase.SignUp(req)
 	if err != nil {
-		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(http.StatusBadRequest)
 		if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 			Message: "error",
@@ -100,7 +95,6 @@ func (h *UserHandler) SignUp(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// 성공응답
-	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	if err := json.NewEncoder(w).Encode(response.SuccessResponse{
 		Message: "signup successful",
