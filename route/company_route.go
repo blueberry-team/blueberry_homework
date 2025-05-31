@@ -1,12 +1,12 @@
 package route
 
 import (
-	"blueberry_homework/internal/handler"
+	"blueberry_homework/internal/handler/company_handler"
 
 	"github.com/go-chi/chi/v5"
 )
 
-func CompanyRouter(h *handler.CompanyHandler) chi.Router {
+func CompanyRouter(h *company_handler.CompanyHandler) chi.Router {
 	r := chi.NewRouter()
 
 	r.Post("/create-company", h.CreateCompany)

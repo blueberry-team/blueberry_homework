@@ -2,11 +2,12 @@ package app
 
 import (
 	"blueberry_homework/config"
-	"blueberry_homework/internal/data/repository"
 	"blueberry_homework/db"
+	"blueberry_homework/internal/data/repository"
 	"blueberry_homework/internal/domain/usecase/company_usecase"
 	"blueberry_homework/internal/domain/usecase/user_usecase"
-	"blueberry_homework/internal/handler"
+	"blueberry_homework/internal/handler/user_handler"
+	"blueberry_homework/internal/handler/company_handler"
 	"blueberry_homework/route"
 	"fmt"
 	"time"
@@ -56,8 +57,8 @@ func Init() (*App, error) {
 	companyUsecase := company_usecase.NewCompanyUsecase(companyRepo, userRepo)
 
 	// 핸들러 초기화
-	userHandler := handler.NewUserHandler(userUsecase)
-	companyHandler := handler.NewCompanyHandler(companyUsecase)
+	userHandler := user_handler.NewUserHandler(userUsecase)
+	companyHandler := company_handler.NewCompanyHandler(companyUsecase)
 
 	// 라우트 설정
 	app.Router.Mount("/users", route.UserRouter(userHandler))
