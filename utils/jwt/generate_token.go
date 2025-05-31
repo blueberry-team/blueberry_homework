@@ -1,6 +1,7 @@
 package jwt
 
 import (
+	"errors"
 	"os"
 	"time"
 
@@ -21,7 +22,12 @@ func GenerateToken(userId, email, name string) (string, error) {
 
 	tokenString := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
 
-	secretKey := []byte(os.Getenv("JWT_SECRET_KEY"))
+	secretKeyStr := os.Getenv("JWT_SECRET_KEY")
+	if secretKeyStr == "" {
+		return "", errors.New("JWT_SECRET_KEY is not set")
+	}
+	secretKey := []byte(secretKeyStr)
+
 	// 비밀키로 토큰 서명
 	tokenSealed, err := tokenString.SignedString(secretKey)
 	if err != nil {

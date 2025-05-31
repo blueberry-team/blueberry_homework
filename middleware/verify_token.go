@@ -69,7 +69,7 @@ func VerifyToken(h http.Handler) http.Handler {
 			return secretKey, nil
 		})
 		if err != nil {
-			if !token.Valid {
+			if token != nil && !token.Valid {
 				w.WriteHeader(http.StatusUnauthorized)
 				if err := json.NewEncoder(w).Encode(response.ErrorResponse{
 					Message: "error",
