@@ -1,6 +1,7 @@
 using BerryNameApi.Repositories;
 using BerryNameApi.UseCases;
 using blueberry_homework_dotnet.App;
+using blueberry_homework_dotnet.Middleware;
 using blueberry_homework_dotnet.Repositories;
 using blueberry_homework_dotnet.UseCases;
 using DotNetEnv;
@@ -28,6 +29,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// JWT MiddleWare
+app.UseMiddleware<JwtMiddleware>();
 
 app.UseSwagger();
 app.UseSwaggerUI();

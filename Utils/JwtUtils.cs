@@ -28,7 +28,7 @@ namespace blueberry_homework_dotnet.Utils
             var token = new JwtSecurityToken(
                 claims: claims,
                 // Expiration
-                expires: DateTime.UtcNow.AddHours(5),
+                expires: DateTime.UtcNow.AddMinutes(1),
                 signingCredentials: creds
             );
 

@@ -38,12 +38,14 @@ namespace blueberry_homework_dotnet.Controllers
         {
             var result = _authUseCase.LogIn(request);
 
-            if (!result.Success)
+            if (!result.Success || result.Data == null)
             {
                 return BadRequest(new ApiFailResponse { Error = result.ErrorMessage });
             }
 
-            return Ok(new ApiSuccessResponse<IEnumerable<AuthResponse>> { Message = Constants.Success });
+            var response = result.Data;
+
+            return Ok(new ApiSuccessResponse<AuthResponse> { Message = Constants.Success, Data = response });
         }
 
         [HttpPatch("change-user")]

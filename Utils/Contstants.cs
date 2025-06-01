@@ -10,11 +10,12 @@ namespace BerryNameApi.Utils
         public const string DatabaseError = "Database Error";
 
         // Token
-        public const string TokenNotSet = "JWT_SECRET_KEY not set";
+        public const string KeyNotSet = "JWT_SECRET_KEY not set";
         public const string TokenRefreshRequired = "X-Token-Refresh-Required";
         public const string TokenUnauthorized = "Unauthorized";
         public const string TokenMissingAuthorizationHeader = "Missing Authorization Header";
         public const string InvalidToken = "Invalid Token";
+        public const string TokenInvalidOrExpired = "Invalid or expired token.";
 
         // Name
         public const string NameRequired = "name is required";
