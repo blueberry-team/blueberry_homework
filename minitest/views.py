@@ -3,33 +3,12 @@ from rest_framework.response import Response
 from rest_framework import status 
 from django.core.exceptions import ValidationError 
 from rest_framework.exceptions import APIException 
+from .serializer import UserSerializer, CompanySerializer
 from .use_cases.auth.sign_up import create_user
 from .use_cases.auth.sign_in import login_user
-from .use_cases.auth.my_page import get_user, change_user, delete_user_by_index, delete_user_by_name 
+from .use_cases.auth.my_page import get_user, change_user
 from .use_cases.company import get_company, create_company, delete_company_by_index, change_company
 import json
-
-def _user_to_dict(user):
-    return {
-        'id': user.id,
-        'name': user.name,
-        'email': user.email,
-        'password': user.password,
-        'role': user.role,  
-        'created_at': user.created_at.strftime("%Y-%m-%d %H:%M:%S") if user.created_at else None,
-        'updated_at': user.updated_at.strftime("%Y-%m-%d %H:%M:%S") if user.updated_at else None
-    }
-
-def _company_to_dict(company):
-    return {
-        'id': company.id,
-        'user_id': str(company.user_id.id),
-        'company_name': company.company_name,
-        'company_address': company.company_address,
-        'total_staff': company.total_staff,
-        'created_at': company.created_at.strftime("%Y-%m-%d %H:%M:%S") if company.created_at else None,
-        'updated_at': company.updated_at.strftime("%Y-%m-%d %H:%M:%S") if company.updated_at else None
-    }
 
 class SignUpAPIView(APIView):
     def post(self, request): 
@@ -41,7 +20,7 @@ class SignUpAPIView(APIView):
             users = create_user(name, email, password, role)
             return Response({
                 "message": "success",
-                "data": [_user_to_dict(user) for user in users]
+                "data": UserSerializer(users, many=True).data
             })
         except ValidationError as e:
             error_response = {
@@ -51,15 +30,21 @@ class SignUpAPIView(APIView):
             return Response(error_response, status=status.HTTP_400_BAD_REQUEST)
 
 class SignInAPIView(APIView):
+    '''
+    {
+    "email":"test1@test.com",
+    "password":"test1!"
+    }
+    '''
     def post(self, request): 
         email = request.data.get('email')
         password = request.data.get('password')
         try:
             users = login_user(email, password)
-            print("[hrkim]",users)
+
             return Response({
                 "message": "success",
-                "data": _user_to_dict(users)
+                "data": UserSerializer(users).data
             })
         except ValidationError as e:
             error_response = {
@@ -74,7 +59,7 @@ class MyPageAPIView(APIView):
             users = get_user()
             return Response({
                 "message": "success",
-                "data": [_user_to_dict(user) for user in users]
+                "data": UserSerializer(users, many=True).data
             })
         except APIException as e:
             return Response({
@@ -100,7 +85,7 @@ class MyPageAPIView(APIView):
             
             return Response({
                 "message": "success",
-                "data": [_user_to_dict(user)]
+                "data": UserSerializer(user, many=True).data
             })
         
         except json.JSONDecodeError:
@@ -122,7 +107,7 @@ class CompanyAPIView(APIView):
             company = get_company()
             return Response({
                 "message": "success",
-                "data": [_company_to_dict(c) for c in company]
+                "data": CompanySerializer(company, many=True).data
             })
         except APIException as e:
             return Response({
@@ -152,7 +137,7 @@ class CompanyAPIView(APIView):
                                     total_staff=total_staff)
             return Response({
                 "message": "success",
-                "data": [_company_to_dict(c) for c in company]
+                "data": CompanySerializer(company, many=True).data
             })
         except ValidationError as e:
             error_response = {
@@ -184,7 +169,7 @@ class CompanyAPIView(APIView):
             
             return Response({
                 "message": "success",
-                "data": [_company_to_dict(company)]
+                "data": CompanySerializer(company).data
             })
         
         except json.JSONDecodeError:
@@ -203,10 +188,10 @@ class CompanyAPIView(APIView):
 class CompanyDeleteAPIView(APIView):
     def get(self, request, idx):
         try:
-            companies = get_company(idx)
+            company = get_company(idx)
             return Response({
                 "message": "success",
-                "data": [_company_to_dict(company) for company in companies]
+                "data": CompanySerializer(company, many=True).data
             })
         except ValidationError as e:
             error_response = {
@@ -220,7 +205,7 @@ class CompanyDeleteAPIView(APIView):
             company = delete_company_by_index(idx)
             return Response({
                 "message": "success",
-                "data": [_company_to_dict(c) for c in company]
+                "data": CompanySerializer(company, many=True).data
             })
         except APIException as e:
             return Response({

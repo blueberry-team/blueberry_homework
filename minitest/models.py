@@ -1,12 +1,12 @@
 from django.db import models
 import uuid
 from django.core.validators import MinLengthValidator, MaxLengthValidator
-from django.core.exceptions import ValidationError
 
 class Name(models.Model):
     "사용자 모델"
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     email = models.CharField(max_length=50)
+    token = models.CharField(max_length=200, blank=True, null=True)
     password = models.CharField(max_length=50)
     name = models.CharField(max_length=50)
     role = models.CharField(max_length=10)
