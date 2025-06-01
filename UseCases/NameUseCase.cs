@@ -3,6 +3,7 @@ using BerryNameApi.Entities;
 using BerryNameApi.Repositories;
 using BerryNameApi.Utils;
 using blueberry_homework_dotnet.UseCases;
+using blueberry_homework_dotnet.Utils;
 
 namespace BerryNameApi.UseCases
 {
@@ -15,20 +16,27 @@ namespace BerryNameApi.UseCases
             _repository = repository;
         }
 
-        public IEnumerable<UserResponse> GetAll() => _repository.GetAll().Select(user => new UserResponse
+        public Result<IEnumerable<UserResponse>> GetAll()
         {
-            Id = user.Id,
-            Name = user.Name,
-            CreatedAt = user.CreatedAt,
-            UpdatedAt = user.UpdatedAt,
-        });
+            var users = _repository.GetAll();
 
-        public Result CreateName(string name)
+            var response = users.Select(user => new UserResponse
+            {
+                Id = user.Id,
+                Name = user.Name,
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt,
+            });
+
+            return Result<IEnumerable<UserResponse>>.Ok(response);
+        }
+
+        public Result<Unit> CreateName(string name)
         {
             // 이름 중복 검색
             if (_repository.FindByName(name) != null)
             {
-                return Result.Fail(Constants.DuplicateName);
+                return Result<Unit>.Fail(Constants.DuplicateName);
             }
 
             var UtcNow = DateTime.UtcNow;
@@ -41,27 +49,27 @@ namespace BerryNameApi.UseCases
                 UpdatedAt = UtcNow,
             };
             _repository.CreateName(user);
-            return Result.Ok();
+            return Result<Unit>.Ok(Unit.Value);
         }
 
-        public Result ChangeName(Guid id, string newName)
+        public Result<Unit> ChangeName(Guid id, string newName)
         {
             var user = _repository.FindById(id);
             if (user == null)
             {
-                return Result.Fail(Constants.UserNotFound);
+                return Result<Unit>.Fail(Constants.UserNotFound);
             }
 
             // 이전 이름과 동일 이름
             if (user.Name == newName)
             {
-                return Result.Fail(Constants.DuplicateName);
+                return Result<Unit>.Fail(Constants.DuplicateName);
             }
 
             // 이름 중복
             if (_repository.FindByName(newName) != null)
             {
-                return Result.Fail(Constants.DuplicateName);
+                return Result<Unit>.Fail(Constants.DuplicateName);
             }
 
             user.Name = newName;
@@ -70,26 +78,26 @@ namespace BerryNameApi.UseCases
             // DB 입력
             if (!_repository.ChangeName(user))
             {
-                return Result.Fail(Constants.DatabaseError);
+                return Result<Unit>.Fail(Constants.DatabaseError);
             }
 
-            return Result.Ok();
+            return Result<Unit>.Ok(Unit.Value);
         }
 
-        public Result DeleteByIndex(int index)
+        public Result<Unit> DeleteByIndex(int index)
         {
             var deleted = _repository.DeleteByIndex(index);
             return deleted
-                ? Result.Ok()
-                : Result.Fail($"{Constants.InvalidIndex}: {index}");
+                ? Result<Unit>.Ok(Unit.Value)
+                : Result<Unit>.Fail($"{Constants.InvalidIndex}: {index}");
         }
 
-        public Result DeleteByName(string name)
+        public Result<Unit> DeleteByName(string name)
         {
             var count = _repository.DeleteByName(name);
             return count > 0
-                ? Result.Ok()
-                : Result.Fail(Constants.NameNotFound);
+                ? Result<Unit>.Ok(Unit.Value)
+                : Result<Unit>.Fail(Constants.NameNotFound);
         }
     }
 }

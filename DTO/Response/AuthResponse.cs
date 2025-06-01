@@ -9,5 +9,6 @@ namespace blueberry_homework_dotnet.DTO.Response
         public required string Role { get; set; }
         public required DateTime CreatedAt { get; set; }
         public required DateTime UpdatedAt { get; set; }
+        public required string Token { get; set; }
     }
 }

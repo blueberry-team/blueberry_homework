@@ -60,12 +60,13 @@ namespace blueberry_homework_dotnet.Controllers
         [HttpGet("get-user")]
         public IActionResult GetUser([FromQuery] Guid id)
         {
-            var user = _useCase.GetUser(id);
-
-            if (user == null)
+            var result = _useCase.GetUser(id);
+            if (!result.Success || result.Data == null)
             {
                 return NotFound(new ApiFailResponse { Error = Constants.UserNotFound });
             }
+
+            var user = result.Data;
 
             var authResponse = new AuthResponse
             {
@@ -75,14 +76,16 @@ namespace blueberry_homework_dotnet.Controllers
                 Address = user.Address,
                 Role = user.Role.ToString(),
                 CreatedAt = user.CreatedAt,
-                UpdatedAt = user.UpdatedAt
+                UpdatedAt = user.UpdatedAt,
+                Token = string.Empty
             };
 
-            return Ok(new ApiSuccessResponse<IEnumerable<AuthResponse>>
+            return Ok(new ApiSuccessResponse<AuthResponse>
             {
                 Message = Constants.Success,
-                Data = [authResponse]
+                Data = authResponse
             });
         }
+
     }
 }

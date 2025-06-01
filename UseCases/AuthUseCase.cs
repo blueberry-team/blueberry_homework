@@ -1,6 +1,8 @@
+using BerryNameApi.DTO.Response;
 using BerryNameApi.Entities;
 using BerryNameApi.Utils;
 using blueberry_homework_dotnet.DTO.Request.Auth;
+using blueberry_homework_dotnet.DTO.Response;
 using blueberry_homework_dotnet.Repositories;
 using blueberry_homework_dotnet.Utils;
 
@@ -15,11 +17,11 @@ namespace blueberry_homework_dotnet.UseCases
             _repository = repository;
         }
 
-        public Result SignUp(SignUpRequest request)
+        public Result<Unit> SignUp(SignUpRequest request)
         {
             if (_repository.FindByEmail(request.Email) != null)
             {
-                return Result.Fail(Constants.EmailAlreadyExist);
+                return Result<Unit>.Fail(Constants.EmailAlreadyExist);
             }
 
             var currentTime = DateTime.UtcNow;
@@ -40,30 +42,45 @@ namespace blueberry_homework_dotnet.UseCases
 
             _repository.CreateUser(user);
             Console.WriteLine($"✅ Created user: {request.Email}, Role: {request.Role} id: {user.Id}");
-            return Result.Ok();
+            return Result<Unit>.Ok(Unit.Value);
         }
 
-        public Result LogIn(LogInRequest request)
+        public Result<AuthResponse> LogIn(LogInRequest request)
         {
             var user = _repository.FindByEmail(request.Email);
 
             if (user == null)
             {
-                return Result.Fail(Constants.UserNotFound);
+                return Result<AuthResponse>.Fail(Constants.UserNotFound);
             }
 
             if (!HashMaker.Verify(request.Password, user.PasswordHashed, user.PasswordSalt))
             {
-                return Result.Fail(Constants.IncorrectPassword);
+                return Result<AuthResponse>.Fail(Constants.IncorrectPassword);
             }
 
-            return Result.Ok();
+            // 토큰 발급
+            string token = JwtTokenGenerator.GenerateToken(user.Id, user.Email, user.Name);
+
+            AuthResponse authResponse = new AuthResponse
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.Name,
+                Address = user.Address,
+                Role = user.getRole(),
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt,
+                Token = token
+            };
+
+            return Result<AuthResponse>.Ok(authResponse);
         }
 
-        public Result ChangeUser(ChangeUserRequest request)
+        public Result<Unit> ChangeUser(ChangeUserRequest request)
         {
             var user = _repository.FindById(request.Id);
-            if (user == null) return Result.Fail(Constants.UserNotFound);
+            if (user == null) return Result<Unit>.Fail(Constants.UserNotFound);
 
             if (!string.IsNullOrEmpty(request.Password))
             {
@@ -80,12 +97,30 @@ namespace blueberry_homework_dotnet.UseCases
             user.UpdatedAt = DateTime.UtcNow;
             _repository.UpdateUser(user);
 
-            return Result.Ok();
+            return Result<Unit>.Ok(Unit.Value);
         }
 
-        public UserEntity? GetUser(Guid id)
+        public Result<AuthResponse> GetUser(Guid id)
         {
-            return _repository.FindById(id);
+            var user = _repository.FindById(id);
+            if (user == null)
+            {
+                return Result<AuthResponse>.Fail(Constants.UserNotFound);
+            }
+
+            var response = new AuthResponse
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.Name,
+                Address = user.Address,
+                Role = user.Role.ToString(),
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt,
+                Token = string.Empty
+            };
+
+            return Result<AuthResponse>.Ok(response);
         }
     }
 }

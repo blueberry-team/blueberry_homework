@@ -71,11 +71,21 @@ namespace BerryNameApi.Controllers
         }
 
         [HttpGet("getName")]
-        public IActionResult Get()
+        public IActionResult GetNames()
         {
+            // 처리 결과
+            var result = _useCase.GetAll();
+            if (result == null || result.Data == null)
+            {
+                return NotFound(new { message = Constants.Error, error = Constants.NameNotFound });
+            }
+
+            // 응답 데이터
+            var names = result.Data;
+
             return Ok(new ApiSuccessResponse<IEnumerable<UserResponse>>
             {
-                Data = _useCase.GetAll()
+                Data = names
             });
         }
 
@@ -120,7 +130,7 @@ namespace BerryNameApi.Controllers
 
             return Ok(new ApiSuccessResponse<IEnumerable<UserResponse>>
             {
-                Data = _useCase.GetAll()
+                Message = Constants.Success
             });
         }
     }

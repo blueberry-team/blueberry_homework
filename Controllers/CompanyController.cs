@@ -46,11 +46,15 @@ namespace blueberry_homework_dotnet.Controllers
         [HttpGet("getCompany")]
         public IActionResult GetCompany([FromQuery] Guid userId)
         {
-            var company = _useCase.GetCompany(userId);
-            if (company == null)
+            // 처리 결과
+            var result = _useCase.GetCompany(userId);
+            if (result == null || result.Data == null)
             {
                 return NotFound(new { message = Constants.Error, error = Constants.CompanyNotFound });
             }
+
+            // 응답 데이터
+            var company = result.Data;
 
             var companyResponse = new CompanyResponse
             {
@@ -61,6 +65,7 @@ namespace blueberry_homework_dotnet.Controllers
                 CreatedAt = company.CreatedAt,
                 UpdatedAt = company.UpdatedAt
             };
+
             return Ok(new ApiSuccessResponse<CompanyResponse>
             {
                 Message = Constants.Success,

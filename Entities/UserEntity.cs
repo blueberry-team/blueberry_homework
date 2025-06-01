@@ -18,6 +18,8 @@ namespace BerryNameApi.Entities
         [BsonRepresentation(BsonType.String)]
         public Role Role { get; set; } = Role.Worker;
 
+        public string getRole() { return Role.ToString(); }
+
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 

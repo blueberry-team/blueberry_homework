@@ -5,6 +5,7 @@ using blueberry_homework_dotnet.DTO.Request;
 using blueberry_homework_dotnet.DTO.Response;
 using blueberry_homework_dotnet.Entities;
 using blueberry_homework_dotnet.Repositories;
+using blueberry_homework_dotnet.Utils;
 
 namespace blueberry_homework_dotnet.UseCases
 {
@@ -19,14 +20,14 @@ namespace blueberry_homework_dotnet.UseCases
             _authRepository = authRepository;
         }
 
-        public Result CreateCompany(CreateCompanyRequest request)
+        public Result<Unit> CreateCompany(CreateCompanyRequest request)
         {
             var user = _authRepository.FindById(request.UserId);
-            if (user == null) return Result.Fail(Constants.UserNotFound);
-            if (user.Role != Role.Boss) return Result.Fail(Constants.BossCreateCompany);
+            if (user == null) return Result<Unit>.Fail(Constants.UserNotFound);
+            if (user.Role != Role.Boss) return Result<Unit>.Fail(Constants.BossCreateCompany);
 
             if (_companyRepository.FindByUserId(user.Id) != null)
-                return Result.Fail(Constants.UserAlreadyCompany);
+                return Result<Unit>.Fail(Constants.UserAlreadyCompany);
 
             var company = new CompanyEntity
             {
@@ -41,20 +42,37 @@ namespace blueberry_homework_dotnet.UseCases
 
             _companyRepository.CreateCompany(company);
             Console.WriteLine($"🏢 Company created: {request.CompanyName} by user {request.UserId}");
-            return Result.Ok();
+            return Result<Unit>.Ok(Unit.Value);
         }
 
-        public CompanyEntity? GetCompany(Guid userId)
-        {
-            return _companyRepository.FindByUserId(userId);
-        }
-
-        public Result ChangeCompany(Guid userId, string? name, string? address, int? staff)
+        public Result<CompanyResponse> GetCompany(Guid userId)
         {
             var company = _companyRepository.FindByUserId(userId);
             if (company == null)
             {
-                return Result.Fail(Constants.CompanyNotFound);
+                return Result<CompanyResponse>.Fail(Constants.CompanyNotFound);
+            }
+
+            var response = new CompanyResponse
+            {
+                Id = company.Id,
+                CompanyName = company.CompanyName,
+                CompanyAddress = company.CompanyAddress,
+                TotalStaff = company.TotalStaff,
+                CreatedAt = company.CreatedAt,
+                UpdatedAt = company.UpdatedAt
+            };
+
+            return Result<CompanyResponse>.Ok(response);
+        }
+
+
+        public Result<Unit> ChangeCompany(Guid userId, string? name, string? address, int? staff)
+        {
+            var company = _companyRepository.FindByUserId(userId);
+            if (company == null)
+            {
+                return Result<Unit>.Fail(Constants.CompanyNotFound);
             }
 
             if (name != null) company.CompanyName = name;
@@ -63,20 +81,20 @@ namespace blueberry_homework_dotnet.UseCases
             company.UpdatedAt = DateTime.UtcNow;
 
             _companyRepository.UpdateCompany(company);
-            return Result.Ok();
+            return Result<Unit>.Ok(Unit.Value);
         }
 
-        public Result DeleteCompany(Guid userId)
+        public Result<Unit> DeleteCompany(Guid userId)
         {
             var company = _companyRepository.FindByUserId(userId);
 
             if (company == null)
             {
-                return Result.Fail(Constants.CompanyNotFound);
+                return Result<Unit>.Fail(Constants.CompanyNotFound);
             }
 
             _companyRepository.DeleteCompany(company.Id);
-            return Result.Ok();
+            return Result<Unit>.Ok(Unit.Value);
         }
     }
 }
