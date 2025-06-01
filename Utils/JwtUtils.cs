@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace blueberry_homework_dotnet.Utils
 {
-    public class JwtTokenGenerator
+    public class JwtUtils
     {
         public static string GenerateToken(Guid userId, string email, string name)
         {
@@ -33,6 +33,32 @@ namespace blueberry_homework_dotnet.Utils
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        public static IDictionary<string, object>? Decode(string token)
+        {
+            var secret = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? throw new Exception("JWT secret not found");
+            var handler = new JwtSecurityTokenHandler();
+
+            var validations = new TokenValidationParameters
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = false, // 만료돼도 디코딩 가능
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
+                ValidAlgorithms = new[] { SecurityAlgorithms.HmacSha512 }
+            };
+
+            try
+            {
+                handler.ValidateToken(token, validations, out var validatedToken);
+                return ((JwtSecurityToken)validatedToken).Payload;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

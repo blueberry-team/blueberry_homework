@@ -60,7 +60,7 @@ namespace blueberry_homework_dotnet.UseCases
             }
 
             // 토큰 발급
-            string token = JwtTokenGenerator.GenerateToken(user.Id, user.Email, user.Name);
+            string token = JwtUtils.GenerateToken(user.Id, user.Email, user.Name);
 
             AuthResponse authResponse = new AuthResponse
             {

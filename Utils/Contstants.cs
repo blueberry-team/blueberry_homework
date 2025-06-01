@@ -9,6 +9,13 @@ namespace BerryNameApi.Utils
         // DB
         public const string DatabaseError = "Database Error";
 
+        // Token
+        public const string TokenNotSet = "JWT_SECRET_KEY not set";
+        public const string TokenRefreshRequired = "X-Token-Refresh-Required";
+        public const string TokenUnauthorized = "Unauthorized";
+        public const string TokenMissingAuthorizationHeader = "Missing Authorization Header";
+        public const string InvalidToken = "Invalid Token";
+
         // Name
         public const string NameRequired = "name is required";
         public const string NameLengthInvalid = "name must be between 1 and 50 characters";
@@ -26,5 +33,6 @@ namespace BerryNameApi.Utils
         public const string UserNotFound = "User not found";
         public const string EmailAlreadyExist = "Email already exist";
         public const string IncorrectPassword = "Incorrect password";
+        public const string InvalidUID = "Invalid UserID";
     }
 }

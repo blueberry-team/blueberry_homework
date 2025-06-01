@@ -11,17 +11,19 @@ namespace blueberry_homework_dotnet.Controllers
     [Route("auth")]
     public class AuthController : ControllerBase
     {
-        private readonly AuthUseCase _useCase;
+        private readonly AuthUseCase _authUseCase;
+        private readonly RefreshUseCase _refreshUseCase;
 
-        public AuthController(AuthUseCase useCase)
+        public AuthController(AuthUseCase authUseCase, RefreshUseCase refreshUseCase)
         {
-            _useCase = useCase;
+            _authUseCase = authUseCase;
+            _refreshUseCase = refreshUseCase;
         }
 
         [HttpPost("sign-up")]
         public IActionResult SignUp([FromBody] SignUpRequest request)
         {
-            var result = _useCase.SignUp(request);
+            var result = _authUseCase.SignUp(request);
 
             if (!result.Success)
             {
@@ -34,7 +36,7 @@ namespace blueberry_homework_dotnet.Controllers
         [HttpPost("log-in")]
         public IActionResult LogIn([FromBody] LogInRequest request)
         {
-            var result = _useCase.LogIn(request);
+            var result = _authUseCase.LogIn(request);
 
             if (!result.Success)
             {
@@ -47,7 +49,7 @@ namespace blueberry_homework_dotnet.Controllers
         [HttpPatch("change-user")]
         public IActionResult ChangeUser([FromBody] ChangeUserRequest request)
         {
-            var result = _useCase.ChangeUser(request);
+            var result = _authUseCase.ChangeUser(request);
 
             if (!result.Success)
             {
@@ -60,7 +62,7 @@ namespace blueberry_homework_dotnet.Controllers
         [HttpGet("get-user")]
         public IActionResult GetUser([FromQuery] Guid id)
         {
-            var result = _useCase.GetUser(id);
+            var result = _authUseCase.GetUser(id);
             if (!result.Success || result.Data == null)
             {
                 return NotFound(new ApiFailResponse { Error = Constants.UserNotFound });
@@ -87,5 +89,23 @@ namespace blueberry_homework_dotnet.Controllers
             });
         }
 
+        [HttpPost("refresh-token")]
+        public IActionResult RefreshToken()
+        {
+            var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            var result = _refreshUseCase.Refresh(token);
+
+            if (!result.Success)
+            {
+                return BadRequest(new ApiFailResponse { Error = result.ErrorMessage });
+            }
+
+            return Ok(new ApiSuccessResponse<AuthResponse>
+            {
+                Message = Constants.Success,
+                Data = result.Data
+            });
+        }
     }
 }

@@ -21,6 +21,8 @@ builder.Services.AddTransient<CompanyUseCase>();
 builder.Services.AddSingleton<AuthRepository>();
 builder.Services.AddTransient<AuthUseCase>();
 
+builder.Services.AddTransient<RefreshUseCase>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
