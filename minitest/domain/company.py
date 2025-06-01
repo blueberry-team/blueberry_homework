@@ -6,7 +6,6 @@ from datetime import datetime
 class Company:
     id: str #uuid
     user_id: str
-    # name: str
     company_name: str
     company_address: str
     total_staff: int

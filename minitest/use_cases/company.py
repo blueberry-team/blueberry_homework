@@ -2,7 +2,7 @@ from ..domain.company import Company
 from ..repositores.company_repository import CompanyRepository
 from ..repositores.name_repository import NameRepository
 from datetime import datetime
-from django.core.validators import ValidationError # type: ignore
+from django.core.validators import ValidationError 
 import uuid
 
 company_repo = CompanyRepository()

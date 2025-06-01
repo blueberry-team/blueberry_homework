@@ -31,7 +31,6 @@ class Company(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     # 참조된 Name 객체가 삭제되면 이 회사도 삭제됨 
     user_id = models.ForeignKey(Name, on_delete=models.CASCADE, related_name='companies')
-    # name = models.CharField(max_length=100)
     company_name = models.CharField(max_length=100)
     company_address = models.CharField(max_length=200, blank=True, null=True)
     total_staff = models.IntegerField(default=0, validators=[MinLengthValidator(0), MaxLengthValidator(10000)])

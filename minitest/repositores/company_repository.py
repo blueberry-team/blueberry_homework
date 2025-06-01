@@ -1,7 +1,6 @@
 from .base_repository import BaseRepository
-from ..tmp_database import tmp_company_db
 from ..models import Company
-from django.core.validators import ValidationError # type: ignore
+from django.core.validators import ValidationError 
 
 class CompanyRepository(BaseRepository):
     def __init__(self):
@@ -28,9 +27,7 @@ class CompanyRepository(BaseRepository):
     
     def change_info(self, uuid, company_name, company_address, total_staff):
         try:
-            # UUID로 회사 찾기
             company = self.model.objects.get(id=uuid)
-            # 정보 변경 및 저장
             company.company_name = company_name
             company.company_address = company_address
             company.total_staff = total_staff
@@ -44,9 +41,7 @@ class CompanyRepository(BaseRepository):
         if idx >= len(all_companies):
             raise ValidationError('해당 인덱스에 값이 없습니다')
         
-        # 해당 인덱스의 회사 삭제
         company_to_delete = all_companies[idx]
         company_to_delete.delete()
         
-        # 삭제 후 MongoDB의 모든 회사 목록 반환
         return list(self.model.objects.all())
