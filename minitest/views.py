@@ -2,11 +2,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response 
 from rest_framework import status 
 from django.core.exceptions import ValidationError 
-from rest_framework.exceptions import APIException 
+from rest_framework.exceptions import APIException
+
+from minitest.use_cases.auth.refresh_token import refresh_user_token
 from .serializer import UserSerializer, CompanySerializer
 from .use_cases.auth.sign_up import create_user
 from .use_cases.auth.sign_in import login_user
-from .use_cases.auth.my_page import get_user, change_user
+from .use_cases.auth.my_page import get_user_by_uuid, change_user
 from .use_cases.company import get_company, create_company, delete_company_by_index, change_company
 import json
 
@@ -53,13 +55,26 @@ class SignInAPIView(APIView):
                 }
             return Response(error_response, status=status.HTTP_400_BAD_REQUEST)
 
+# 토큰 검증 가능 APIView
 class MyPageAPIView(APIView):
     def get(self, request):
+        '''
+        curl -i -X GET "http://127.0.0.1:8000/myPage/" -H "Authorization: Bearer <your_token_here>"
+        '''
         try:
-            users = get_user()
+            user_id = request.user_id
+            
+            if not user_id:
+                return Response({
+                    "message": "error",
+                    "error": "사용자 정보를 찾을 수 없습니다."
+                }, status=status.HTTP_401_UNAUTHORIZED)
+            
+            print(f"User ID from request: {user_id}")
+            user = get_user_by_uuid(user_id)  
             return Response({
                 "message": "success",
-                "data": UserSerializer(users, many=True).data
+                "data": UserSerializer(user).data
             })
         except APIException as e:
             return Response({
@@ -212,3 +227,38 @@ class CompanyDeleteAPIView(APIView):
                 "message": "error",
                 "data": str(e)
             })
+        
+class RefreshTokenView(APIView):
+    """
+    토큰 갱신 API
+    """
+    
+    def post(self, request):
+        try:
+            user_id = getattr(request, 'user_id', None)
+            if not user_id:
+                return Response({
+                    "success": False,
+                    "message": "사용자 정보를 찾을 수 없습니다."
+                }, status=status.HTTP_401_UNAUTHORIZED)
+            
+            result = refresh_user_token(user_id)            
+            return Response({
+                "success": True,
+                "message": "토큰 갱신 성공",
+                "data": {
+                    "token": result["token"],
+                    "user": result["user"]
+                }
+            }, status=status.HTTP_200_OK)
+            
+        except ValidationError as e:
+            return Response({
+                "success": False,
+                "message": str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({
+                "success": False,
+                "message": f"토큰 갱신 중 오류가 발생했습니다: {str(e)}"
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
