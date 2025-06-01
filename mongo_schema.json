@@ -1,0 +1,35 @@
+{
+    "collections": [
+      {
+        "name": "users",
+        "description": "유저 정보 저장",
+        "fields": {
+          "id": "UUID",
+          "email": "string",
+          "passwordHashed": "string",
+          "passwordSalt": "string",
+          "name": "string",
+          "address": "string",
+          "role": "string (boss | worker)",
+          "createdAt": "ISODate",
+          "updatedAt": "ISODate"
+        },
+        "indexes": ["email"]
+      },
+      {
+        "name": "companies",
+        "description": "회사 정보 저장",
+        "fields": {
+          "id": "UUID",
+          "userId": "UUID (FK to users.id)",
+          "companyName": "string",
+          "companyAddress": "string",
+          "totalStaff": "number",
+          "createdAt": "ISODate",
+          "updatedAt": "ISODate"
+        },
+        "indexes": ["userId"]
+      }
+    ]
+  }
+  
